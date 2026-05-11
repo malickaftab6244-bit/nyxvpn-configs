@@ -4,7 +4,7 @@
   "servers": [
     {
       "id": "1",
-      "name": "Germany Server 12",
+      "name": "Germany Server 1",
       "country": "Germany",
       "countryCode": "de",
       "username": "vpnbook",
@@ -26,7 +26,7 @@
     },
     {
       "id": "3",
-      "name": "US Server 1",
+      "name": "US Server Test",
       "country": "USA",
       "countryCode": "us",
       "username": "vpnbook",
