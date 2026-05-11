@@ -1,0 +1,116 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2024-01-15T10:30:00Z",
+  "servers": [
+    {
+      "id": "1",
+      "name": "Germany Server 12",
+      "country": "Germany",
+      "countryCode": "de",
+      "username": "vpnbook",
+      "password": "ke9zw74",
+      "config": "assets/vpn/germany_2.ovpn",
+      "ping": 5,
+      "isPremium": false
+    },
+    {
+      "id": "2",
+      "name": "Germany Server 2",
+      "country": "Germany",
+      "countryCode": "de",
+      "username": "vpnbook",
+      "password": "ke9zw74",
+      "config": "assets/vpn/germany_2.ovpn",
+      "ping": 10,
+      "isPremium": false
+    },
+    {
+      "id": "3",
+      "name": "US Server 1",
+      "country": "USA",
+      "countryCode": "us",
+      "username": "vpnbook",
+      "password": "ke9zw74",
+      "config": "assets/vpn/usa_3.ovpn",
+      "ping": 15,
+      "isPremium": true
+    },
+    {
+      "id": "4",
+      "name": "US Server 2",
+      "country": "USA",
+      "countryCode": "us",
+      "username": "vpnbook",
+      "password": "ke9zw74",
+      "config": "assets/vpn/usa_2.ovpn",
+      "ping": 20,
+      "isPremium": true
+    },
+    {
+      "id": "5",
+      "name": "UK Server 1",
+      "country": "United Kingdom",
+      "countryCode": "gb",
+      "username": "vpnbook",
+      "password": "ke9zw74",
+      "config": "assets/vpn/uk_1.ovpn",
+      "ping": 25,
+      "isPremium": false
+    },
+    {
+      "id": "6",
+      "name": "UK Server 2",
+      "country": "United Kingdom",
+      "countryCode": "gb",
+      "username": "vpnbook",
+      "password": "ke9zw74",
+      "config": "assets/vpn/uk_2.ovpn",
+      "ping": 30,
+      "isPremium": true
+    },
+    {
+      "id": "7",
+      "name": "France Server 1",
+      "country": "France",
+      "countryCode": "fr",
+      "username": "vpnbook",
+      "password": "ke9zw74",
+      "config": "assets/vpn/france_1.ovpn",
+      "ping": 35,
+      "isPremium": true
+    },
+    {
+      "id": "8",
+      "name": "France Server 2",
+      "country": "France",
+      "countryCode": "fr",
+      "username": "vpnbook",
+      "password": "ke9zw74",
+      "config": "assets/vpn/france_2.ovpn",
+      "ping": 40,
+      "isPremium": true
+    },
+    {
+      "id": "9",
+      "name": "Canada Server 1",
+      "country": "Canada",
+      "countryCode": "ca",
+      "username": "vpnbook",
+      "password": "ke9zw74",
+      "config": "assets/vpn/canada_1.ovpn",
+      "ping": 45,
+      "isPremium": true
+    },
+    {
+      "id": "10",
+      "name": "Canada Server 2",
+      "country": "Canada",
+      "countryCode": "ca",
+      "username": "vpnbook",
+      "password": "ke9zw74",
+      "config": "assets/vpn/canada_2.ovpn",
+      "ping": 50,
+      "isPremium": true
+    }
+  ]
+}
