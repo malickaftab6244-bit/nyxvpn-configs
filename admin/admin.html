@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NyxVPN Admin Panel</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .github-token {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .github-token input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-family: monospace;
+        }
+        
+        .servers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 20px;
+        }
+        
+        .server-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        
+        .server-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .server-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .server-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .server-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .form-group {
+            margin-bottom: 12px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #555;
+            font-size: 13px;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .checkbox-group input {
+            width: auto;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            font-size: 13px;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            flex: 1;
+        }
+        
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .add-server {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        
+        .add-server h3 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: white;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #333;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 10px;
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .success {
+            background: #28a745;
+        }
+        
+        .error {
+            background: #dc3545;
+        }
+        
+        .info-text {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .servers-grid {
+                grid-template-columns: 1fr;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛡️ NyxVPN Server Admin Panel</h1>
+            <p class="subtitle">Manage your VPN servers - Update, Add, or Remove servers instantly</p>
+            
+            <div class="github-token">
+                <label>🔑 GitHub Personal Access Token:</label>
+                <input type="password" id="githubToken" placeholder="Enter your GitHub token (needs repo scope)" autocomplete="off">
+                <div class="info-text">
+                    💡 Don't have a token? <a href="https://github.com/settings/tokens" target="_blank">Create one here</a> (select 'repo' scope)
+                </div>
+            </div>
+        </div>
+        
+        <div id="loading" class="loading" style="display: none;">
+            <div>⏳ Loading servers...</div>
+        </div>
+        
+        <div id="servers-container"></div>
+        
+        <div class="add-server">
+            <h3>➕ Add New Server</h3>
+            <form id="addServerForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Server Name:</label>
+                        <input type="text" id="newName" required placeholder="e.g., USA - New York">
+                    </div>
+                    <div class="form-group">
+                        <label>Country:</label>
+                        <input type="text" id="newCountry" required placeholder="e.g., United States">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Country Code (2 letters):</label>
+                        <input type="text" id="newCountryCode" maxlength="2" required placeholder="e.g., US">
+                    </div>
+                    <div class="form-group">
+                        <label>Ping (ms):</label>
+                        <input type="number" id="newPing" value="0" placeholder="0">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Username (optional):</label>
+                        <input type="text" id="newUsername" placeholder="vpnbook">
+                    </div>
+                    <div class="form-group">
+                        <label>Password (optional):</label>
+                        <input type="text" id="newPassword" placeholder="ke9zw74">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Config URL (.ovpn file):</label>
+                    <input type="url" id="newConfig" required placeholder="https://cdn.jsdelivr.net/gh/.../server.ovpn">
+                </div>
+                
+                <div class="form-row">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="newIsPremium">
+                        <label>⭐ Premium Server</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="newIsActive" checked>
+                        <label>✅ Active (visible to users)</label>
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px;">➕ Add Server</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        let currentServers = [];
+        let repoFileSha = null;
+        
+        async function fetchServers() {
+            showLoading(true);
+            try {
+                const response = await fetch('https://raw.githubusercontent.com/malickaftab6244-bit/nyxvpn-configs/main/servers.json');
+                const data = await response.json();
+                currentServers = data.servers;
+                displayServers();
+                await getFileSha();
+            } catch (error) {
+                showToast('Error loading servers: ' + error.message, 'error');
+            } finally {
+                showLoading(false);
+            }
+        }
+        
+        async function getFileSha() {
+            const token = document.getElementById('githubToken').value;
+            if (!token) return;
+            
+            try {
+                const response = await fetch('https://api.github.com/repos/malickaftab6244-bit/nyxvpn-configs/contents/servers.json', {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+                const data = await response.json();
+                repoFileSha = data.sha;
+            } catch (error) {
+                console.error('Error getting file SHA:', error);
+            }
+        }
+        
+        async function updateGitHubFile(updatedServers) {
+            const token = document.getElementById('githubToken').value;
+            if (!token) {
+                showToast('Please enter your GitHub token', 'error');
+                return false;
+            }
+            
+            const content = {
+                version: "1.1.0",
+                last_updated: new Date().toISOString(),
+                servers: updatedServers
+            };
+            
+            try {
+                const response = await fetch('https://api.github.com/repos/malickaftab6244-bit/nyxvpn-configs/contents/servers.json', {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/vnd.github.v3+json'
+                    },
+                    body: JSON.stringify({
+                        message: `Update servers.json - ${new Date().toLocaleString()}`,
+                        content: btoa(unescape(encodeURIComponent(JSON.stringify(content, null, 2)))),
+                        sha: repoFileSha
+                    })
+                });
+                
+                if (response.ok) {
+                    showToast('✅ Servers updated successfully! Changes will appear in app within minutes.', 'success');
+                    await getFileSha();
+                    return true;
+                } else {
+                    const error = await response.json();
+                    showToast('❌ Update failed: ' + error.message, 'error');
+                    return false;
+                }
+            } catch (error) {
+                showToast('❌ Error: ' + error.message, 'error');
+                return false;
+            }
+        }
+        
+        function displayServers() {
+            const container = document.getElementById('servers-container');
+            if (currentServers.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 40px; background: white; border-radius: 20px;">No servers found. Add your first server!</div>';
+                return;
+            }
+            
+            container.innerHTML = '<div class="servers-grid"></div>';
+            const grid = container.querySelector('.servers-grid');
+            
+            currentServers.forEach((server, index) => {
+                const card = document.createElement('div');
+                card.className = 'server-card';
+                card.innerHTML = `
+                    <div class="server-header">
+                        <div>
+                            <span class="server-title">${escapeHtml(server.name)}</span>
+                            ${server.isPremium ? ' <span style="background:gold;padding:2px 8px;border-radius:10px;font-size:11px;">⭐ PREMIUM</span>' : ''}
+                        </div>
+                        <span class="server-status ${server.isActive ? 'status-active' : 'status-inactive'}">
+                            ${server.isActive ? '🟢 ACTIVE' : '🔴 INACTIVE'}
+                        </span>
+                    </div>
+                    
+                    <form onsubmit="return updateServer(${index}, this)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Server Name:</label>
+                                <input type="text" name="name" value="${escapeHtml(server.name)}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Country:</label>
+                                <input type="text" name="country" value="${escapeHtml(server.country)}" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Country Code:</label>
+                                <input type="text" name="countryCode" value="${escapeHtml(server.countryCode)}" maxlength="2" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Ping:</label>
+                                <input type="number" name="ping" value="${server.ping || 0}">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Username:</label>
+                                <input type="text" name="username" value="${escapeHtml(server.username || '')}">
+                            </div>
+                            <div class="form-group">
+                                <label>Password:</label>
+                                <input type="text" name="password" value="${escapeHtml(server.password || '')}">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Config URL:</label>
+                            <input type="url" name="config" value="${escapeHtml(server.config)}" required>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="checkbox-group">
+                                <input type="checkbox" name="isPremium" ${server.isPremium ? 'checked' : ''}>
+                                <label>⭐ Premium Server</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" name="isActive" ${server.isActive ? 'checked' : ''}>
+                                <label>✅ Active</label>
+                            </div>
+                        </div>
+                        
+                        <div class="button-group">
+                            <button type="submit" class="btn-primary">💾 Save Changes</button>
+                            <button type="button" class="btn-danger" onclick="deleteServer(${index})">🗑️ Delete</button>
+                        </div>
+                    </form>
+                `;
+                grid.appendChild(card);
+            });
+        }
+        
+        async function updateServer(index, form) {
+            const formData = new FormData(form);
+            
+            currentServers[index] = {
+                id: currentServers[index].id,
+                name: formData.get('name'),
+                country: formData.get('country'),
+                countryCode: formData.get('countryCode').toUpperCase(),
+                username: formData.get('username') || null,
+                password: formData.get('password') || null,
+                config: formData.get('config'),
+                ping: parseInt(formData.get('ping')) || 0,
+                isPremium: formData.get('isPremium') === 'on',
+                isActive: formData.get('isActive') === 'on'
+            };
+            
+            const success = await updateGitHubFile(currentServers);
+            if (success) {
+                fetchServers();
+            }
+            return false;
+        }
+        
+        async function deleteServer(index) {
+            if (confirm(`Are you sure you want to delete "${currentServers[index].name}"?`)) {
+                currentServers.splice(index, 1);
+                // Reassign IDs
+                currentServers = currentServers.map((server, idx) => ({ ...server, id: (idx + 1).toString() }));
+                const success = await updateGitHubFile(currentServers);
+                if (success) {
+                    fetchServers();
+                }
+            }
+        }
+        
+        document.getElementById('addServerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const newServer = {
+                id: (currentServers.length + 1).toString(),
+                name: document.getElementById('newName').value,
+                country: document.getElementById('newCountry').value,
+                countryCode: document.getElementById('newCountryCode').value.toUpperCase(),
+                username: document.getElementById('newUsername').value || null,
+                password: document.getElementById('newPassword').value || null,
+                config: document.getElementById('newConfig').value,
+                ping: parseInt(document.getElementById('newPing').value) || 0,
+                isPremium: document.getElementById('newIsPremium').checked,
+                isActive: document.getElementById('newIsActive').checked
+            };
+            
+            currentServers.push(newServer);
+            const success = await updateGitHubFile(currentServers);
+            if (success) {
+                fetchServers();
+                e.target.reset();
+                document.getElementById('newIsActive').checked = true;
+                showToast('✅ Server added successfully!', 'success');
+            }
+        });
+        
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'flex' : 'none';
+        }
+        
+        function showToast(message, type) {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+        
+        // Auto-fetch when token is entered
+        document.getElementById('githubToken').addEventListener('change', () => {
+            if (document.getElementById('githubToken').value) {
+                fetchServers();
+            }
+        });
+        
+        // Initial load (without token for viewing only)
+        fetchServers();
+    </script>
+</body>
+</html>
