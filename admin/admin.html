@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NyxVPN Admin Panel</title>
+    <title>NyxVPN Admin New Panel</title>
     <style>
         * {
             margin: 0;
@@ -82,7 +82,7 @@
         
         .servers-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
             gap: 20px;
         }
         
@@ -191,11 +191,6 @@
             color: white;
         }
         
-        .btn-success {
-            background: #28a745;
-            color: white;
-        }
-        
         .add-server {
             background: white;
             border-radius: 20px;
@@ -258,11 +253,15 @@
             margin-top: 5px;
         }
         
-        .config-url {
+        .config-url-preview {
             font-size: 11px;
             color: #667eea;
             word-break: break-all;
             margin-top: 5px;
+            background: #f8f9fa;
+            padding: 5px;
+            border-radius: 4px;
+            font-family: monospace;
         }
         
         @media (max-width: 768px) {
@@ -364,6 +363,10 @@
         let repoFileSha = null;
         let isAuthenticated = false;
         
+        // Use a CORS proxy to avoid CORS issues
+        const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
+        const RAW_URL = 'https://raw.githubusercontent.com/malickaftab6244-bit/nyxvpn-configs/main/servers.json';
+        
         async function validateToken() {
             const token = document.getElementById('githubToken').value;
             if (!token) {
@@ -408,15 +411,34 @@
         async function fetchServers() {
             showLoading(true);
             try {
-                const response = await fetch('https://raw.githubusercontent.com/malickaftab6244-bit/nyxvpn-configs/main/servers.json');
+                // Try direct fetch first
+                let response;
+                try {
+                    response = await fetch(RAW_URL);
+                    if (!response.ok) throw new Error('Direct fetch failed');
+                } catch (e) {
+                    // If direct fetch fails, use CORS proxy
+                    console.log('Using CORS proxy...');
+                    response = await fetch(CORS_PROXY + encodeURIComponent(RAW_URL));
+                }
+                
                 const data = await response.json();
-                currentServers = data.servers;
-                displayServers();
-                if (isAuthenticated) {
-                    await getFileSha();
+                console.log('Loaded servers:', data);
+                
+                if (data && data.servers) {
+                    currentServers = data.servers;
+                    displayServers();
+                    if (isAuthenticated) {
+                        await getFileSha();
+                    }
+                } else {
+                    throw new Error('Invalid data format');
                 }
             } catch (error) {
+                console.error('Error:', error);
                 showToast('Error loading servers: ' + error.message, 'error');
+                document.getElementById('servers-container').innerHTML = 
+                    '<div style="text-align: center; padding: 40px; background: white; border-radius: 20px; color: red;">❌ Failed to load servers. Please check your internet connection.</div>';
             } finally {
                 showLoading(false);
             }
@@ -435,6 +457,7 @@
                 });
                 const data = await response.json();
                 repoFileSha = data.sha;
+                console.log('Got file SHA:', repoFileSha);
             } catch (error) {
                 console.error('Error getting file SHA:', error);
             }
@@ -469,7 +492,7 @@
                 });
                 
                 if (response.ok) {
-                    showToast('✅ Servers updated successfully! Changes will appear in app within minutes.', 'success');
+                    showToast('✅ Servers updated successfully!', 'success');
                     await getFileSha();
                     return true;
                 } else {
@@ -485,7 +508,7 @@
         
         function displayServers() {
             const container = document.getElementById('servers-container');
-            if (currentServers.length === 0) {
+            if (!currentServers || currentServers.length === 0) {
                 container.innerHTML = '<div style="text-align: center; padding: 40px; background: white; border-radius: 20px;">No servers found. Add your first server!</div>';
                 return;
             }
@@ -544,7 +567,7 @@
                         <div class="form-group">
                             <label>Config URL:</label>
                             <input type="url" name="config" value="${escapeHtml(server.config)}" required>
-                            <div class="config-url">Current: ${escapeHtml(server.config.substring(0, 50))}...</div>
+                            <div class="config-url-preview">📄 Current: ${escapeHtml(server.config.substring(0, 60))}${server.config.length > 60 ? '...' : ''}</div>
                         </div>
                         
                         <div class="form-row">
@@ -591,7 +614,8 @@
             
             const success = await updateGitHubFile(currentServers);
             if (success) {
-                fetchServers();
+                await fetchServers();
+                showToast('✅ Server updated successfully!', 'success');
             }
             return false;
         }
@@ -607,7 +631,8 @@
                 currentServers = currentServers.map((server, idx) => ({ ...server, id: (idx + 1).toString() }));
                 const success = await updateGitHubFile(currentServers);
                 if (success) {
-                    fetchServers();
+                    await fetchServers();
+                    showToast('✅ Server deleted successfully!', 'success');
                 }
             }
         }
@@ -636,8 +661,8 @@
             currentServers.push(newServer);
             const success = await updateGitHubFile(currentServers);
             if (success) {
-                fetchServers();
-                e.target.reset();
+                await fetchServers();
+                document.getElementById('addServerForm').reset();
                 document.getElementById('newIsActive').checked = true;
                 showToast('✅ Server added successfully!', 'success');
             }
@@ -669,7 +694,7 @@
             tokenTimeout = setTimeout(validateToken, 500);
         });
         
-        // Load servers without token (read-only)
+        // Load servers immediately
         fetchServers();
     </script>
 </body>
