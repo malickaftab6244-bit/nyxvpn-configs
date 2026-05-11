@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "last_updated": "2024-01-15T10:30:00Z",
+  "last_updated": "2026-05-11T21:00:04.123Z",
   "servers": [
     {
       "id": "1",
@@ -121,6 +121,18 @@
       "ping": 50,
       "isPremium": true,
       "isActive": false
+    },
+    {
+      "id": "11",
+      "name": "Secure VPN Server ",
+      "country": "Pakistan",
+      "countryCode": "PK",
+      "username": "vpnbook",
+      "password": "ke9zw74",
+      "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/canada_1.ovpn",
+      "ping": 15,
+      "isPremium": true,
+      "isActive": true
     }
   ]
 }
