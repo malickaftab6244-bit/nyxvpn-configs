@@ -420,13 +420,11 @@
         async function fetchServers() {
             showLoading(true);
             try {
-                // Try direct fetch first
                 let response;
                 try {
                     response = await fetch(RAW_URL);
                     if (!response.ok) throw new Error('Direct fetch failed');
                 } catch (e) {
-                    // If direct fetch fails, use CORS proxy
                     console.log('Using CORS proxy...');
                     response = await fetch(CORS_PROXY + encodeURIComponent(RAW_URL));
                 }
@@ -435,7 +433,19 @@
                 console.log('Loaded servers:', data);
                 
                 if (data && data.servers && Array.isArray(data.servers)) {
-                    currentServers = data.servers;
+                    // Map config_url to config for consistency
+                    currentServers = data.servers.map(server => ({
+                        id: server.id,
+                        name: server.name,
+                        country: server.country,
+                        countryCode: server.countryCode,
+                        username: server.username || null,
+                        password: server.password || null,
+                        config: server.config_url || server.config || '',  // IMPORTANT: Map config_url to config
+                        ping: server.ping || 0,
+                        isPremium: server.isPremium || false,
+                        isActive: server.isActive !== false
+                    }));
                     displayServers();
                     if (isAuthenticated) {
                         await getFileSha();
@@ -495,10 +505,24 @@
                 return false;
             }
             
+            // Convert back to config_url format for saving
+            const serversForSave = updatedServers.map(server => ({
+                id: server.id,
+                name: server.name,
+                country: server.country,
+                countryCode: server.countryCode,
+                username: server.username,
+                password: server.password,
+                config_url: server.config,  // IMPORTANT: Save as config_url
+                ping: server.ping,
+                isPremium: server.isPremium,
+                isActive: server.isActive
+            }));
+            
             const content = {
                 version: "1.1.0",
                 last_updated: new Date().toISOString(),
-                servers: updatedServers
+                servers: serversForSave
             };
             
             try {
@@ -551,7 +575,7 @@
                 const serverConfig = server.config || '';
                 const serverPing = server.ping || 0;
                 const serverIsPremium = server.isPremium || false;
-                const serverIsActive = server.isActive !== false; // Default to true if not set
+                const serverIsActive = server.isActive !== false;
                 
                 const card = document.createElement('div');
                 card.className = 'server-card';
