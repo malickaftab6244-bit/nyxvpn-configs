@@ -41,7 +41,7 @@
             margin-bottom: 20px;
         }
         
-        .github-token {
+        .github-section {
             background: #f8f9fa;
             padding: 20px;
             border-radius: 10px;
@@ -49,7 +49,29 @@
             border: 1px solid #dee2e6;
         }
         
-        .github-token input {
+        .github-section h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .token-status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+        
+        .token-status.valid {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .token-status.invalid {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .github-token-input {
             width: 100%;
             padding: 12px;
             border: 1px solid #ddd;
@@ -60,7 +82,7 @@
         
         .servers-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
             gap: 20px;
         }
         
@@ -169,6 +191,11 @@
             color: white;
         }
         
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        
         .add-server {
             background: white;
             border-radius: 20px;
@@ -231,6 +258,13 @@
             margin-top: 5px;
         }
         
+        .config-url {
+            font-size: 11px;
+            color: #667eea;
+            word-break: break-all;
+            margin-top: 5px;
+        }
+        
         @media (max-width: 768px) {
             .servers-grid {
                 grid-template-columns: 1fr;
@@ -247,11 +281,16 @@
             <h1>🛡️ NyxVPN Server Admin Panel</h1>
             <p class="subtitle">Manage your VPN servers - Update, Add, or Remove servers instantly</p>
             
-            <div class="github-token">
-                <label>🔑 GitHub Personal Access Token:</label>
-                <input type="password" id="githubToken" placeholder="Enter your GitHub token (needs repo scope)" autocomplete="off">
+            <div class="github-section">
+                <h3>🔑 GitHub Authentication Required</h3>
+                <p>Enter your GitHub Personal Access Token to edit servers. This token needs <strong>'repo'</strong> scope.</p>
+                <input type="password" id="githubToken" class="github-token-input" placeholder="Enter your GitHub token (starts with ghp_)" autocomplete="off">
+                <div id="tokenStatus" class="token-status" style="display: none;"></div>
                 <div class="info-text">
-                    💡 Don't have a token? <a href="https://github.com/settings/tokens" target="_blank">Create one here</a> (select 'repo' scope)
+                    💡 Don't have a token? 
+                    <a href="https://github.com/settings/tokens/new?scopes=repo&description=NyxVPN%20Admin" target="_blank" style="color: #667eea;">
+                        Click here to create one
+                    </a>
                 </div>
             </div>
         </div>
@@ -262,7 +301,7 @@
         
         <div id="servers-container"></div>
         
-        <div class="add-server">
+        <div class="add-server" id="addServerSection" style="display: none;">
             <h3>➕ Add New Server</h3>
             <form id="addServerForm">
                 <div class="form-row">
@@ -301,6 +340,7 @@
                 <div class="form-group">
                     <label>Config URL (.ovpn file):</label>
                     <input type="url" id="newConfig" required placeholder="https://cdn.jsdelivr.net/gh/.../server.ovpn">
+                    <div class="info-text">Example: https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/germany_1.ovpn</div>
                 </div>
                 
                 <div class="form-row">
@@ -322,6 +362,48 @@
     <script>
         let currentServers = [];
         let repoFileSha = null;
+        let isAuthenticated = false;
+        
+        async function validateToken() {
+            const token = document.getElementById('githubToken').value;
+            if (!token) {
+                document.getElementById('tokenStatus').style.display = 'none';
+                isAuthenticated = false;
+                document.getElementById('addServerSection').style.display = 'none';
+                return false;
+            }
+            
+            try {
+                const response = await fetch('https://api.github.com/user', {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const user = await response.json();
+                    const statusDiv = document.getElementById('tokenStatus');
+                    statusDiv.style.display = 'block';
+                    statusDiv.className = 'token-status valid';
+                    statusDiv.innerHTML = `✅ Authenticated as ${user.login}. You can now edit servers.`;
+                    isAuthenticated = true;
+                    document.getElementById('addServerSection').style.display = 'block';
+                    await fetchServers();
+                    return true;
+                } else {
+                    throw new Error('Invalid token');
+                }
+            } catch (error) {
+                const statusDiv = document.getElementById('tokenStatus');
+                statusDiv.style.display = 'block';
+                statusDiv.className = 'token-status invalid';
+                statusDiv.innerHTML = '❌ Invalid token. Please check your GitHub token.';
+                isAuthenticated = false;
+                document.getElementById('addServerSection').style.display = 'none';
+                return false;
+            }
+        }
         
         async function fetchServers() {
             showLoading(true);
@@ -330,7 +412,9 @@
                 const data = await response.json();
                 currentServers = data.servers;
                 displayServers();
-                await getFileSha();
+                if (isAuthenticated) {
+                    await getFileSha();
+                }
             } catch (error) {
                 showToast('Error loading servers: ' + error.message, 'error');
             } finally {
@@ -460,6 +544,7 @@
                         <div class="form-group">
                             <label>Config URL:</label>
                             <input type="url" name="config" value="${escapeHtml(server.config)}" required>
+                            <div class="config-url">Current: ${escapeHtml(server.config.substring(0, 50))}...</div>
                         </div>
                         
                         <div class="form-row">
@@ -484,6 +569,11 @@
         }
         
         async function updateServer(index, form) {
+            if (!isAuthenticated) {
+                showToast('Please authenticate with GitHub token first', 'error');
+                return false;
+            }
+            
             const formData = new FormData(form);
             
             currentServers[index] = {
@@ -507,9 +597,13 @@
         }
         
         async function deleteServer(index) {
+            if (!isAuthenticated) {
+                showToast('Please authenticate with GitHub token first', 'error');
+                return;
+            }
+            
             if (confirm(`Are you sure you want to delete "${currentServers[index].name}"?`)) {
                 currentServers.splice(index, 1);
-                // Reassign IDs
                 currentServers = currentServers.map((server, idx) => ({ ...server, id: (idx + 1).toString() }));
                 const success = await updateGitHubFile(currentServers);
                 if (success) {
@@ -520,6 +614,11 @@
         
         document.getElementById('addServerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            
+            if (!isAuthenticated) {
+                showToast('Please authenticate with GitHub token first', 'error');
+                return;
+            }
             
             const newServer = {
                 id: (currentServers.length + 1).toString(),
@@ -563,14 +662,14 @@
             setTimeout(() => toast.remove(), 3000);
         }
         
-        // Auto-fetch when token is entered
-        document.getElementById('githubToken').addEventListener('change', () => {
-            if (document.getElementById('githubToken').value) {
-                fetchServers();
-            }
+        // Listen for token input
+        let tokenTimeout;
+        document.getElementById('githubToken').addEventListener('input', () => {
+            clearTimeout(tokenTimeout);
+            tokenTimeout = setTimeout(validateToken, 500);
         });
         
-        // Initial load (without token for viewing only)
+        // Load servers without token (read-only)
         fetchServers();
     </script>
 </body>
