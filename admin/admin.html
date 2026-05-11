@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NyxVPN Admin New Panel</title>
+    <title>NyxVPN Admin Panel</title>
     <style>
         * {
             margin: 0;
@@ -264,6 +264,15 @@
             font-family: monospace;
         }
         
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px;
+            text-align: center;
+        }
+        
         @media (max-width: 768px) {
             .servers-grid {
                 grid-template-columns: 1fr;
@@ -425,20 +434,24 @@
                 const data = await response.json();
                 console.log('Loaded servers:', data);
                 
-                if (data && data.servers) {
+                if (data && data.servers && Array.isArray(data.servers)) {
                     currentServers = data.servers;
                     displayServers();
                     if (isAuthenticated) {
                         await getFileSha();
                     }
                 } else {
-                    throw new Error('Invalid data format');
+                    throw new Error('Invalid data format: servers array not found');
                 }
             } catch (error) {
                 console.error('Error:', error);
+                document.getElementById('servers-container').innerHTML = `
+                    <div class="error-message">
+                        ❌ Failed to load servers: ${error.message}<br>
+                        <small>Please check your internet connection and try again.</small>
+                    </div>
+                `;
                 showToast('Error loading servers: ' + error.message, 'error');
-                document.getElementById('servers-container').innerHTML = 
-                    '<div style="text-align: center; padding: 40px; background: white; border-radius: 20px; color: red;">❌ Failed to load servers. Please check your internet connection.</div>';
             } finally {
                 showLoading(false);
             }
@@ -461,6 +474,18 @@
             } catch (error) {
                 console.error('Error getting file SHA:', error);
             }
+        }
+        
+        function truncateString(str, maxLength) {
+            if (!str) return 'Not set';
+            if (str.length <= maxLength) return str;
+            return str.substring(0, maxLength) + '...';
+        }
+        
+        function formatConfigUrl(config) {
+            if (!config) return 'No config URL set';
+            if (config === '') return 'No config URL set';
+            return config;
         }
         
         async function updateGitHubFile(updatedServers) {
@@ -509,7 +534,7 @@
         function displayServers() {
             const container = document.getElementById('servers-container');
             if (!currentServers || currentServers.length === 0) {
-                container.innerHTML = '<div style="text-align: center; padding: 40px; background: white; border-radius: 20px;">No servers found. Add your first server!</div>';
+                container.innerHTML = '<div style="text-align: center; padding: 40px; background: white; border-radius: 20px;">📭 No servers found. Add your first server using the form below!</div>';
                 return;
             }
             
@@ -517,16 +542,27 @@
             const grid = container.querySelector('.servers-grid');
             
             currentServers.forEach((server, index) => {
+                // Safely get values with fallbacks
+                const serverName = server.name || 'Unnamed Server';
+                const serverCountry = server.country || 'Unknown';
+                const serverCountryCode = server.countryCode || 'XX';
+                const serverUsername = server.username || '';
+                const serverPassword = server.password || '';
+                const serverConfig = server.config || '';
+                const serverPing = server.ping || 0;
+                const serverIsPremium = server.isPremium || false;
+                const serverIsActive = server.isActive !== false; // Default to true if not set
+                
                 const card = document.createElement('div');
                 card.className = 'server-card';
                 card.innerHTML = `
                     <div class="server-header">
                         <div>
-                            <span class="server-title">${escapeHtml(server.name)}</span>
-                            ${server.isPremium ? ' <span style="background:gold;padding:2px 8px;border-radius:10px;font-size:11px;">⭐ PREMIUM</span>' : ''}
+                            <span class="server-title">${escapeHtml(serverName)}</span>
+                            ${serverIsPremium ? ' <span style="background:gold;padding:2px 8px;border-radius:10px;font-size:11px;">⭐ PREMIUM</span>' : ''}
                         </div>
-                        <span class="server-status ${server.isActive ? 'status-active' : 'status-inactive'}">
-                            ${server.isActive ? '🟢 ACTIVE' : '🔴 INACTIVE'}
+                        <span class="server-status ${serverIsActive ? 'status-active' : 'status-inactive'}">
+                            ${serverIsActive ? '🟢 ACTIVE' : '🔴 INACTIVE'}
                         </span>
                     </div>
                     
@@ -534,49 +570,49 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label>Server Name:</label>
-                                <input type="text" name="name" value="${escapeHtml(server.name)}" required>
+                                <input type="text" name="name" value="${escapeHtml(serverName)}" required>
                             </div>
                             <div class="form-group">
                                 <label>Country:</label>
-                                <input type="text" name="country" value="${escapeHtml(server.country)}" required>
+                                <input type="text" name="country" value="${escapeHtml(serverCountry)}" required>
                             </div>
                         </div>
                         
                         <div class="form-row">
                             <div class="form-group">
                                 <label>Country Code:</label>
-                                <input type="text" name="countryCode" value="${escapeHtml(server.countryCode)}" maxlength="2" required>
+                                <input type="text" name="countryCode" value="${escapeHtml(serverCountryCode)}" maxlength="2" required>
                             </div>
                             <div class="form-group">
                                 <label>Ping:</label>
-                                <input type="number" name="ping" value="${server.ping || 0}">
+                                <input type="number" name="ping" value="${serverPing}">
                             </div>
                         </div>
                         
                         <div class="form-row">
                             <div class="form-group">
                                 <label>Username:</label>
-                                <input type="text" name="username" value="${escapeHtml(server.username || '')}">
+                                <input type="text" name="username" value="${escapeHtml(serverUsername)}">
                             </div>
                             <div class="form-group">
                                 <label>Password:</label>
-                                <input type="text" name="password" value="${escapeHtml(server.password || '')}">
+                                <input type="text" name="password" value="${escapeHtml(serverPassword)}">
                             </div>
                         </div>
                         
                         <div class="form-group">
                             <label>Config URL:</label>
-                            <input type="url" name="config" value="${escapeHtml(server.config)}" required>
-                            <div class="config-url-preview">📄 Current: ${escapeHtml(server.config.substring(0, 60))}${server.config.length > 60 ? '...' : ''}</div>
+                            <input type="url" name="config" value="${escapeHtml(serverConfig)}" required>
+                            <div class="config-url-preview">📄 ${escapeHtml(formatConfigUrl(serverConfig))}</div>
                         </div>
                         
                         <div class="form-row">
                             <div class="checkbox-group">
-                                <input type="checkbox" name="isPremium" ${server.isPremium ? 'checked' : ''}>
+                                <input type="checkbox" name="isPremium" ${serverIsPremium ? 'checked' : ''}>
                                 <label>⭐ Premium Server</label>
                             </div>
                             <div class="checkbox-group">
-                                <input type="checkbox" name="isActive" ${server.isActive ? 'checked' : ''}>
+                                <input type="checkbox" name="isActive" ${serverIsActive ? 'checked' : ''}>
                                 <label>✅ Active</label>
                             </div>
                         </div>
@@ -600,7 +636,7 @@
             const formData = new FormData(form);
             
             currentServers[index] = {
-                id: currentServers[index].id,
+                id: currentServers[index].id || String(index + 1),
                 name: formData.get('name'),
                 country: formData.get('country'),
                 countryCode: formData.get('countryCode').toUpperCase(),
@@ -626,9 +662,9 @@
                 return;
             }
             
-            if (confirm(`Are you sure you want to delete "${currentServers[index].name}"?`)) {
+            if (confirm(`Are you sure you want to delete "${currentServers[index].name || 'this server'}"?`)) {
                 currentServers.splice(index, 1);
-                currentServers = currentServers.map((server, idx) => ({ ...server, id: (idx + 1).toString() }));
+                currentServers = currentServers.map((server, idx) => ({ ...server, id: String(idx + 1) }));
                 const success = await updateGitHubFile(currentServers);
                 if (success) {
                     await fetchServers();
@@ -646,7 +682,7 @@
             }
             
             const newServer = {
-                id: (currentServers.length + 1).toString(),
+                id: String(currentServers.length + 1),
                 name: document.getElementById('newName').value,
                 country: document.getElementById('newCountry').value,
                 countryCode: document.getElementById('newCountryCode').value.toUpperCase(),
