@@ -150,14 +150,14 @@
             font-size: 13px;
         }
         
+        input[type="checkbox"] {
+            width: auto;
+        }
+        
         .checkbox-group {
             display: flex;
             align-items: center;
             gap: 10px;
-        }
-        
-        .checkbox-group input {
-            width: auto;
         }
         
         .button-group {
@@ -310,6 +310,13 @@
             font-size: 12px;
         }
         
+        .optional-badge {
+            font-size: 10px;
+            color: #999;
+            font-weight: normal;
+            margin-left: 5px;
+        }
+        
         @media (max-width: 768px) {
             .servers-grid {
                 grid-template-columns: 1fr;
@@ -346,7 +353,6 @@
         
         <div id="servers-container"></div>
         
-        <!-- File Upload Section -->
         <div class="upload-section" id="uploadSection" style="display: none;">
             <h3>📁 Upload OVPN File</h3>
             <div class="upload-area" id="uploadArea">
@@ -387,7 +393,7 @@
                         <input type="text" id="newCountryCode" maxlength="2" required placeholder="e.g., US">
                     </div>
                     <div class="form-group">
-                        <label>IP Address:</label>
+                        <label>IP Address <span class="optional-badge">(optional)</span>:</label>
                         <input type="text" id="newIpAddress" placeholder="e.g., 45.33.84.111">
                     </div>
                 </div>
@@ -398,14 +404,14 @@
                         <input type="number" id="newPing" value="0" placeholder="0">
                     </div>
                     <div class="form-group">
-                        <label>Username (optional):</label>
+                        <label>Username <span class="optional-badge">(optional)</span>:</label>
                         <input type="text" id="newUsername" placeholder="vpnbook">
                     </div>
                 </div>
                 
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Password (optional):</label>
+                        <label>Password <span class="optional-badge">(optional)</span>:</label>
                         <input type="text" id="newPassword" placeholder="ke9zw74">
                     </div>
                     <div></div>
@@ -439,7 +445,6 @@
         let isAuthenticated = false;
         let uploadedFileUrl = '';
         
-        // GitHub configuration
         const GITHUB_USER = 'malickaftab6244-bit';
         const GITHUB_REPO = 'nyxvpn-configs';
         const BRANCH = 'main';
@@ -447,7 +452,6 @@
         const CORS_PROXY = 'https://api.allorigins.win/raw?url=';
         const RAW_URL = `https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/servers.json`;
         
-        // File upload elements
         const uploadArea = document.getElementById('uploadArea');
         const fileInput = document.getElementById('fileInput');
         const uploadProgress = document.getElementById('uploadProgress');
@@ -508,7 +512,6 @@
                     response = await fetch(RAW_URL);
                     if (!response.ok) throw new Error('Direct fetch failed');
                 } catch (e) {
-                    console.log('Using CORS proxy...');
                     response = await fetch(CORS_PROXY + encodeURIComponent(RAW_URL));
                 }
                 
@@ -521,8 +524,8 @@
                         name: server.name,
                         country: server.country,
                         countryCode: server.countryCode,
-                        username: server.username || null,
-                        password: server.password || null,
+                        username: server.username || '',
+                        password: server.password || '',
                         config: server.config_url || server.config || '',
                         ping: server.ping || 0,
                         isPremium: server.isPremium || false,
@@ -576,20 +579,20 @@
                 return null;
             }
             
-            const fileName = `${Date.now()}_${file.name}`;
-            const filePath = `ovpn/${fileName}`;
+            const timestamp = Date.now();
+            const fileName = file.name;
+            const filePath = `ovpn/${timestamp}_${fileName}`;
             
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 reader.onload = async function(e) {
                     try {
-                        const content = e.target.result.split(',')[1]; // Get base64 content
+                        const content = e.target.result.split(',')[1];
                         
                         uploadProgress.style.display = 'block';
                         progressBar.value = 30;
                         uploadStatus.textContent = 'Uploading to GitHub...';
                         
-                        // Check if file exists
                         let sha = null;
                         let getResponse = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${filePath}`, {
                             headers: {
@@ -625,7 +628,6 @@
                             progressBar.value = 100;
                             uploadStatus.textContent = 'Upload complete!';
                             
-                            // Generate CDN URL
                             const cdnUrl = `https://cdn.jsdelivr.net/gh/${GITHUB_USER}/${GITHUB_REPO}/${filePath}`;
                             
                             setTimeout(() => {
@@ -694,7 +696,6 @@
                 const url = await uploadFileToGitHub(file);
                 if (url) {
                     showToast('File uploaded successfully!', 'success');
-                    // Auto-fill the config URL field if adding a new server
                     const configInput = document.getElementById('newConfig');
                     if (configInput) {
                         configInput.value = url;
@@ -718,19 +719,33 @@
                 return false;
             }
             
-            const serversForSave = updatedServers.map(server => ({
-                id: server.id,
-                name: server.name,
-                country: server.country,
-                countryCode: server.countryCode,
-                username: server.username,
-                password: server.password,
-                config_url: server.config,
-                ipAddress: server.ipAddress || '',
-                ping: server.ping,
-                isPremium: server.isPremium,
-                isActive: server.isActive
-            }));
+            const serversForSave = updatedServers.map(server => {
+                const serverObj = {
+                    id: server.id,
+                    name: server.name,
+                    country: server.country,
+                    countryCode: server.countryCode,
+                    config_url: server.config,
+                    ping: server.ping,
+                    isPremium: server.isPremium,
+                    isActive: server.isActive
+                };
+                
+                // Only add optional fields if they have values
+                if (server.username && server.username.trim() !== '') {
+                    serverObj.username = server.username;
+                }
+                
+                if (server.password && server.password.trim() !== '') {
+                    serverObj.password = server.password;
+                }
+                
+                if (server.ipAddress && server.ipAddress.trim() !== '') {
+                    serverObj.ipAddress = server.ipAddress;
+                }
+                
+                return serverObj;
+            });
             
             const content = {
                 version: "1.1.0",
@@ -885,8 +900,8 @@
                 name: formData.get('name'),
                 country: formData.get('country'),
                 countryCode: formData.get('countryCode').toUpperCase(),
-                username: formData.get('username') || null,
-                password: formData.get('password') || null,
+                username: formData.get('username') || '',
+                password: formData.get('password') || '',
                 config: formData.get('config'),
                 ping: parseInt(formData.get('ping')) || 0,
                 isPremium: formData.get('isPremium') === 'on',
@@ -932,8 +947,8 @@
                 name: document.getElementById('newName').value,
                 country: document.getElementById('newCountry').value,
                 countryCode: document.getElementById('newCountryCode').value.toUpperCase(),
-                username: document.getElementById('newUsername').value || null,
-                password: document.getElementById('newPassword').value || null,
+                username: document.getElementById('newUsername').value || '',
+                password: document.getElementById('newPassword').value || '',
                 config: document.getElementById('newConfig').value,
                 ping: parseInt(document.getElementById('newPing').value) || 0,
                 isPremium: document.getElementById('newIsPremium').checked,
@@ -971,17 +986,14 @@
             setTimeout(() => toast.remove(), 3000);
         }
         
-        // Initialize file upload
         setupFileUpload();
         
-        // Listen for token input
         let tokenTimeout;
         document.getElementById('githubToken').addEventListener('input', () => {
             clearTimeout(tokenTimeout);
             tokenTimeout = setTimeout(validateToken, 500);
         });
         
-        // Load servers immediately
         fetchServers();
     </script>
 </body>
