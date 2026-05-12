@@ -1,162 +1,160 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-05-12T03:58:45.772Z",
+  "last_updated": "2026-05-12T04:06:33.466Z",
   "servers": [
     {
       "id": "1",
       "name": "Germany Server 1",
       "country": "Germany",
       "countryCode": "DE",
-      "username": "vpnbook",
-      "password": "ke9zw74",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/germany_1.ovpn",
-      "ipAddress": "51.75.145.220",
       "ping": 5,
       "isPremium": false,
-      "isActive": true
+      "isActive": true,
+      "username": "vpnbook",
+      "password": "ke9zw74",
+      "ipAddress": "51.75.145.220"
     },
     {
       "id": "2",
       "name": "Germany Server 2",
       "country": "Germany",
       "countryCode": "de",
-      "username": "vpnbook",
-      "password": "ke9zw74",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/germany_2.ovpn",
-      "ipAddress": "51.75.145.220",
       "ping": 10,
       "isPremium": false,
-      "isActive": true
+      "isActive": true,
+      "username": "vpnbook",
+      "password": "ke9zw74",
+      "ipAddress": "51.75.145.220"
     },
     {
       "id": "3",
       "name": "US Server 1",
       "country": "USA",
       "countryCode": "us",
-      "username": "vpnbook",
-      "password": "ke9zw74",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/usa_1.ovpn",
-      "ipAddress": "147.135.15.16",
       "ping": 15,
       "isPremium": true,
-      "isActive": false
+      "isActive": false,
+      "username": "vpnbook",
+      "password": "ke9zw74",
+      "ipAddress": "147.135.15.16"
     },
     {
       "id": "4",
       "name": "US Server 2",
       "country": "USA",
       "countryCode": "us",
-      "username": "vpnbook",
-      "password": "ke9zw74",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/usa_2.ovpn",
-      "ipAddress": "147.135.37.178",
       "ping": 20,
       "isPremium": true,
-      "isActive": true
+      "isActive": true,
+      "username": "vpnbook",
+      "password": "ke9zw74",
+      "ipAddress": "147.135.37.178"
     },
     {
       "id": "5",
       "name": "UK Server 1",
       "country": "United Kingdom",
       "countryCode": "gb",
-      "username": "vpnbook",
-      "password": "ke9zw74",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/uk_1.ovpn",
-      "ipAddress": "145.239.252.205",
       "ping": 25,
       "isPremium": false,
-      "isActive": true
+      "isActive": true,
+      "username": "vpnbook",
+      "password": "ke9zw74",
+      "ipAddress": "145.239.252.205"
     },
     {
       "id": "6",
       "name": "UK Server 2",
       "country": "United Kingdom",
       "countryCode": "gb",
-      "username": "vpnbook",
-      "password": "ke9zw74",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/uk_2.ovpn",
-      "ipAddress": "145.239.252.68",
       "ping": 30,
       "isPremium": true,
-      "isActive": false
+      "isActive": false,
+      "username": "vpnbook",
+      "password": "ke9zw74",
+      "ipAddress": "145.239.252.68"
     },
     {
       "id": "7",
       "name": "France Server 1",
       "country": "France",
       "countryCode": "fr",
-      "username": "vpnbook",
-      "password": "ke9zw74",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/france_1.ovpn",
-      "ipAddress": "5.196.64.200",
       "ping": 35,
       "isPremium": true,
-      "isActive": true
+      "isActive": true,
+      "username": "vpnbook",
+      "password": "ke9zw74",
+      "ipAddress": "5.196.64.200"
     },
     {
       "id": "8",
       "name": "France Server 2",
       "country": "France",
       "countryCode": "fr",
-      "username": "vpnbook",
-      "password": "ke9zw74",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/france_2.ovpn",
-      "ipAddress": "5.196.64.231",
       "ping": 40,
       "isPremium": true,
-      "isActive": false
+      "isActive": false,
+      "username": "vpnbook",
+      "password": "ke9zw74",
+      "ipAddress": "5.196.64.231"
     },
     {
       "id": "9",
       "name": "Canada Server 1",
       "country": "Canada",
       "countryCode": "ca",
-      "username": "vpnbook",
-      "password": "ke9zw74",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/canada_1.ovpn",
-      "ipAddress": "144.217.253.149",
       "ping": 45,
       "isPremium": true,
-      "isActive": true
+      "isActive": true,
+      "username": "vpnbook",
+      "password": "ke9zw74",
+      "ipAddress": "144.217.253.149"
     },
     {
       "id": "10",
       "name": "Canada Server 2",
       "country": "Canada",
       "countryCode": "ca",
-      "username": "vpnbook",
-      "password": "ke9zw74",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/canada_2.ovpn",
-      "ipAddress": "142.4.216.196",
       "ping": 50,
       "isPremium": true,
-      "isActive": false
+      "isActive": false,
+      "username": "vpnbook",
+      "password": "ke9zw74",
+      "ipAddress": "142.4.216.196"
     },
     {
       "id": "11",
       "name": "Secure VPN Server ",
       "country": "Pakistan",
       "countryCode": "PK",
-      "username": "vpnbook",
-      "password": "ke9zw74",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/uk_1.ovpn",
-      "ipAddress": "145.239.252.205",
       "ping": 15,
       "isPremium": false,
-      "isActive": true
+      "isActive": true,
+      "username": "vpnbook",
+      "password": "ke9zw74",
+      "ipAddress": "145.239.252.205"
     },
     {
       "id": "12",
       "name": "Japan Server 1",
       "country": "Japan",
       "countryCode": "JP",
-      "username": "''",
-      "password": "''",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/ovpn/1778557822864_japan.ovpn",
-      "ipAddress": "219.100.37.180",
       "ping": 100,
       "isPremium": false,
-      "isActive": true
+      "isActive": true,
+      "ipAddress": "219.100.37.180"
     }
   ]
 }
