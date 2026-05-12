@@ -1,0 +1,47 @@
+{
+  "title": "About Us",
+  "last_updated": "2024-01-15",
+  "version": "1.0",
+  "company_name": "NyxVPN",
+  "tagline": "Secure, Fast, and Private VPN Service",
+  "description": "NyxVPN is dedicated to providing secure and private internet access for users worldwide. Our mission is to make online privacy accessible to everyone.",
+  "features": [
+    {
+      "icon": "🔒",
+      "title": "Military-Grade Encryption",
+      "description": "AES-256 encryption to protect your data"
+    },
+    {
+      "icon": "⚡",
+      "title": "High-Speed Servers",
+      "content": "Optimized servers in 50+ countries"
+    },
+    {
+      "icon": "🚫",
+      "title": "No-Logs Policy",
+      "description": "We never track or store your online activities"
+    },
+    {
+      "icon": "🌍",
+      "title": "Global Network",
+      "description": "Access content from anywhere in the world"
+    }
+  ],
+  "story": "Founded in 2024, NyxVPN started with a simple idea: everyone deserves privacy online. We built a VPN service that combines security, speed, and simplicity.",
+  "contact": {
+    "email": "support@nyxvpn.com",
+    "website": "https://nyxvpn.com",
+    "support_hours": "24/7 Customer Support"
+  },
+  "social_links": {
+    "twitter": "https://twitter.com/nyxvpn",
+    "telegram": "https://t.me/nyxvpn",
+    "github": "https://github.com/nyxvpn"
+  },
+  "statistics": {
+    "servers": 150,
+    "countries": 50,
+    "users": 10000,
+    "uptime": "99.9%"
+  }
+}
