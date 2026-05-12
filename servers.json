@@ -1,15 +1,16 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-05-11T21:00:04.123Z",
+  "last_updated": "2026-05-12T03:43:13.920Z",
   "servers": [
     {
       "id": "1",
       "name": "Germany Server 1",
       "country": "Germany",
-      "countryCode": "de",
+      "countryCode": "DE",
       "username": "vpnbook",
       "password": "ke9zw74",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/germany_1.ovpn",
+      "ipAddress": "51.75.145.220",
       "ping": 5,
       "isPremium": false,
       "isActive": true
@@ -22,6 +23,7 @@
       "username": "vpnbook",
       "password": "ke9zw74",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/germany_2.ovpn",
+      "ipAddress": "",
       "ping": 10,
       "isPremium": false,
       "isActive": true
@@ -34,6 +36,7 @@
       "username": "vpnbook",
       "password": "ke9zw74",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/usa_1.ovpn",
+      "ipAddress": "",
       "ping": 15,
       "isPremium": true,
       "isActive": false
@@ -46,6 +49,7 @@
       "username": "vpnbook",
       "password": "ke9zw74",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/usa_2.ovpn",
+      "ipAddress": "",
       "ping": 20,
       "isPremium": true,
       "isActive": true
@@ -58,6 +62,7 @@
       "username": "vpnbook",
       "password": "ke9zw74",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/uk_1.ovpn",
+      "ipAddress": "",
       "ping": 25,
       "isPremium": false,
       "isActive": true
@@ -70,6 +75,7 @@
       "username": "vpnbook",
       "password": "ke9zw74",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/uk_2.ovpn",
+      "ipAddress": "",
       "ping": 30,
       "isPremium": true,
       "isActive": false
@@ -82,6 +88,7 @@
       "username": "vpnbook",
       "password": "ke9zw74",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/france_1.ovpn",
+      "ipAddress": "",
       "ping": 35,
       "isPremium": true,
       "isActive": true
@@ -94,6 +101,7 @@
       "username": "vpnbook",
       "password": "ke9zw74",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/france_2.ovpn",
+      "ipAddress": "",
       "ping": 40,
       "isPremium": true,
       "isActive": false
@@ -106,6 +114,7 @@
       "username": "vpnbook",
       "password": "ke9zw74",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/canada_1.ovpn",
+      "ipAddress": "",
       "ping": 45,
       "isPremium": true,
       "isActive": true
@@ -118,6 +127,7 @@
       "username": "vpnbook",
       "password": "ke9zw74",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/canada_2.ovpn",
+      "ipAddress": "",
       "ping": 50,
       "isPremium": true,
       "isActive": false
@@ -130,6 +140,7 @@
       "username": "vpnbook",
       "password": "ke9zw74",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/canada_1.ovpn",
+      "ipAddress": "",
       "ping": 15,
       "isPremium": true,
       "isActive": true
