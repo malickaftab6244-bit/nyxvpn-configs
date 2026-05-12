@@ -2,30 +2,48 @@
   "title": "Privacy Policy",
   "last_updated": "2024-01-15",
   "version": "1.0",
+  "effective_date": "January 15, 2024",
+  "introduction": "At NyxVPN, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our VPN service. Please read this policy carefully.",
   "sections": [
     {
-      "title": "Information We Collect",
-      "content": "We collect information you provide directly to us, such as when you create an account, subscribe to our VPN service, or contact us for support. This may include your name, email address, payment information, and device information."
+      "title": "1. Information We Collect",
+      "content": "We collect minimal information necessary to provide our VPN service:\n\n• Account Information: Email address and payment information\n• Device Information: Device type, OS version, and app version\n• Usage Data: Bandwidth usage (aggregated, non-identifiable)\n• Crash Reports: Anonymous technical data to improve service\n\nWe DO NOT collect:\n• Browsing history\n• Traffic destination or content\n• DNS queries\n• Connection timestamps\n• IP addresses (temporarily during active connection only)"
     },
     {
-      "title": "How We Use Your Information",
-      "content": "We use the information we collect to provide, maintain, and improve our VPN services, to process your transactions, to send you technical notices and support messages, and to respond to your comments and questions."
+      "title": "2. How We Use Your Information",
+      "content": "We use your information for:\n• Providing and maintaining our VPN service\n• Processing your subscription payments\n• Sending important service notifications\n• Improving app performance and user experience\n• Preventing fraud and abuse\n• Complying with legal obligations"
     },
     {
-      "title": "Data Security",
-      "content": "We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction."
+      "title": "3. Data Security",
+      "content": "We implement industry-standard security measures to protect your data:\n• AES-256 encryption for all VPN tunnels\n• Secure data centers with 24/7 monitoring\n• Regular security audits and penetration testing\n• Strict access controls for employee data access\n• No logging of sensitive user activities"
     },
     {
-      "title": "Third-Party Services",
-      "content": "We may use third-party services for payment processing, analytics, and customer support. These services have their own privacy policies governing the use of your information."
+      "title": "4. Third-Party Services",
+      "content": "We use trusted third-party services:\n• Payment Processors: Stripe, PayPal (for subscription payments)\n• Analytics: Anonymous usage statistics (Google Analytics)\n• Support: Zendesk (for customer support tickets)\n• Infrastructure: Cloud providers (AWS, DigitalOcean)\n\nThese services have their own privacy policies and data processing agreements."
     },
     {
-      "title": "Your Rights",
-      "content": "You have the right to access, correct, or delete your personal information. You may also object to or restrict certain processing of your data."
+      "title": "5. Your Rights",
+      "content": "You have the right to:\n• Access your personal data\n• Correct inaccurate data\n• Request deletion of your data\n• Opt-out of marketing communications\n• Export your data in a portable format\n• Lodge a complaint with supervisory authorities\n\nTo exercise these rights, contact us at privacy@nyxvpn.com"
     },
     {
-      "title": "Contact Us",
-      "content": "If you have questions about this Privacy Policy, please contact us at: privacy@yourvpn.com"
+      "title": "6. Data Retention",
+      "content": "We retain your data as follows:\n• Account data: Until you delete your account\n• Payment records: 7 years (for legal compliance)\n• Usage data: 30 days (aggregated)\n• Crash logs: 90 days\n\nYou may request immediate deletion of your account and associated data."
+    },
+    {
+      "title": "7. Children's Privacy",
+      "content": "Our service is not intended for children under 13. We do not knowingly collect information from children under 13. If we learn we have collected information from a child under 13, we will delete it immediately."
+    },
+    {
+      "title": "8. International Data Transfers",
+      "content": "Your information may be transferred to and processed in countries other than your own. We ensure appropriate safeguards are in place for international data transfers in compliance with applicable laws."
+    },
+    {
+      "title": "9. Changes to This Policy",
+      "content": "We may update this Privacy Policy from time to time. We will notify you of material changes via email or through our app. Your continued use of our service after changes constitutes acceptance of the updated policy."
+    },
+    {
+      "title": "10. Contact Us",
+      "content": "For privacy-related questions or concerns:\n\n📧 Email: privacy@nyxvpn.com\n🌐 Website: https://nyxvpn.com/privacy\n📍 Address: 123 Privacy Street, Digital City, DC 12345\n\nOur Data Protection Officer can be reached at dpo@nyxvpn.com"
     }
   ]
 }
