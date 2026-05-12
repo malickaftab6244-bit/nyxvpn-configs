@@ -1,0 +1,43 @@
+{
+  "title": "Terms of Service",
+  "last_updated": "2024-01-15",
+  "version": "1.0",
+  "sections": [
+    {
+      "title": "Acceptance of Terms",
+      "content": "By accessing or using our VPN service, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our service."
+    },
+    {
+      "title": "Service Description",
+      "content": "We provide VPN services that encrypt your internet connection and mask your IP address. We do not log your online activities, connection timestamps, or bandwidth usage."
+    },
+    {
+      "title": "Prohibited Activities",
+      "content": "You may not use our service for illegal activities, hacking, spamming, distributing malware, copyright infringement, or any activity that violates applicable laws."
+    },
+    {
+      "title": "Subscription and Payment",
+      "content": "Our VPN service requires a subscription. By purchasing a subscription, you authorize us to charge the applicable fees. Subscriptions auto-renew unless cancelled before the renewal date."
+    },
+    {
+      "title": "Refund Policy",
+      "content": "We offer a 7-day money-back guarantee. If you're not satisfied with our service, contact us within 7 days of purchase for a full refund."
+    },
+    {
+      "title": "Limitation of Liability",
+      "content": "To the maximum extent permitted by law, we shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of our service."
+    },
+    {
+      "title": "Termination",
+      "content": "We may terminate or suspend your access to our service immediately, without prior notice, for conduct that violates these Terms or is harmful to other users."
+    },
+    {
+      "title": "Changes to Terms",
+      "content": "We reserve the right to modify these terms at any time. We will notify users of material changes via email or through our app."
+    },
+    {
+      "title": "Contact Information",
+      "content": "For questions about these Terms, contact us at: legal@nyxvpn.com"
+    }
+  ]
+}
