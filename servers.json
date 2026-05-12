@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-05-12T07:19:41.544Z",
+  "last_updated": "2026-05-12T07:30:05.263Z",
   "servers": [
     {
       "id": "1",
@@ -152,7 +152,7 @@
       "countryCode": "JP",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/ovpn/1778557822864_japan.ovpn",
       "ping": 100,
-      "isPremium": false,
+      "isPremium": true,
       "isActive": true,
       "ipAddress": "219.100.37.180"
     }
