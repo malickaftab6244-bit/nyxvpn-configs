@@ -9,25 +9,37 @@
     {
       "icon": "🔒",
       "title": "Military-Grade Encryption",
-      "description": "AES-256 encryption to protect your data"
+      "description": "AES-256 encryption to protect your data from prying eyes"
     },
     {
       "icon": "⚡",
       "title": "High-Speed Servers",
-      "content": "Optimized servers in 50+ countries"
+      "description": "Optimized servers in 50+ countries for blazing fast speeds"
     },
     {
       "icon": "🚫",
       "title": "No-Logs Policy",
-      "description": "We never track or store your online activities"
+      "description": "We never track, store, or share your online activities"
     },
     {
       "icon": "🌍",
       "title": "Global Network",
-      "description": "Access content from anywhere in the world"
+      "description": "Access geo-restricted content from anywhere in the world"
+    },
+    {
+      "icon": "📱",
+      "title": "Multi-Platform Support",
+      "description": "Protect all your devices with a single subscription"
+    },
+    {
+      "icon": "💪",
+      "title": "24/7 Support",
+      "description": "Round-the-clock customer support for all your queries"
     }
   ],
-  "story": "Founded in 2024, NyxVPN started with a simple idea: everyone deserves privacy online. We built a VPN service that combines security, speed, and simplicity.",
+  "story": "Founded in 2024, NyxVPN started with a simple idea: everyone deserves privacy online. We built a VPN service that combines military-grade security, lightning-fast speeds, and effortless simplicity. Our team consists of privacy advocates, security experts, and developers who believe that internet privacy is a fundamental right, not a luxury.",
+  "mission": "To make online privacy accessible, affordable, and easy to use for everyone, everywhere.",
+  "vision": "A world where internet freedom and privacy are protected by default, not by exception.",
   "contact": {
     "email": "support@nyxvpn.com",
     "website": "https://nyxvpn.com",
@@ -39,9 +51,9 @@
     "github": "https://github.com/nyxvpn"
   },
   "statistics": {
-    "servers": 150,
-    "countries": 50,
-    "users": 10000,
+    "servers": "150+",
+    "countries": "50+",
+    "users": "10,000+",
     "uptime": "99.9%"
   }
 }
