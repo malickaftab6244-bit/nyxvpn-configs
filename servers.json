@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-05-12T03:43:13.920Z",
+  "last_updated": "2026-05-12T03:52:18.803Z",
   "servers": [
     {
       "id": "1",
@@ -142,6 +142,19 @@
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/uk_1.ovpn",
       "ipAddress": "145.239.252.205",
       "ping": 15,
+      "isPremium": false,
+      "isActive": true
+    },
+    {
+      "id": "12",
+      "name": "Japan Server 1",
+      "country": "Japan",
+      "countryCode": "JP",
+      "username": null,
+      "password": null,
+      "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/ovpn/1778557822864_japan.ovpn",
+      "ipAddress": "219.100.37.180",
+      "ping": 100,
       "isPremium": false,
       "isActive": true
     }
