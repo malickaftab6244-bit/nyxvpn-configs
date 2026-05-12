@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-05-12T04:06:33.466Z",
+  "last_updated": "2026-05-12T07:19:41.544Z",
   "servers": [
     {
       "id": "1",
@@ -134,7 +134,7 @@
     },
     {
       "id": "11",
-      "name": "Secure VPN Server ",
+      "name": "Pakistan Server 1",
       "country": "Pakistan",
       "countryCode": "PK",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/uk_1.ovpn",
