@@ -1,21 +1,21 @@
 {
   "version": "1.0.1",
-  "last_updated": "2024-01-15T10:30:00Z",
+  "last_updated": "2026-05-20T08:42:54.563Z",
   "features": {
     "show_premium_tab": {
-      "enabled": false,
+      "enabled": true,
       "description": "Show premium tab in bottom navigation"
     },
     "is_subscription_enabled": {
-      "enabled": false,
+      "enabled": true,
       "description": "Enable subscription purchases"
     },
     "is_ads_enabled": {
-      "enabled": false,
+      "enabled": true,
       "description": "Show advertisements"
     },
     "show_snackbars": {
-      "enabled": false,
+      "enabled": true,
       "description": "Show success/info snackbars"
     },
     "show_language_screen_on_first_launch": {
@@ -43,7 +43,7 @@
       "description": "Enable pull-to-refresh on server list"
     },
     "enable_server_search": {
-      "enabled": false,
+      "enabled": true,
       "description": "Enable server search functionality"
     },
     "enable_server_filters": {
@@ -51,27 +51,27 @@
       "description": "Enable premium/free server filters"
     },
     "show_ip_address": {
-      "enabled": true,
+      "enabled": false,
       "description": "Show server IP address in server tiles"
     },
     "show_connection_timer": {
-      "enabled": true,
+      "enabled": false,
       "description": "Show connection duration timer"
     },
     "show_speed_stats": {
-      "enabled": true,
+      "enabled": false,
       "description": "Show download/upload speeds"
     },
     "show_data_usage": {
-      "enabled": true,
+      "enabled": false,
       "description": "Show data usage statistics"
     },
     "show_rating_section": {
-      "enabled": true,
+      "enabled": false,
       "description": "Show rating section in connection report"
     },
     "show_reconnect_button": {
-      "enabled": true,
+      "enabled": false,
       "description": "Show reconnect button in connection report"
     },
     "enable_dark_mode_switch": {
@@ -83,7 +83,7 @@
       "description": "Enable language selection in settings"
     },
     "enable_notifications": {
-      "enabled": true,
+      "enabled": false,
       "description": "Enable push notifications"
     },
     "enable_analytics": {
