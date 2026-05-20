@@ -43,11 +43,11 @@
       "description": "Enable pull-to-refresh on server list"
     },
     "enable_server_search": {
-      "enabled": true,
+      "enabled": false,
       "description": "Enable server search functionality"
     },
     "enable_server_filters": {
-      "enabled": true,
+      "enabled": false,
       "description": "Enable premium/free server filters"
     },
     "show_ip_address": {
