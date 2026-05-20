@@ -1,6 +1,6 @@
 {
   "version": "1.0.1",
-  "last_updated": "2026-05-20T08:46:27.175Z",
+  "last_updated": "2026-05-20T08:49:18.749Z",
   "features": {
     "show_premium_tab": {
       "enabled": false,
@@ -59,7 +59,7 @@
       "description": "Show connection duration timer"
     },
     "show_speed_stats": {
-      "enabled": false,
+      "enabled": true,
       "description": "Show download/upload speeds"
     },
     "show_data_usage": {
