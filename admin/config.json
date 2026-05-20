@@ -2,13 +2,25 @@
   "version": "1.0.0",
   "last_updated": "2024-01-15T10:30:00Z",
   "features": {
+    "show_premium_tab": {
+      "enabled": false,
+      "description": "Show premium tab in bottom navigation"
+    },
+    "is_subscription_enabled": {
+      "enabled": false,
+      "description": "Enable subscription purchases"
+    },
+    "is_ads_enabled": {
+      "enabled": false,
+      "description": "Show advertisements"
+    },
     "show_snackbars": {
       "enabled": false,
       "description": "Show success/info snackbars"
     },
     "show_language_screen_on_first_launch": {
       "enabled": false,
-      "description": "Show language selection on first app launch"
+      "description": "Show language selection on first launch"
     },
     "show_premium_offer": {
       "enabled": true,
@@ -102,10 +114,13 @@
     "twitter": "https://twitter.com/nyxvpn",
     "telegram": "https://t.me/nyxvpn",
     "github": "https://github.com/nyxvpn"
-  },
-  "admin": {
-    "password_hash": "",
-    "last_modified_by": "",
-    "change_log": []
+  }
+  "ads": {
+    "app_open_ad_id": "ca-app-pub-xxxxxxxxxxxxx/xxxxxxxxx",
+    "interstitial_ad_id": "ca-app-pub-xxxxxxxxxxxxx/xxxxxxxxx",
+    "rewarded_ad_id": "ca-app-pub-xxxxxxxxxxxxx/xxxxxxxxx",
+    "banner_ad_id": "ca-app-pub-xxxxxxxxxxxxx/xxxxxxxxx",
+    "native_ad_id": "ca-app-pub-xxxxxxxxxxxxx/xxxxxxxxx",
+    "interstitial_cooldown_seconds": 30
   }
 }
