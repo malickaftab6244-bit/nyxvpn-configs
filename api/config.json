@@ -89,6 +89,10 @@
     "enable_analytics": {
       "enabled": false,
       "description": "Enable anonymous analytics"
+    },
+     "enable_legal_section": {
+      "enabled": true,
+      "description": "Enable legal section in Settings"
     }
   },
   "ui_config": {
@@ -109,11 +113,11 @@
     "privacy_policy": "https://malickaftab6244-bit.github.io/nyxvpn-configs/admin/privacy_policy.html",
     "terms_of_service": "https://malickaftab6244-bit.github.io/nyxvpn-configs/admin/terms_of_service.html",
     "about_us": "https://malickaftab6244-bit.github.io/nyxvpn-configs/admin/about_us.html",
-    "support_email": "mailto:support@nyxvpn.com",
-    "website": "https://nyxvpn.com",
-    "twitter": "https://twitter.com/nyxvpn",
-    "telegram": "https://t.me/nyxvpn",
-    "github": "https://github.com/nyxvpn"
+    "support_email": "mailto:support@privateproxyvpn.com",
+    "website": "https://privateproxy.com",
+    "twitter": "https://twitter.com/privateproxy",
+    "telegram": "https://t.me/privateproxy",
+    "github": "https://github.com/privateproxy"
   },
   "ads": {
     "app_open_ad_id": "ca-app-pub-xxxxxxxxxxxxx/xxxxxxxxx",
