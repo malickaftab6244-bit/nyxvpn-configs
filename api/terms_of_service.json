@@ -3,7 +3,7 @@
   "last_updated": "2024-01-15",
   "version": "1.0",
   "effective_date": "January 15, 2024",
-  "introduction": "Welcome to NyxVPN. By accessing or using our VPN service, you agree to be bound by these Terms of Service. Please read them carefully before using our service.",
+  "introduction": "Welcome to Private Proxy VPN. By accessing or using our VPN service, you agree to be bound by these Terms of Service. Please read them carefully before using our service.",
   "sections": [
     {
       "title": "1. Acceptance of Terms",
@@ -11,7 +11,7 @@
     },
     {
       "title": "2. Service Description",
-      "content": "NyxVPN provides:\n• Encrypted VPN tunnels to protect your internet traffic\n• IP address masking for online privacy\n• Access to geo-restricted content\n• No-logs policy enforcement\n• Multi-device support\n\nWe continuously improve our service and may add or remove features without notice."
+      "content": "Private Proxy VPN provides:\n• Encrypted VPN tunnels to protect your internet traffic\n• IP address masking for online privacy\n• Access to geo-restricted content\n• No-logs policy enforcement\n• Multi-device support\n\nWe continuously improve our service and may add or remove features without notice."
     },
     {
       "title": "3. Prohibited Activities",
@@ -27,7 +27,7 @@
     },
     {
       "title": "6. Refund Policy",
-      "content": "• 7-day money-back guarantee for annual and monthly plans\n• Refund requests must be made within 7 days of purchase\n• Contact support@nyxvpn.com with your refund request\n• Refunds processed within 5-10 business days\n• No refunds for partial months or unused time\n• Abuse of refund policy may result in service denial"
+      "content": "• 7-day money-back guarantee for annual and monthly plans\n• Refund requests must be made within 7 days of purchase\n• Contact support@privateproxyvpn.com with your refund request\n• Refunds processed within 5-10 business days\n• No refunds for partial months or unused time\n• Abuse of refund policy may result in service denial"
     },
     {
       "title": "7. Account Responsibility",
@@ -59,7 +59,7 @@
     },
     {
       "title": "14. Contact Information",
-      "content": "For questions about these Terms:\n\n📧 Email: legal@nyxvpn.com\n🌐 Website: https://nyxvpn.com/terms\n\nFor legal notices:\nNyxVPN Legal Department\n123 Legal Street, Digital City, DC 12345"
+      "content": "For questions about these Terms:\n\n📧 Email: legal@privateproxyvpn.com\n🌐 Website: https://privateproxyvpn.com/terms\n\nFor legal notices:\nPrivate Proxy VPN Legal Department\nWeb2Max Pvt Limited, Lahore City, Pakistan"
     }
   ]
 }
