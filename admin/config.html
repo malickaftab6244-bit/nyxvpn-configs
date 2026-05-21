@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>NyxVPN - Config Admin Panel</title>
+    <title>Private Proxy VPN - Config Admin Panel</title>
     <style>
         * {
             margin: 0;
@@ -315,7 +315,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>⚙️ NyxVPN Configuration Admin Panel</h1>
+            <h1>⚙️ Private Proxy VPN Configuration Admin Panel</h1>
             <p class="subtitle">Manage app features, UI settings, content, URLs, and ad configurations</p>
             
             <!-- GitHub Token Input -->
@@ -323,7 +323,7 @@
                 <label>🔑 GitHub Personal Access Token:</label>
                 <input type="password" id="githubToken" placeholder="Enter your GitHub token (needs repo scope)" style="width: 100%; margin-top: 10px;">
                 <div class="info-text" style="margin-top: 8px; font-size: 12px; color: #666;">
-                    💡 <a href="https://github.com/settings/tokens/new?scopes=repo&description=NyxVPN%20Config" target="_blank">Click here to create a token</a> (select 'repo' scope)
+                    💡 <a href="https://github.com/settings/tokens/new?scopes=repo&description=Private Proxy VPN%20Config" target="_blank">Click here to create a token</a> (select 'repo' scope)
                 </div>
                 <div id="tokenStatus" style="margin-top: 10px;"></div>
             </div>
@@ -342,6 +342,7 @@
                 <button class="tab-btn" onclick="switchTab('content')">📝 Content</button>
                 <button class="tab-btn" onclick="switchTab('urls')">🔗 URLs</button>
                 <button class="tab-btn" onclick="switchTab('ads')">📢 Ads</button>
+                <button class="tab-btn" onclick="switchTab('colors')">🎨 Colors</button>
             </div>
 
             <!-- Features Tab -->
@@ -392,7 +393,21 @@
                     <div id="adsList"></div>
                 </div>
             </div>
-
+            <!-- Colors Tab -->
+            <div id="colorsTab" class="tab-content">
+                <div class="config-card">
+                    <div class="config-header">
+                        <div>
+                            <div class="config-title">App Colors</div>
+                            <div class="config-subtitle">Customize app color scheme</div>
+                        </div>
+                    </div>
+                <div id="colorsList"></div>
+                    <div class="info-text" style="margin-top: 16px; padding: 12px; background: #f0f0f0; border-radius: 8px;">
+                        💡 Color format: Use hex codes (e.g., #6C63FF, #FF5733)
+                    </div>
+                </div>
+            </div>
             <!-- Save Button -->
             <div class="btn-group">
                 <button class="btn-primary" onclick="saveConfig()">💾 Save All Changes</button>
@@ -484,6 +499,7 @@
             renderContent();
             renderUrls();
             renderAds();
+            renderColors();
         }
 
         function renderFeatures() {
@@ -645,7 +661,65 @@
                 });
             });
         }
-
+        function renderColors() {
+            const container = document.getElementById('colorsList');
+            const colors = currentConfig.colors || {};
+            
+            const colorFields = {
+                'primary': 'Primary Color',
+                'primary_dark': 'Primary Dark',
+                'accent': 'Accent Color',
+                'success': 'Success Color',
+                'error': 'Error Color',
+                'warning': 'Warning Color',
+                'info': 'Info Color',
+                'vpn_connected': 'VPN Connected',
+                'vpn_connecting': 'VPN Connecting',
+                'vpn_disconnected': 'VPN Disconnected',
+                'background_light': 'Background Light',
+                'background_dark': 'Background Dark',
+                'surface_light': 'Surface Light',
+                'surface_dark': 'Surface Dark'
+            };
+            
+            let html = '<div class="settings-grid">';
+            for (const [key, label] of Object.entries(colorFields)) {
+                html += `
+                    <div class="form-group">
+                        <label>${label}</label>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <input type="color" data-key="${key}" value="${colors[key] || '#6C63FF'}" style="width: 60px; height: 40px; cursor: pointer;">
+                            <input type="text" data-key="${key}" value="${colors[key] || '#6C63FF'}" style="flex: 1; font-family: monospace;" placeholder="#RRGGBB">
+                        </div>
+                    </div>
+                `;
+            }
+            html += '</div>';
+            container.innerHTML = html;
+            
+            // Sync color picker with text input
+            document.querySelectorAll('#colorsList input[type="color"]').forEach(picker => {
+                picker.addEventListener('input', (e) => {
+                    const key = e.target.dataset.key;
+                    const textInput = document.querySelector(`#colorsList input[type="text"][data-key="${key}"]`);
+                    if (textInput) textInput.value = e.target.value.toUpperCase();
+                    if (!currentConfig.colors) currentConfig.colors = {};
+                    currentConfig.colors[key] = e.target.value.toUpperCase();
+                });
+            });
+            
+            document.querySelectorAll('#colorsList input[type="text"]').forEach(text => {
+                text.addEventListener('input', (e) => {
+                    const key = e.target.dataset.key;
+                    const colorPicker = document.querySelector(`#colorsList input[type="color"][data-key="${key}"]`);
+                    let value = e.target.value;
+                    if (!value.startsWith('#')) value = '#' + value;
+                    if (colorPicker) colorPicker.value = value;
+                    if (!currentConfig.colors) currentConfig.colors = {};
+                    currentConfig.colors[key] = value.toUpperCase();
+                });
+            });
+        }
         async function saveConfig() {
             if (!isAuthenticated) {
                 showToast('Please authenticate with GitHub token first', 'error');
