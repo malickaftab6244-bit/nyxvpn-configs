@@ -126,5 +126,21 @@
     "banner_ad_id": "ca-app-pub-xxxxxxxxxxxxx/xxxxxxxxx",
     "native_ad_id": "ca-app-pub-xxxxxxxxxxxxx/xxxxxxxxx",
     "interstitial_cooldown_seconds": 30
+  },
+  "colors": {
+    "primary": "#6C63FF",
+    "primary_dark": "#1A1A2E",
+    "accent": "#6C63FF",
+    "success": "#2EC4B6",
+    "error": "#E94560",
+    "warning": "#FF9F1C",
+    "info": "#4CC9F0",
+    "vpn_connected": "#22C111",
+    "vpn_connecting": "#FF9F1C",
+    "vpn_disconnected": "#E94560",
+    "background_light": "#F5F6FA",
+    "background_dark": "#121212",
+    "surface_light": "#FFFFFFFF",
+    "surface_dark": "#1E1E2E"
   }
 }
