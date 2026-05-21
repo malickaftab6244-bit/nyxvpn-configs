@@ -2,9 +2,9 @@
   "title": "About Us",
   "last_updated": "2024-01-15",
   "version": "1.0",
-  "company_name": "NyxVPN",
+  "company_name": "Private Proxy VPN",
   "tagline": "Secure, Fast, and Private VPN Service",
-  "description": "NyxVPN is dedicated to providing secure and private internet access for users worldwide. Our mission is to make online privacy accessible to everyone.",
+  "description": "Private Proxy VPN is dedicated to providing secure and private internet access for users worldwide. Our mission is to make online privacy accessible to everyone.",
   "features": [
     {
       "icon": "🔒",
@@ -37,18 +37,18 @@
       "description": "Round-the-clock customer support for all your queries"
     }
   ],
-  "story": "Founded in 2024, NyxVPN started with a simple idea: everyone deserves privacy online. We built a VPN service that combines military-grade security, lightning-fast speeds, and effortless simplicity. Our team consists of privacy advocates, security experts, and developers who believe that internet privacy is a fundamental right, not a luxury.",
+  "story": "Founded in 2024, Private Proxy VPN started with a simple idea: everyone deserves privacy online. We built a VPN service that combines military-grade security, lightning-fast speeds, and effortless simplicity. Our team consists of privacy advocates, security experts, and developers who believe that internet privacy is a fundamental right, not a luxury.",
   "mission": "To make online privacy accessible, affordable, and easy to use for everyone, everywhere.",
   "vision": "A world where internet freedom and privacy are protected by default, not by exception.",
   "contact": {
-    "email": "support@nyxvpn.com",
-    "website": "https://nyxvpn.com",
+    "email": "support@privateproxyvpn.com",
+    "website": "https://privateproxyvpn.com",
     "support_hours": "24/7 Customer Support"
   },
   "social_links": {
-    "twitter": "https://twitter.com/nyxvpn",
-    "telegram": "https://t.me/nyxvpn",
-    "github": "https://github.com/nyxvpn"
+    "twitter": "https://twitter.com/privateproxyvpn",
+    "telegram": "https://t.me/privateproxyvpn",
+    "github": "https://github.com/privateproxyvpn"
   },
   "statistics": {
     "servers": "150+",
