@@ -122,9 +122,9 @@
       "spread_radius": 5,
       "opacity": 0.1
     },
-    "logo_asset": "assets/images/ic_logo.png",
+    "logo_asset": "https://raw.githubusercontent.com/malickaftab6244-bit/nyxvpn-configs/main/ic_logo.png",
     "logo_scale": 0.6,
-    "alternative_logo_url": "https://malickaftab6244-bit.github.io/nyxvpn-configs/ic_logo.png"
+    "alternative_logo_url": "https://raw.githubusercontent.com/malickaftab6244-bit/nyxvpn-configs/main/ic_logo.png"
   },
   "content": {
     "home_screen_welcome_message": "Welcome to Private Proxy VPN",
