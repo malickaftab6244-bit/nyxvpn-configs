@@ -1,6 +1,6 @@
 {
   "version": "1.0.1",
-  "last_updated": "2026-05-20T08:49:18.749Z",
+  "last_updated": "2026-05-21T01:29:01.397Z",
   "features": {
     "show_premium_tab": {
       "enabled": false,
@@ -90,7 +90,7 @@
       "enabled": false,
       "description": "Enable anonymous analytics"
     },
-     "enable_legal_section": {
+    "enable_legal_section": {
       "enabled": true,
       "description": "Enable legal section in Settings"
     }
@@ -128,7 +128,7 @@
     "interstitial_cooldown_seconds": 30
   },
   "colors": {
-    "primary": "#6C63FF",
+    "primary": "#4E0CE9",
     "primary_dark": "#1A1A2E",
     "accent": "#6C63FF",
     "success": "#2EC4B6",
