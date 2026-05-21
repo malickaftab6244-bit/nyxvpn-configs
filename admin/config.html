@@ -343,6 +343,7 @@
                 <button class="tab-btn" onclick="switchTab('urls')">🔗 URLs</button>
                 <button class="tab-btn" onclick="switchTab('ads')">📢 Ads</button>
                 <button class="tab-btn" onclick="switchTab('colors')">🎨 Colors</button>
+                <button class="tab-btn" onclick="switchTab('logo')">🖼️ Logo</button>
             </div>
 
             <!-- Features Tab -->
@@ -405,6 +406,27 @@
                 <div id="colorsList"></div>
                     <div class="info-text" style="margin-top: 16px; padding: 12px; background: #f0f0f0; border-radius: 8px;">
                         💡 Color format: Use hex codes (e.g., #6C63FF, #FF5733)
+                    </div>
+                </div>
+            </div>
+            <!-- Logo Tab Content -->
+            <div id="logoTab" class="tab-content">
+                <div class="config-card">
+                    <div class="config-header">
+                        <div>
+                            <div class="config-title">Logo Configuration</div>
+                            <div class="config-subtitle">Customize app logo appearance</div>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-grid" id="logoSettings"></div>
+                    
+                    <!-- Live Logo Preview -->
+                    <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 16px; text-align: center;">
+                        <h4 style="margin-bottom: 16px;">Live Preview</h4>
+                        <div id="logoPreview" style="display: flex; justify-content: center; align-items: center; min-height: 200px;">
+                            <!-- Preview will be rendered here -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -500,6 +522,7 @@
             renderUrls();
             renderAds();
             renderColors();
+            renderLogoSettings();
         }
 
         function renderFeatures() {
@@ -827,6 +850,87 @@
             }, 100);
         });
     });
+}
+        function renderLogoSettings() {
+    const container = document.getElementById('logoSettings');
+    if (!container) return;
+    
+    const logo = currentConfig.logo_config || {};
+    
+    const settings = [
+        { key: 'enabled', label: 'Enable Logo', type: 'checkbox', default: true },
+        { key: 'size', label: 'Logo Size (px)', type: 'number', default: 80, min: 40, max: 200 },
+        { key: 'show_shadow', label: 'Show Shadow', type: 'checkbox', default: true },
+        { key: 'animated', label: 'Animated', type: 'checkbox', default: true },
+        { key: 'animation_duration_ms', label: 'Animation Duration (ms)', type: 'number', default: 800, min: 200, max: 2000 },
+        { key: 'animation_curve', label: 'Animation Curve', type: 'select', default: 'easeOutCubic', options: ['linear', 'easeIn', 'easeOut', 'easeInOut', 'bounceIn', 'bounceOut', 'elasticOut'] },
+        { key: 'circle_shape', label: 'Circle Shape', type: 'checkbox', default: true },
+        { key: 'logo_asset', label: 'Logo Asset URL', type: 'text', default: 'assets/images/ic_logo.png', placeholder: 'URL or local path' },
+        { key: 'logo_scale', label: 'Logo Scale (0-1)', type: 'range', default: 0.6, min: 0.2, max: 0.9, step: 0.05 },
+        { key: 'background_gradient.enabled', label: 'Enable Gradient Background', type: 'checkbox', default: true },
+        { key: 'background_gradient.colors', label: 'Gradient Colors (comma separated)', type: 'text', default: '#6C63FF,#764BA2', placeholder: '#6C63FF,#764BA2' },
+        { key: 'background_gradient.opacity', label: 'Gradient Opacity', type: 'range', default: 0.1, min: 0, max: 0.5, step: 0.01 },
+        { key: 'box_shadow.enabled', label: 'Enable Box Shadow', type: 'checkbox', default: true },
+        { key: 'box_shadow.blur_radius', label: 'Shadow Blur Radius', type: 'number', default: 20, min: 0, max: 50 },
+        { key: 'box_shadow.spread_radius', label: 'Shadow Spread Radius', type: 'number', default: 5, min: 0, max: 20 },
+    ];
+    
+    let html = '';
+    for (const setting of settings) {
+        const currentValue = getNestedValue(logo, setting.key) ?? setting.default;
+        
+        html += `<div class="form-group">`;
+        html += `<label>${setting.label}</label>`;
+        
+        if (setting.type === 'checkbox') {
+            html += `<div class="checkbox-group">
+                        <input type="checkbox" data-key="${setting.key}" ${currentValue ? 'checked' : ''} style="width: auto;">
+                        <span>Enabled</span>
+                     </div>`;
+        } else if (setting.type === 'select') {
+            html += `<select data-key="${setting.key}">`;
+            for (const opt of setting.options) {
+                html += `<option value="${opt}" ${currentValue === opt ? 'selected' : ''}>${opt}</option>`;
+            }
+            html += `</select>`;
+        } else if (setting.type === 'range') {
+            const step = setting.step || 1;
+            html += `<div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="range" data-key="${setting.key}" value="${currentValue}" min="${setting.min}" max="${setting.max}" step="${step}" style="flex: 1;">
+                        <span id="${setting.key.replace(/\./g, '_')}_value" style="min-width: 50px;">${currentValue}</span>
+                     </div>`;
+        } else {
+            html += `<input type="${setting.type}" data-key="${setting.key}" value="${currentValue}" ${setting.placeholder ? `placeholder="${setting.placeholder}"` : ''}>`;
+        }
+        
+        html += `</div>`;
+    }
+    
+    container.innerHTML = html;
+    
+    // Add event listeners for live preview
+    document.querySelectorAll('#logoSettings input, #logoSettings select').forEach(input => {
+        input.addEventListener('input', (e) => {
+            const key = e.target.dataset.key;
+            let value = e.target.value;
+            
+            if (e.target.type === 'checkbox') value = e.target.checked;
+            if (e.target.type === 'number') value = parseFloat(value);
+            if (e.target.type === 'range') {
+                value = parseFloat(value);
+                const displaySpan = document.getElementById(`${key.replace(/\./g, '_')}_value`);
+                if (displaySpan) displaySpan.innerHTML = value;
+            }
+            
+            setNestedValue(logo, key, value);
+            if (!currentConfig.logo_config) currentConfig.logo_config = {};
+            currentConfig.logo_config = logo;
+            
+            updateLogoPreview();
+        });
+    });
+    
+    updateLogoPreview();
 }
         async function saveConfig() {
             if (!isAuthenticated) {
