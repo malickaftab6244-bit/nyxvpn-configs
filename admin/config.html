@@ -5,24 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>NyxVPN - Config Admin Panel</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
         }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
+        .container { max-width: 1400px; margin: 0 auto; }
         .header {
             background: white;
             border-radius: 20px;
@@ -30,7 +20,6 @@
             margin-bottom: 30px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
-
         h1 {
             font-size: 32px;
             font-weight: 800;
@@ -40,19 +29,8 @@
             background-clip: text;
             margin-bottom: 10px;
         }
-
-        .subtitle {
-            color: #666;
-            margin-bottom: 20px;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
+        .subtitle { color: #666; margin-bottom: 20px; }
+        .tabs { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
         .tab-btn {
             padding: 12px 24px;
             background: #f0f0f0;
@@ -62,20 +40,12 @@
             font-weight: 600;
             transition: all 0.3s;
         }
-
         .tab-btn.active {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
         }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
         .config-card {
             background: white;
             border-radius: 20px;
@@ -83,7 +53,6 @@
             margin-bottom: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-
         .config-header {
             display: flex;
             justify-content: space-between;
@@ -92,55 +61,20 @@
             padding-bottom: 15px;
             border-bottom: 2px solid #f0f0f0;
         }
-
-        .config-title {
-            font-size: 20px;
-            font-weight: 700;
-            color: #333;
-        }
-
-        .config-subtitle {
-            font-size: 14px;
-            color: #666;
-            margin-top: 5px;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: #555;
-            font-size: 14px;
-        }
-
+        .config-title { font-size: 20px; font-weight: 700; color: #333; }
+        .config-subtitle { font-size: 14px; color: #666; margin-top: 5px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 8px; font-weight: 500; color: #555; font-size: 14px; }
         input, select, textarea {
             width: 100%;
             padding: 10px 12px;
             border: 1px solid #ddd;
             border-radius: 8px;
             font-size: 14px;
-            transition: border 0.3s;
         }
-
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .checkbox-group {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .checkbox-group input {
-            width: auto;
-        }
-
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #667eea; }
+        .checkbox-group { display: flex; align-items: center; gap: 10px; }
+        .checkbox-group input { width: auto; }
         .feature-item {
             display: flex;
             justify-content: space-between;
@@ -148,35 +82,16 @@
             padding: 12px 0;
             border-bottom: 1px solid #f0f0f0;
         }
-
-        .feature-info {
-            flex: 1;
-        }
-
-        .feature-name {
-            font-weight: 600;
-            color: #333;
-        }
-
-        .feature-desc {
-            font-size: 12px;
-            color: #999;
-            margin-top: 4px;
-        }
-
+        .feature-info { flex: 1; }
+        .feature-name { font-weight: 600; color: #333; }
+        .feature-desc { font-size: 12px; color: #999; margin-top: 4px; }
         .switch {
             position: relative;
             display: inline-block;
             width: 50px;
             height: 24px;
         }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
+        .switch input { opacity: 0; width: 0; height: 0; }
         .slider {
             position: absolute;
             cursor: pointer;
@@ -188,7 +103,6 @@
             transition: 0.3s;
             border-radius: 24px;
         }
-
         .slider:before {
             position: absolute;
             content: "";
@@ -200,21 +114,9 @@
             transition: 0.3s;
             border-radius: 50%;
         }
-
-        input:checked + .slider {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
+        input:checked + .slider { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        input:checked + .slider:before { transform: translateX(26px); }
+        .btn-group { display: flex; gap: 12px; margin-top: 20px; }
         .btn-primary {
             padding: 12px 24px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -223,9 +125,7 @@
             border-radius: 30px;
             cursor: pointer;
             font-weight: 600;
-            transition: opacity 0.3s;
         }
-
         .btn-secondary {
             padding: 12px 24px;
             background: #6c757d;
@@ -235,40 +135,24 @@
             cursor: pointer;
             font-weight: 600;
         }
-
-        .settings-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 20px;
-        }
-
+        .settings-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
         .toast {
             position: fixed;
             bottom: 20px;
             right: 20px;
-            background: #333;
-            color: white;
             padding: 12px 20px;
             border-radius: 10px;
             animation: slideIn 0.3s ease;
             z-index: 1000;
         }
-
-        .toast.success { background: #28a745; }
-        .toast.error { background: #dc3545; }
-        .toast.info { background: #17a2b8; }
-
+        .toast.success { background: #28a745; color: white; }
+        .toast.error { background: #dc3545; color: white; }
+        .toast.info { background: #17a2b8; color: white; }
         @keyframes slideIn {
             from { transform: translateX(100%); opacity: 0; }
             to { transform: translateX(0); opacity: 1; }
         }
-
-        .loading {
-            text-align: center;
-            padding: 40px;
-            color: white;
-        }
-
+        .loading { text-align: center; padding: 40px; color: white; }
         .loader {
             width: 40px;
             height: 40px;
@@ -278,19 +162,13 @@
             animation: spin 1s linear infinite;
             margin: 0 auto 20px;
         }
-
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
         @media (max-width: 768px) {
-            .settings-grid {
-                grid-template-columns: 1fr;
-            }
-            .tabs {
-                flex-direction: column;
-            }
+            .settings-grid { grid-template-columns: 1fr; }
+            .tabs { flex-direction: column; }
         }
     </style>
 </head>
@@ -301,8 +179,8 @@
             <p class="subtitle">Manage app features, UI settings, content, URLs, ads, colors, and logo</p>
             
             <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-top: 20px;">
-                <label>🔑 GitHub Personal Access Token:</label>
-                <input type="password" id="githubToken" placeholder="Enter your GitHub token (needs repo scope)" style="width: 100%; margin-top: 10px;">
+                <label>🔑 GitHub Personal Access Token (optional for viewing, required for saving):</label>
+                <input type="password" id="githubToken" placeholder="Enter your GitHub token to save changes" style="width: 100%; margin-top: 10px;">
                 <div class="info-text" style="margin-top: 8px; font-size: 12px; color: #666;">
                     💡 <a href="https://github.com/settings/tokens/new?scopes=repo&description=NyxVPN%20Config" target="_blank">Click here to create a token</a> (select 'repo' scope)
                 </div>
@@ -310,114 +188,208 @@
             </div>
         </div>
 
-        <div id="loading" class="loading" style="display: none;">
-            <div class="loader"></div>
-            <p>Loading configuration...</p>
+        <!-- Tabs - Always visible -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('features')">🎛️ Features</button>
+            <button class="tab-btn" onclick="switchTab('ui')">🎨 UI Settings</button>
+            <button class="tab-btn" onclick="switchTab('content')">📝 Content</button>
+            <button class="tab-btn" onclick="switchTab('urls')">🔗 URLs</button>
+            <button class="tab-btn" onclick="switchTab('ads')">📢 Ads</button>
+            <button class="tab-btn" onclick="switchTab('colors')">🎨 Colors</button>
+            <button class="tab-btn" onclick="switchTab('logo')">🖼️ Logo</button>
         </div>
 
-        <div id="configContainer" style="display: none;">
-            <div class="tabs">
-                <button class="tab-btn active" onclick="switchTab('features')">🎛️ Features</button>
-                <button class="tab-btn" onclick="switchTab('ui')">🎨 UI Settings</button>
-                <button class="tab-btn" onclick="switchTab('content')">📝 Content</button>
-                <button class="tab-btn" onclick="switchTab('urls')">🔗 URLs</button>
-                <button class="tab-btn" onclick="switchTab('ads')">📢 Ads</button>
-                <button class="tab-btn" onclick="switchTab('colors')">🎨 Colors</button>
-                <button class="tab-btn" onclick="switchTab('logo')">🖼️ Logo</button>
-            </div>
-
-            <div id="featuresTab" class="tab-content active">
-                <div class="config-card">
-                    <div class="config-header">
-                        <div>
-                            <div class="config-title">App Features</div>
-                            <div class="config-subtitle">Enable/disable app functionality remotely</div>
-                        </div>
-                    </div>
-                    <div id="featuresList"></div>
-                </div>
-            </div>
-
-            <div id="uiTab" class="tab-content">
-                <div class="settings-grid" id="uiSettings"></div>
-            </div>
-
-            <div id="contentTab" class="tab-content">
-                <div class="settings-grid" id="contentSettings"></div>
-            </div>
-
-            <div id="urlsTab" class="tab-content">
-                <div class="config-card">
-                    <div class="config-header">
-                        <div>
-                            <div class="config-title">URL Configuration</div>
-                            <div class="config-subtitle">External links and endpoints</div>
-                        </div>
-                    </div>
-                    <div id="urlsList"></div>
-                </div>
-            </div>
-
-            <div id="adsTab" class="tab-content">
-                <div class="config-card">
-                    <div class="config-header">
-                        <div>
-                            <div class="config-title">Ad Configuration</div>
-                            <div class="config-subtitle">AdMob unit IDs and settings</div>
-                        </div>
-                    </div>
-                    <div id="adsList"></div>
-                </div>
-            </div>
-
-            <div id="colorsTab" class="tab-content">
-                <div class="config-card">
-                    <div class="config-header">
-                        <div>
-                            <div class="config-title">App Colors</div>
-                            <div class="config-subtitle">Customize app color scheme</div>
-                        </div>
-                    </div>
-                    <div id="colorsList"></div>
-                    <div class="info-text" style="margin-top: 16px; padding: 12px; background: #f0f0f0; border-radius: 8px;">
-                        💡 Color format: Use hex codes (e.g., #6C63FF, #FF5733)
+        <!-- Features Tab -->
+        <div id="featuresTab" class="tab-content active">
+            <div class="config-card">
+                <div class="config-header">
+                    <div>
+                        <div class="config-title">App Features</div>
+                        <div class="config-subtitle">Enable/disable app functionality remotely</div>
                     </div>
                 </div>
+                <div id="featuresList"></div>
             </div>
+        </div>
 
-            <div id="logoTab" class="tab-content">
-                <div class="config-card">
-                    <div class="config-header">
-                        <div>
-                            <div class="config-title">Logo Configuration</div>
-                            <div class="config-subtitle">Customize app logo appearance</div>
-                        </div>
-                    </div>
-                    <div class="settings-grid" id="logoSettings"></div>
-                    <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 16px; text-align: center;">
-                        <h4 style="margin-bottom: 16px;">Live Preview</h4>
-                        <div id="logoPreview" style="display: flex; justify-content: center; align-items: center; min-height: 200px;"></div>
+        <!-- UI Settings Tab -->
+        <div id="uiTab" class="tab-content">
+            <div class="settings-grid" id="uiSettings"></div>
+        </div>
+
+        <!-- Content Tab -->
+        <div id="contentTab" class="tab-content">
+            <div class="settings-grid" id="contentSettings"></div>
+        </div>
+
+        <!-- URLs Tab -->
+        <div id="urlsTab" class="tab-content">
+            <div class="config-card">
+                <div class="config-header">
+                    <div>
+                        <div class="config-title">URL Configuration</div>
+                        <div class="config-subtitle">External links and endpoints</div>
                     </div>
                 </div>
+                <div id="urlsList"></div>
             </div>
+        </div>
 
-            <div class="btn-group">
-                <button class="btn-primary" onclick="saveConfig()">💾 Save All Changes</button>
-                <button class="btn-secondary" onclick="refreshConfig()">🔄 Refresh</button>
+        <!-- Ads Tab -->
+        <div id="adsTab" class="tab-content">
+            <div class="config-card">
+                <div class="config-header">
+                    <div>
+                        <div class="config-title">Ad Configuration</div>
+                        <div class="config-subtitle">AdMob unit IDs and settings</div>
+                    </div>
+                </div>
+                <div id="adsList"></div>
             </div>
+        </div>
+
+        <!-- Colors Tab -->
+        <div id="colorsTab" class="tab-content">
+            <div class="config-card">
+                <div class="config-header">
+                    <div>
+                        <div class="config-title">App Colors</div>
+                        <div class="config-subtitle">Customize app color scheme</div>
+                    </div>
+                </div>
+                <div id="colorsList"></div>
+                <div class="info-text" style="margin-top: 16px; padding: 12px; background: #f0f0f0; border-radius: 8px;">
+                    💡 Color format: Use hex codes (e.g., #6C63FF, #FF5733)
+                </div>
+            </div>
+        </div>
+
+        <!-- Logo Tab -->
+        <div id="logoTab" class="tab-content">
+            <div class="config-card">
+                <div class="config-header">
+                    <div>
+                        <div class="config-title">Logo Configuration</div>
+                        <div class="config-subtitle">Customize app logo appearance</div>
+                    </div>
+                </div>
+                <div class="settings-grid" id="logoSettings"></div>
+                <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 16px; text-align: center;">
+                    <h4 style="margin-bottom: 16px;">Live Preview</h4>
+                    <div id="logoPreview" style="display: flex; justify-content: center; align-items: center; min-height: 200px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn-primary" onclick="saveConfig()">💾 Save All Changes</button>
+            <button class="btn-secondary" onclick="resetToDefault()">🔄 Reset to Default</button>
         </div>
     </div>
 
     <script>
+        // Default configuration
+        const DEFAULT_CONFIG = {
+            "version": "1.0.0",
+            "last_updated": new Date().toISOString(),
+            "features": {
+                "show_premium_tab": { "enabled": false, "description": "Show premium tab in bottom navigation" },
+                "is_subscription_enabled": { "enabled": false, "description": "Enable subscription purchases" },
+                "is_ads_enabled": { "enabled": false, "description": "Show advertisements" },
+                "show_snackbars": { "enabled": false, "description": "Show success/info snackbars" },
+                "show_language_screen_on_first_launch": { "enabled": false, "description": "Show language selection on first launch" },
+                "show_premium_offer": { "enabled": false, "description": "Show premium upgrade offers" },
+                "show_rating_prompt": { "enabled": false, "description": "Show rating prompt after connection" },
+                "show_connection_success_sheet": { "enabled": true, "description": "Show success sheet after VPN connection" },
+                "show_app_shortcuts": { "enabled": true, "description": "Show app shortcuts in connection success sheet" },
+                "enable_pull_to_refresh": { "enabled": true, "description": "Enable pull-to-refresh on server list" },
+                "enable_server_search": { "enabled": false, "description": "Enable server search functionality" },
+                "enable_server_filters": { "enabled": false, "description": "Enable premium/free server filters" },
+                "show_ip_address": { "enabled": false, "description": "Show server IP address in server tiles" },
+                "show_connection_timer": { "enabled": false, "description": "Show connection duration timer" },
+                "show_speed_stats": { "enabled": true, "description": "Show download/upload speeds" },
+                "show_data_usage": { "enabled": false, "description": "Show data usage statistics" },
+                "show_rating_section": { "enabled": false, "description": "Show rating section in connection report" },
+                "show_reconnect_button": { "enabled": false, "description": "Show reconnect button in connection report" },
+                "enable_dark_mode_switch": { "enabled": true, "description": "Enable dark/light mode toggle" },
+                "enable_language_switch": { "enabled": true, "description": "Enable language selection in settings" },
+                "enable_notifications": { "enabled": false, "description": "Enable push notifications" },
+                "enable_analytics": { "enabled": false, "description": "Enable anonymous analytics" },
+                "enable_legal_section": { "enabled": true, "description": "Enable legal section in Settings" }
+            },
+            "ui_config": {
+                "default_theme": "system",
+                "default_language": "en",
+                "server_list_sort": "free_first",
+                "connection_timeout_seconds": 30,
+                "max_retry_attempts": 3,
+                "refresh_interval_minutes": 5
+            },
+            "logo_config": {
+                "enabled": true,
+                "size": 80,
+                "show_shadow": true,
+                "animated": true,
+                "animation_duration_ms": 800,
+                "animation_curve": "easeOutCubic",
+                "background_gradient": { "enabled": true, "colors": ["#6C63FF", "#764BA2"], "opacity": 0.1 },
+                "circle_shape": true,
+                "box_shadow": { "enabled": true, "blur_radius": 20, "spread_radius": 5, "opacity": 0.1 },
+                "logo_asset": "assets/images/ic_logo.png",
+                "logo_scale": 0.6,
+                "alternative_logo_url": "https://raw.githubusercontent.com/malickaftab6244-bit/nyxvpn-configs/main/ic_logo.png"
+            },
+            "content": {
+                "home_screen_welcome_message": "Welcome to NyxVPN",
+                "home_screen_subtitle": "Secure, Fast, Private",
+                "premium_screen_title": "Go Premium",
+                "premium_screen_subtitle": "Unlock all features"
+            },
+            "urls": {
+                "privacy_policy": "https://malickaftab6244-bit.github.io/nyxvpn-configs/admin/privacy_policy.html",
+                "terms_of_service": "https://malickaftab6244-bit.github.io/nyxvpn-configs/admin/terms_of_service.html",
+                "about_us": "https://malickaftab6244-bit.github.io/nyxvpn-configs/admin/about_us.html",
+                "support_email": "mailto:support@nyxvpn.com",
+                "website": "https://nyxvpn.com",
+                "twitter": "https://twitter.com/nyxvpn",
+                "telegram": "https://t.me/nyxvpn",
+                "github": "https://github.com/nyxvpn"
+            },
+            "ads": {
+                "app_open_ad_id": "",
+                "interstitial_ad_id": "",
+                "rewarded_ad_id": "",
+                "banner_ad_id": "",
+                "native_ad_id": "",
+                "interstitial_cooldown_seconds": 30
+            },
+            "colors": {
+                "primary": "#6C63FF",
+                "primary_dark": "#1A1A2E",
+                "accent": "#6C63FF",
+                "success": "#2EC4B6",
+                "error": "#E94560",
+                "warning": "#FF9F1C",
+                "info": "#4CC9F0",
+                "vpn_connected": "#22C111",
+                "vpn_connecting": "#FF9F1C",
+                "vpn_disconnected": "#E94560",
+                "background_light": "#F5F6FA",
+                "background_dark": "#121212",
+                "surface_light": "#FFFFFF",
+                "surface_dark": "#1E1E2E"
+            }
+        };
+
         let currentConfig = null;
         let repoFileSha = null;
         let isAuthenticated = false;
+        let isLoadingRemote = false;
 
         const GITHUB_USER = 'malickaftab6244-bit';
         const GITHUB_REPO = 'nyxvpn-configs';
         const CONFIG_PATH = 'api/config.json';
         const DEFAULT_LOGO_URL = 'https://raw.githubusercontent.com/malickaftab6244-bit/nyxvpn-configs/main/ic_logo.png';
-        const FALLBACK_LOGO_URL = 'https://via.placeholder.com/100x100/6C63FF/white?text=NyxVPN';
 
         // Helper functions
         function getNestedValue(obj, path) {
@@ -453,98 +425,54 @@
             return `rgba(${r}, ${g}, ${b}, ${opacity})`;
         }
 
-        function getDefaultConfig() {
-            return {
-                "version": "1.0.0",
-                "last_updated": new Date().toISOString(),
-                "features": {
-                    "show_premium_tab": { "enabled": false, "description": "Show premium tab in bottom navigation" },
-                    "is_subscription_enabled": { "enabled": false, "description": "Enable subscription purchases" },
-                    "is_ads_enabled": { "enabled": false, "description": "Show advertisements" },
-                    "show_snackbars": { "enabled": false, "description": "Show success/info snackbars" },
-                    "show_language_screen_on_first_launch": { "enabled": false, "description": "Show language selection on first launch" },
-                    "show_premium_offer": { "enabled": false, "description": "Show premium upgrade offers" },
-                    "show_rating_prompt": { "enabled": false, "description": "Show rating prompt after connection" },
-                    "show_connection_success_sheet": { "enabled": true, "description": "Show success sheet after VPN connection" },
-                    "show_app_shortcuts": { "enabled": true, "description": "Show app shortcuts in connection success sheet" },
-                    "enable_pull_to_refresh": { "enabled": true, "description": "Enable pull-to-refresh on server list" },
-                    "enable_server_search": { "enabled": false, "description": "Enable server search functionality" },
-                    "enable_server_filters": { "enabled": false, "description": "Enable premium/free server filters" },
-                    "show_ip_address": { "enabled": false, "description": "Show server IP address in server tiles" },
-                    "show_connection_timer": { "enabled": false, "description": "Show connection duration timer" },
-                    "show_speed_stats": { "enabled": true, "description": "Show download/upload speeds" },
-                    "show_data_usage": { "enabled": false, "description": "Show data usage statistics" },
-                    "show_rating_section": { "enabled": false, "description": "Show rating section in connection report" },
-                    "show_reconnect_button": { "enabled": false, "description": "Show reconnect button in connection report" },
-                    "enable_dark_mode_switch": { "enabled": true, "description": "Enable dark/light mode toggle" },
-                    "enable_language_switch": { "enabled": true, "description": "Enable language selection in settings" },
-                    "enable_notifications": { "enabled": false, "description": "Enable push notifications" },
-                    "enable_analytics": { "enabled": false, "description": "Enable anonymous analytics" },
-                    "enable_legal_section": { "enabled": true, "description": "Enable legal section in Settings" }
-                },
-                "ui_config": {
-                    "default_theme": "system",
-                    "default_language": "en",
-                    "server_list_sort": "free_first",
-                    "connection_timeout_seconds": 30,
-                    "max_retry_attempts": 3,
-                    "refresh_interval_minutes": 5
-                },
-                "logo_config": {
-                    "enabled": true,
-                    "size": 80,
-                    "show_shadow": true,
-                    "animated": true,
-                    "animation_duration_ms": 800,
-                    "animation_curve": "easeOutCubic",
-                    "background_gradient": { "enabled": true, "colors": ["#6C63FF", "#764BA2"], "opacity": 0.1 },
-                    "circle_shape": true,
-                    "box_shadow": { "enabled": true, "blur_radius": 20, "spread_radius": 5, "opacity": 0.1 },
-                    "logo_asset": "assets/images/ic_logo.png",
-                    "logo_scale": 0.6,
-                    "alternative_logo_url": DEFAULT_LOGO_URL
-                },
-                "content": {
-                    "home_screen_welcome_message": "Welcome to NyxVPN",
-                    "home_screen_subtitle": "Secure, Fast, Private",
-                    "premium_screen_title": "Go Premium",
-                    "premium_screen_subtitle": "Unlock all features"
-                },
-                "urls": {
-                    "privacy_policy": "https://malickaftab6244-bit.github.io/nyxvpn-configs/admin/privacy_policy.html",
-                    "terms_of_service": "https://malickaftab6244-bit.github.io/nyxvpn-configs/admin/terms_of_service.html",
-                    "about_us": "https://malickaftab6244-bit.github.io/nyxvpn-configs/admin/about_us.html",
-                    "support_email": "mailto:support@nyxvpn.com",
-                    "website": "https://nyxvpn.com",
-                    "twitter": "https://twitter.com/nyxvpn",
-                    "telegram": "https://t.me/nyxvpn",
-                    "github": "https://github.com/nyxvpn"
-                },
-                "ads": {
-                    "app_open_ad_id": "",
-                    "interstitial_ad_id": "",
-                    "rewarded_ad_id": "",
-                    "banner_ad_id": "",
-                    "native_ad_id": "",
-                    "interstitial_cooldown_seconds": 30
-                },
-                "colors": {
-                    "primary": "#6C63FF",
-                    "primary_dark": "#1A1A2E",
-                    "accent": "#6C63FF",
-                    "success": "#2EC4B6",
-                    "error": "#E94560",
-                    "warning": "#FF9F1C",
-                    "info": "#4CC9F0",
-                    "vpn_connected": "#22C111",
-                    "vpn_connecting": "#FF9F1C",
-                    "vpn_disconnected": "#E94560",
-                    "background_light": "#F5F6FA",
-                    "background_dark": "#121212",
-                    "surface_light": "#FFFFFF",
-                    "surface_dark": "#1E1E2E"
+        // Load initial config (from localStorage or default)
+        function loadInitialConfig() {
+            // Try to load from localStorage first
+            const savedConfig = localStorage.getItem('nyxvpn_config');
+            if (savedConfig) {
+                try {
+                    currentConfig = JSON.parse(savedConfig);
+                    console.log('✅ Loaded config from localStorage');
+                    showToast('Loaded saved configuration', 'info');
+                } catch(e) {
+                    currentConfig = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
                 }
-            };
+            } else {
+                currentConfig = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+                console.log('✅ Using default configuration');
+            }
+            
+            renderAllTabs();
+            document.getElementById('configContainer').style.display = 'block';
+            
+            // Try to fetch remote config in background
+            fetchRemoteConfig();
+        }
+
+        async function fetchRemoteConfig() {
+            if (isLoadingRemote) return;
+            isLoadingRemote = true;
+            
+            try {
+                const response = await fetch(`https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/${CONFIG_PATH}`);
+                if (response.ok) {
+                    const remoteConfig = await response.json();
+                    // Merge remote config with existing (preserve local edits)
+                    currentConfig = mergeConfigs(currentConfig, remoteConfig);
+                    renderAllTabs();
+                    showToast('Remote configuration loaded', 'success');
+                    localStorage.setItem('nyxvpn_config', JSON.stringify(currentConfig));
+                }
+            } catch (error) {
+                console.log('No remote config found, using local/default');
+            } finally {
+                isLoadingRemote = false;
+            }
+        }
+
+        function mergeConfigs(local, remote) {
+            // Simple merge - can be enhanced
+            return { ...local, ...remote };
         }
 
         async function validateToken() {
@@ -564,7 +492,7 @@
                     const user = await response.json();
                     document.getElementById('tokenStatus').innerHTML = `<span style="color: green;">✅ Authenticated as ${user.login}</span>`;
                     isAuthenticated = true;
-                    await loadConfig();
+                    await getFileSha();
                     return true;
                 } else {
                     throw new Error('Invalid token');
@@ -573,35 +501,6 @@
                 document.getElementById('tokenStatus').innerHTML = `<span style="color: red;">❌ Invalid token: ${error.message}</span>`;
                 isAuthenticated = false;
                 return false;
-            }
-        }
-
-        async function loadConfig() {
-            showLoading(true);
-            try {
-                const response = await fetch(`https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/${CONFIG_PATH}`);
-                
-                if (response.ok) {
-                    currentConfig = await response.json();
-                    console.log('✅ Config loaded from remote');
-                    showToast('Configuration loaded successfully', 'success');
-                } else {
-                    console.log('⚠️ Config not found, using defaults');
-                    currentConfig = getDefaultConfig();
-                    showToast('Using default configuration (remote config not found)', 'info');
-                }
-                
-                if (isAuthenticated && response.ok) await getFileSha();
-                renderAllTabs();
-                showLoading(false);
-                document.getElementById('configContainer').style.display = 'block';
-            } catch (error) {
-                console.error('Error loading config:', error);
-                currentConfig = getDefaultConfig();
-                renderAllTabs();
-                showLoading(false);
-                document.getElementById('configContainer').style.display = 'block';
-                showToast('Using default configuration (connection error)', 'info');
             }
         }
 
@@ -636,24 +535,23 @@
             const features = currentConfig.features;
             let html = '';
             for (const [key, value] of Object.entries(features)) {
-                html += `
-                    <div class="feature-item">
-                        <div class="feature-info">
-                            <div class="feature-name">${formatKey(key)}</div>
-                            <div class="feature-desc">${value.description || ''}</div>
-                        </div>
-                        <label class="switch">
-                            <input type="checkbox" class="feature-toggle" data-key="${key}" ${value.enabled ? 'checked' : ''}>
-                            <span class="slider"></span>
-                        </label>
+                html += `<div class="feature-item">
+                    <div class="feature-info">
+                        <div class="feature-name">${formatKey(key)}</div>
+                        <div class="feature-desc">${value.description || ''}</div>
                     </div>
-                `;
+                    <label class="switch">
+                        <input type="checkbox" class="feature-toggle" data-key="${key}" ${value.enabled ? 'checked' : ''}>
+                        <span class="slider"></span>
+                    </label>
+                </div>`;
             }
             container.innerHTML = html;
             document.querySelectorAll('.feature-toggle').forEach(toggle => {
                 toggle.addEventListener('change', (e) => {
                     const key = e.target.dataset.key;
                     currentConfig.features[key].enabled = e.target.checked;
+                    saveToLocalStorage();
                 });
             });
         }
@@ -686,6 +584,7 @@
                     let value = e.target.value;
                     if (e.target.type === 'number') value = parseInt(value);
                     currentConfig.ui_config[key] = value;
+                    saveToLocalStorage();
                 });
             });
         }
@@ -702,6 +601,7 @@
                 textarea.addEventListener('change', (e) => {
                     const key = e.target.dataset.key;
                     currentConfig.content[key] = e.target.value;
+                    saveToLocalStorage();
                 });
             });
         }
@@ -718,6 +618,7 @@
                 input.addEventListener('change', (e) => {
                     const key = e.target.dataset.key;
                     currentConfig.urls[key] = e.target.value;
+                    saveToLocalStorage();
                 });
             });
         }
@@ -745,6 +646,7 @@
                     let value = e.target.value;
                     if (key.includes('seconds')) value = parseInt(value);
                     currentConfig.ads[key] = value;
+                    saveToLocalStorage();
                 });
             });
         }
@@ -753,27 +655,18 @@
             const container = document.getElementById('colorsList');
             const colors = currentConfig.colors || {};
             const colorFields = {
-                'primary': 'Primary Color',
-                'primary_dark': 'Primary Dark',
-                'accent': 'Accent Color',
-                'success': 'Success Color',
-                'error': 'Error Color',
-                'warning': 'Warning Color',
-                'info': 'Info Color',
-                'vpn_connected': 'VPN Connected',
-                'vpn_connecting': 'VPN Connecting',
-                'vpn_disconnected': 'VPN Disconnected',
-                'background_light': 'Background Light',
-                'background_dark': 'Background Dark',
-                'surface_light': 'Surface Light',
-                'surface_dark': 'Surface Dark'
+                'primary': 'Primary Color', 'primary_dark': 'Primary Dark', 'accent': 'Accent Color',
+                'success': 'Success Color', 'error': 'Error Color', 'warning': 'Warning Color', 'info': 'Info Color',
+                'vpn_connected': 'VPN Connected', 'vpn_connecting': 'VPN Connecting', 'vpn_disconnected': 'VPN Disconnected',
+                'background_light': 'Background Light', 'background_dark': 'Background Dark',
+                'surface_light': 'Surface Light', 'surface_dark': 'Surface Dark'
             };
             let html = '<div class="settings-grid">';
             for (const [key, label] of Object.entries(colorFields)) {
                 const currentColor = colors[key] || '#6C63FF';
                 html += `<div class="form-group"><label>${label}</label><div style="display: flex; gap: 10px; align-items: center;"><input type="color" data-key="${key}" value="${currentColor}" style="width: 60px; height: 40px; cursor: pointer; border-radius: 8px; border: 1px solid #ddd;"><input type="text" data-key="${key}" value="${currentColor}" style="flex: 1; font-family: monospace; padding: 8px; border: 1px solid #ddd; border-radius: 8px;" placeholder="#RRGGBB"></div></div>`;
             }
-            html += '</div><div style="margin-top: 30px; padding: 20px; background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); border-radius: 16px; border: 1px solid #dee2e6;"><h3 style="margin-bottom: 16px; color: #333;">🎨 Live Preview</h3><div style="margin-bottom: 20px;"><h4 style="margin-bottom: 12px; color: #555;">☀️ Light Theme</h4><div style="background: ${colors.background_light || '#F5F6FA'}; border-radius: 16px; padding: 16px;"><div style="background: ${colors.surface_light || '#FFFFFF'}; padding: 12px 16px; border-radius: 12px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;"><div style="display: flex; gap: 12px; align-items: center;"><div style="width: 24px; height: 24px; background: ${colors.primary || '#6C63FF'}; border-radius: 8px;"></div><span style="font-weight: 600;">App Title</span></div></div><div style="display: flex; gap: 10px; flex-wrap: wrap;"><div style="background: ${colors.primary || '#6C63FF'}; padding: 8px 16px; border-radius: 25px; color: white;">Primary</div><div style="background: ${colors.success || '#2EC4B6'}; padding: 8px 16px; border-radius: 25px; color: white;">Success</div><div style="background: ${colors.error || '#E94560'}; padding: 8px 16px; border-radius: 25px; color: white;">Error</div></div></div></div><div><h4 style="margin-bottom: 12px; color: #555;">🌙 Dark Theme</h4><div style="background: ${colors.background_dark || '#121212'}; border-radius: 16px; padding: 16px;"><div style="background: ${colors.surface_dark || '#1E1E2E'}; padding: 12px 16px; border-radius: 12px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;"><div style="display: flex; gap: 12px; align-items: center;"><div style="width: 24px; height: 24px; background: ${colors.primary || '#6C63FF'}; border-radius: 8px;"></div><span style="font-weight: 600; color: white;">App Title</span></div></div><div style="display: flex; gap: 10px; flex-wrap: wrap;"><div style="background: ${colors.primary || '#6C63FF'}; padding: 8px 16px; border-radius: 25px; color: white;">Primary</div><div style="background: ${colors.success || '#2EC4B6'}; padding: 8px 16px; border-radius: 25px; color: white;">Success</div><div style="background: ${colors.error || '#E94560'}; padding: 8px 16px; border-radius: 25px; color: white;">Error</div></div></div></div></div>';
+            html += '</div>';
             container.innerHTML = html;
             
             document.querySelectorAll('#colorsList input[type="color"]').forEach(picker => {
@@ -783,8 +676,7 @@
                     if (textInput) textInput.value = e.target.value.toUpperCase();
                     if (!currentConfig.colors) currentConfig.colors = {};
                     currentConfig.colors[key] = e.target.value.toUpperCase();
-                    clearTimeout(window.previewTimeout);
-                    window.previewTimeout = setTimeout(() => renderColors(), 100);
+                    saveToLocalStorage();
                 });
             });
             document.querySelectorAll('#colorsList input[type="text"]').forEach(text => {
@@ -796,8 +688,7 @@
                     if (colorPicker) colorPicker.value = value;
                     if (!currentConfig.colors) currentConfig.colors = {};
                     currentConfig.colors[key] = value.toUpperCase();
-                    clearTimeout(window.previewTimeout);
-                    window.previewTimeout = setTimeout(() => renderColors(), 100);
+                    saveToLocalStorage();
                 });
             });
         }
@@ -823,11 +714,10 @@
             }
             
             const shadow = showShadow ? `0 0 ${logo.box_shadow?.blur_radius || 20}px ${logo.box_shadow?.spread_radius || 5}px rgba(108, 99, 255, 0.3)` : 'none';
-            // Use alternative_logo_url if available, otherwise use default, then fallback
             let logoUrl = logo.alternative_logo_url || DEFAULT_LOGO_URL;
             const logoScale = logo.logo_scale || 0.6;
             
-            preview.innerHTML = `<div style="width: ${size}px; height: ${size}px; background: ${gradient}; border-radius: ${isCircle ? '50%' : '20px'}; box-shadow: ${shadow}; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;"><img src="${logoUrl}" style="width: ${size * logoScale}px; height: ${size * logoScale}px; object-fit: contain; border-radius: ${isCircle ? '50%' : '12px'};" onerror="this.src='${FALLBACK_LOGO_URL}'"></div>`;
+            preview.innerHTML = `<div style="width: ${size}px; height: ${size}px; background: ${gradient}; border-radius: ${isCircle ? '50%' : '20px'}; box-shadow: ${shadow}; display: flex; align-items: center; justify-content: center;"><img src="${logoUrl}" style="width: ${size * logoScale}px; height: ${size * logoScale}px; object-fit: contain; border-radius: ${isCircle ? '50%' : '12px'};" onerror="this.src='https://via.placeholder.com/100x100/6C63FF/white?text=NyxVPN'"></div>`;
         }
 
         function renderLogoSettings() {
@@ -842,11 +732,11 @@
                 { key: 'animation_duration_ms', label: 'Animation Duration (ms)', type: 'number', default: 800, min: 200, max: 2000 },
                 { key: 'animation_curve', label: 'Animation Curve', type: 'select', default: 'easeOutCubic', options: ['linear', 'easeIn', 'easeOut', 'easeInOut', 'bounceIn', 'bounceOut', 'elasticOut'] },
                 { key: 'circle_shape', label: 'Circle Shape', type: 'checkbox', default: true },
-                { key: 'logo_asset', label: 'Logo Asset (local)', type: 'text', default: 'assets/images/ic_logo.png', placeholder: 'assets/images/ic_logo.png' },
-                { key: 'alternative_logo_url', label: 'Alternative Logo URL (online)', type: 'text', default: DEFAULT_LOGO_URL, placeholder: 'https://...' },
+                { key: 'logo_asset', label: 'Logo Asset (local)', type: 'text', default: 'assets/images/ic_logo.png' },
+                { key: 'alternative_logo_url', label: 'Alternative Logo URL (online)', type: 'text', default: DEFAULT_LOGO_URL },
                 { key: 'logo_scale', label: 'Logo Scale (0-1)', type: 'range', default: 0.6, min: 0.2, max: 0.9, step: 0.05 },
                 { key: 'background_gradient.enabled', label: 'Enable Gradient Background', type: 'checkbox', default: true },
-                { key: 'background_gradient.colors', label: 'Gradient Colors (comma separated)', type: 'text', default: '#6C63FF,#764BA2', placeholder: '#6C63FF,#764BA2' },
+                { key: 'background_gradient.colors', label: 'Gradient Colors (comma separated)', type: 'text', default: '#6C63FF,#764BA2' },
                 { key: 'background_gradient.opacity', label: 'Gradient Opacity', type: 'range', default: 0.1, min: 0, max: 0.5, step: 0.01 },
                 { key: 'box_shadow.enabled', label: 'Enable Box Shadow', type: 'checkbox', default: true },
                 { key: 'box_shadow.blur_radius', label: 'Shadow Blur Radius', type: 'number', default: 20, min: 0, max: 50 },
@@ -884,19 +774,25 @@
                     if (!currentConfig.logo_config) currentConfig.logo_config = {};
                     currentConfig.logo_config = logo;
                     updateLogoPreview();
+                    saveToLocalStorage();
                 });
             });
             updateLogoPreview();
         }
 
+        function saveToLocalStorage() {
+            localStorage.setItem('nyxvpn_config', JSON.stringify(currentConfig));
+        }
+
         async function saveConfig() {
             if (!isAuthenticated) {
-                showToast('Please authenticate with GitHub token first', 'error');
+                showToast('Please authenticate with GitHub token first to save remotely', 'error');
                 return;
             }
-            showLoading(true);
+            
             currentConfig.last_updated = new Date().toISOString();
             const content = JSON.stringify(currentConfig, null, 2);
+            
             try {
                 const response = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${CONFIG_PATH}`, {
                     method: 'PUT',
@@ -912,7 +808,7 @@
                     })
                 });
                 if (response.ok) {
-                    showToast('✅ Configuration saved successfully!', 'success');
+                    showToast('✅ Configuration saved to GitHub successfully!', 'success');
                     await getFileSha();
                 } else {
                     const error = await response.json();
@@ -920,14 +816,16 @@
                 }
             } catch (error) {
                 showToast('❌ Error: ' + error.message, 'error');
-            } finally {
-                showLoading(false);
             }
         }
 
-        async function refreshConfig() {
-            await loadConfig();
-            showToast('Configuration refreshed', 'info');
+        function resetToDefault() {
+            if (confirm('Are you sure you want to reset all settings to default?')) {
+                currentConfig = JSON.parse(JSON.stringify(DEFAULT_CONFIG));
+                renderAllTabs();
+                saveToLocalStorage();
+                showToast('Reset to default configuration', 'success');
+            }
         }
 
         function switchTab(tabName) {
@@ -949,11 +847,6 @@
             return div.innerHTML;
         }
 
-        function showLoading(show) {
-            document.getElementById('loading').style.display = show ? 'flex' : 'none';
-            if (!show) document.getElementById('configContainer').style.display = 'block';
-        }
-
         function showToast(message, type) {
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
@@ -962,13 +855,16 @@
             setTimeout(() => toast.remove(), 3000);
         }
 
+        // Auto-save to localStorage on changes
         let tokenTimeout;
         document.getElementById('githubToken').addEventListener('input', () => {
             clearTimeout(tokenTimeout);
             tokenTimeout = setTimeout(validateToken, 500);
         });
 
-        loadConfig();
+        // Initialize
+        document.getElementById('configContainer').style.display = 'block';
+        loadInitialConfig();
     </script>
 </body>
 </html>
