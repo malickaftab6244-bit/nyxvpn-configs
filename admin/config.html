@@ -298,7 +298,7 @@
     <div class="container">
         <div class="header">
             <h1>⚙️ Private Proxy VPN Configuration Admin Panel</h1>
-            <p class="subtitle">Manage app features, UI settings, content, URLs, and ads</p>
+            <p class="subtitle">Manage app features, UI settings, content, URLs,Servers Management and ads</p>
             
             <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-top: 20px;">
                 <label>🔑 GitHub Personal Access Token:</label>
@@ -323,6 +323,8 @@
                 <button class="tab-btn" onclick="switchTab('urls')">🔗 URLs</button>
                 <button class="tab-btn" onclick="switchTab('ads')">📢 Ads</button>
                 <button class="tab-btn" onclick="switchTab('colors')">🎨 Colors</button>
+                <button class="tab-btn" onclick="switchTab('cache')">💾 Server Cache</button>
+
             </div>
 
             <div id="featuresTab" class="tab-content active">
@@ -383,7 +385,26 @@
                     </div>
                 </div>
             </div>
-
+            <!-- Server Cache Tab -->
+            <div id="cacheTab" class="tab-content">
+                <div class="config-card">
+                    <div class="config-header">
+                        <div>
+                            <div class="config-title">Server Cache Configuration</div>
+                            <div class="config-subtitle">Control how servers are cached for offline use</div>
+                        </div>
+                    </div>
+                    <div id="cacheSettings"></div>
+                    <div class="info-note">
+                        💡 <strong>How caching works:</strong><br>
+                        • Servers are cached locally after first fetch<br>
+                        • App loads from cache instantly on subsequent launches<br>
+                        • Cache automatically refreshes in background when stale<br>
+                        • Works offline using cached data<br>
+                        • Set max age to control how often fresh data is fetched
+                    </div>
+                </div>
+            </div>
             <div class="btn-group">
                 <button class="btn-primary" onclick="saveConfig()">💾 Save All Changes</button>
                 <button class="btn-secondary" onclick="refreshConfig()">🔄 Refresh</button>
@@ -470,6 +491,7 @@
             renderUrls();
             renderAds();
             renderColors();
+            renderCacheSettings();
         }
 
         function renderFeatures() {
@@ -759,6 +781,69 @@
                     window.previewTimeout = setTimeout(() => {
                         renderColors();
                     }, 100);
+                });
+            });
+        }
+        function renderCacheSettings() {
+            const container = document.getElementById('cacheSettings');
+            const cacheConfig = currentConfig.server_cache_config || {};
+            
+            const settings = [
+                { key: 'enabled', label: 'Enable Server Caching', type: 'checkbox', default: true, description: 'Cache servers locally for offline access' },
+                { key: 'max_age_hours', label: 'Cache Max Age (hours)', type: 'number', default: 24, min: 1, max: 168, description: 'How long cached servers remain valid' },
+                { key: 'force_refresh_on_error', label: 'Force Refresh on Error', type: 'checkbox', default: true, description: 'Refresh cache when network error occurs' },
+                { key: 'background_refresh', label: 'Background Refresh', type: 'checkbox', default: true, description: 'Refresh cache in background when stale' }
+            ];
+            
+            let html = '<div class="settings-grid">';
+            for (const setting of settings) {
+                const currentValue = cacheConfig[setting.key] ?? setting.default;
+                html += `
+                    <div class="form-group">
+                        <label>${setting.label}</label>
+                `;
+                if (setting.type === 'checkbox') {
+                    html += `
+                        <div class="checkbox-group">
+                            <input type="checkbox" data-key="${setting.key}" ${currentValue ? 'checked' : ''} style="width: auto;">
+                            <span>${setting.description}</span>
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <input type="number" data-key="${setting.key}" value="${currentValue}" min="${setting.min}" max="${setting.max}" style="width: 100%;">
+                        <div class="info-text" style="font-size: 11px; color: #999; margin-top: 4px;">${setting.description}</div>
+                    `;
+                }
+                html += `</div>`;
+            }
+            html += '</div>';
+            
+            // Add cache status info
+            html += `
+                <div style="margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 12px;">
+                    <h4 style="margin-bottom: 10px; color: #2e7d32;">📊 Cache Status Information</h4>
+                    <ul style="margin-left: 20px; color: #1b5e20; line-height: 1.6;">
+                        <li><strong>When cache is enabled:</strong> Servers are saved locally after first fetch</li>
+                        <li><strong>App launch behavior:</strong> Loads from cache instantly for faster startup</li>
+                        <li><strong>Cache expiration:</strong> After <strong>${cacheConfig.max_age_hours || 24} hours</strong>, app will fetch fresh data</li>
+                        <li><strong>Background refresh:</strong> App silently updates cache when it's half-expired</li>
+                        <li><strong>Offline support:</strong> Works even without internet using cached servers</li>
+                    </ul>
+                </div>
+            `;
+            
+            container.innerHTML = html;
+            
+            // Add event listeners
+            document.querySelectorAll('#cacheSettings input').forEach(input => {
+                input.addEventListener('change', (e) => {
+                    const key = e.target.dataset.key;
+                    let value = e.target.value;
+                    if (e.target.type === 'checkbox') value = e.target.checked;
+                    if (e.target.type === 'number') value = parseInt(value);
+                    if (!currentConfig.server_cache_config) currentConfig.server_cache_config = {};
+                    currentConfig.server_cache_config[key] = value;
                 });
             });
         }
