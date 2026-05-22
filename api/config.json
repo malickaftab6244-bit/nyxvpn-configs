@@ -103,29 +103,6 @@
     "max_retry_attempts": 3,
     "refresh_interval_minutes": 5
   },
-  "logo_config": {
-    "enabled": true,
-    "size": 80,
-    "show_shadow": true,
-    "animated": true,
-    "animation_duration_ms": 800,
-    "animation_curve": "easeOutCubic",
-    "background_gradient": {
-      "enabled": true,
-      "colors": ["#6C63FF", "#764BA2"],
-      "opacity": 0.1
-    },
-    "circle_shape": true,
-    "box_shadow": {
-      "enabled": true,
-      "blur_radius": 20,
-      "spread_radius": 5,
-      "opacity": 0.1
-    },
-    "logo_asset": "assets/images/ic_logo.png",
-    "logo_scale": 0.6,
-    "alternative_logo_url": "https://raw.githubusercontent.com/malickaftab6244-bit/nyxvpn-configs/main/ic_logo.png"
-  },
   "content": {
     "home_screen_welcome_message": "Welcome to Private Proxy VPN",
     "home_screen_subtitle": "Secure, Fast, Private",
