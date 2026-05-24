@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-05-12T07:30:05.263Z",
+  "last_updated": "2026-05-24T04:07:04.185Z",
   "servers": [
     {
       "id": "1",
@@ -155,6 +155,19 @@
       "isPremium": false,
       "isActive": false,
       "ipAddress": "219.100.37.180"
+    },
+    {
+      "id": "13",
+      "name": "USA 3",
+      "country": "United States",
+      "countryCode": "US",
+      "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/ovpn/1779595548385_us16-tcp443.ovpn",
+      "ping": 10,
+      "isPremium": false,
+      "isActive": true,
+      "username": "vpnbook",
+      "password": "ke9zw74",
+      "ipAddress": "147.135.15.16"
     }
   ]
 }
