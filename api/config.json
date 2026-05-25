@@ -1,6 +1,6 @@
 {
   "version": "1.0.1",
-  "last_updated": "2026-05-21T01:41:00.564Z",
+  "last_updated": "2026-05-25T14:50:28.720Z",
   "features": {
     "show_premium_tab": {
       "enabled": false,
@@ -31,7 +31,7 @@
       "description": "Show rating prompt after connection"
     },
     "show_connection_success_sheet": {
-      "enabled": true,
+      "enabled": false,
       "description": "Show success sheet after VPN connection"
     },
     "show_app_shortcuts": {
@@ -143,7 +143,7 @@
     "surface_light": "#FFFFFFFF",
     "surface_dark": "#1E1E2E"
   },
-   "server_cache_config": {
+  "server_cache_config": {
     "enabled": true,
     "max_age_hours": 24,
     "force_refresh_on_error": true,
