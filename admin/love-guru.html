@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FLAMES Love Calculator</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#ff416c,#ff4b2b);
+overflow:hidden;
+}
+
+.container{
+width:400px;
+padding:30px;
+background:rgba(255,255,255,0.15);
+backdrop-filter:blur(15px);
+border-radius:25px;
+box-shadow:0 8px 30px rgba(0,0,0,.3);
+text-align:center;
+color:white;
+animation:fadeIn 1s ease;
+}
+
+h1{
+font-size:32px;
+margin-bottom:10px;
+}
+
+.subtitle{
+font-size:14px;
+margin-bottom:25px;
+opacity:.8;
+}
+
+.inputBox{
+margin-bottom:18px;
+}
+
+input{
+width:100%;
+padding:14px;
+border:none;
+outline:none;
+border-radius:12px;
+font-size:15px;
+background:rgba(255,255,255,.2);
+color:white;
+}
+
+input::placeholder{
+color:rgba(255,255,255,.7);
+}
+
+button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+font-size:16px;
+font-weight:600;
+background:white;
+color:#ff416c;
+transition:.4s;
+}
+
+button:hover{
+transform:translateY(-3px);
+box-shadow:0 5px 20px rgba(255,255,255,.4);
+}
+
+.result{
+margin-top:25px;
+padding:20px;
+border-radius:20px;
+background:rgba(255,255,255,.2);
+display:none;
+animation:zoom .6s ease;
+}
+
+.result h2{
+font-size:24px;
+margin-bottom:10px;
+}
+
+.result p{
+font-size:18px;
+}
+
+.flames{
+font-size:30px;
+margin-bottom:10px;
+}
+
+@keyframes fadeIn{
+from{
+opacity:0;
+transform:translateY(30px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+@keyframes zoom{
+0%{
+transform:scale(.5);
+opacity:0;
+}
+100%{
+transform:scale(1);
+opacity:1;
+}
+}
+
+.heart{
+position:absolute;
+font-size:20px;
+animation:float 5s linear infinite;
+opacity:.5;
+}
+
+@keyframes float{
+0%{
+transform:translateY(100vh);
+opacity:0;
+}
+50%{
+opacity:1;
+}
+100%{
+transform:translateY(-100px);
+opacity:0;
+}
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<h1>❤️ FLAMES</h1>
+<p class="subtitle">Find your relationship destiny</p>
+
+<div class="inputBox">
+<input type="text" id="name1" placeholder="Enter First Name">
+</div>
+
+<div class="inputBox">
+<input type="text" id="name2" placeholder="Enter Second Name">
+</div>
+
+<button onclick="calculateFlames()">
+Calculate Love
+</button>
+
+<div class="result" id="result">
+
+<div class="flames">🔥</div>
+
+<h2 id="relation"></h2>
+
+<p id="details"></p>
+
+</div>
+
+</div>
+
+<script>
+
+const resultMap = {
+F:"🤝 Friendship",
+L:"❤️ Love",
+A:"😊 Affection",
+M:"💍 Marriage",
+E:"😡 Enemy",
+S:"👭 Sister"
+};
+
+function calculateFlames(){
+
+let name1=document.getElementById("name1")
+.value.trim()
+.replace(/\s/g,"");
+
+let name2=document.getElementById("name2")
+.value.trim()
+.replace(/\s/g,"");
+
+if(name1==="" || name2===""){
+alert("Enter both names");
+return;
+}
+
+let total=name1.length + name2.length;
+
+let flames=["F","L","A","M","E","S"];
+
+let index=0;
+
+while(flames.length>1){
+
+index=(index+total-1)%flames.length;
+
+flames.splice(index,1);
+
+}
+
+let finalLetter=flames[0];
+
+document.getElementById("result")
+.style.display="block";
+
+document.getElementById("relation")
+.innerHTML=resultMap[finalLetter];
+
+document.getElementById("details")
+.innerHTML=
+name1 + " + " + name2 + "<br>Total Letters: " + total;
+
+}
+
+
+// Floating hearts
+
+for(let i=0;i<20;i++){
+
+let heart=document.createElement("div");
+
+heart.classList.add("heart");
+
+heart.innerHTML="❤️";
+
+heart.style.left=Math.random()*100+"%";
+
+heart.style.animationDuration=
+(Math.random()*5+4)+"s";
+
+heart.style.fontSize=
+(Math.random()*20+15)+"px";
+
+document.body.appendChild(heart);
+
+}
+
+</script>
+
+</body>
+</html>
