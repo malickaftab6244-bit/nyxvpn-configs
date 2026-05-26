@@ -2,11 +2,10 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>FLAMES Love Calculator</title>
+<title>❤️ FLAMES Love Calculator</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
@@ -16,7 +15,7 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Poppins,sans-serif;
+font-family:'Poppins',sans-serif;
 }
 
 body{
@@ -25,55 +24,62 @@ display:flex;
 justify-content:center;
 align-items:center;
 padding:30px;
+overflow:hidden;
 background:linear-gradient(135deg,#ff416c,#ff4b2b);
-overflow-x:hidden;
+position:relative;
 }
 
 .container{
 
-width:450px;
-padding:30px;
-border-radius:25px;
+width:420px;
+padding:35px;
+border-radius:30px;
 
 background:rgba(255,255,255,.15);
 
 backdrop-filter:blur(15px);
 
-box-shadow:0 8px 30px rgba(0,0,0,.3);
+box-shadow:
+0 10px 35px rgba(0,0,0,.3);
 
 text-align:center;
 
 color:white;
 
 z-index:10;
-
 }
 
 h1{
+font-size:34px;
 margin-bottom:10px;
 }
 
 .subtitle{
-margin-bottom:20px;
-opacity:.8;
+margin-bottom:25px;
+opacity:.85;
+font-size:14px;
+}
+
+.inputBox{
+margin-bottom:18px;
 }
 
 input{
 
 width:100%;
-padding:14px;
+padding:15px;
 
 border:none;
-
 outline:none;
 
-margin-bottom:15px;
+border-radius:15px;
 
-border-radius:12px;
+font-size:15px;
 
 background:rgba(255,255,255,.2);
 
 color:white;
+
 }
 
 input::placeholder{
@@ -85,143 +91,160 @@ color:rgba(255,255,255,.7);
 button{
 
 width:100%;
-padding:14px;
+padding:15px;
 
 border:none;
 
-border-radius:12px;
+border-radius:15px;
 
 cursor:pointer;
 
-font-weight:bold;
-
 font-size:16px;
+
+font-weight:700;
 
 background:white;
 
 color:#ff416c;
+
+transition:.4s;
+
+}
+
+button:hover{
+
+transform:translateY(-4px);
+
+box-shadow:
+0 10px 20px rgba(255,255,255,.4);
 
 }
 
 button:disabled{
 
-opacity:.5;
+opacity:.6;
 
 cursor:not-allowed;
 
 }
 
-.processBox{
-
-margin-top:20px;
-
-padding:20px;
-
-border-radius:20px;
-
-background:rgba(255,255,255,.1);
+.result{
 
 display:none;
 
+margin-top:25px;
+
+padding:25px;
+
+border-radius:25px;
+
+background:rgba(255,255,255,.18);
+
+animation:resultPop .8s;
+
+position:relative;
+
+overflow:hidden;
 }
 
-.flamesDisplay{
+.resultEmoji{
 
-display:flex;
+font-size:60px;
 
-justify-content:center;
-
-gap:12px;
-
-margin:20px 0;
-
-flex-wrap:wrap;
-
+animation:pulse 1s infinite;
 }
 
-.letter{
+#relation{
 
-width:50px;
-
-height:50px;
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-background:rgba(255,255,255,.2);
-
-border-radius:50%;
-
-font-size:22px;
-
+margin:15px 0;
+font-size:30px;
 font-weight:bold;
 
-transition:.5s;
+}
+
+#details{
+
+font-size:15px;
+
+opacity:.9;
+}
+
+@keyframes resultPop{
+
+0%{
+
+opacity:0;
+
+transform:
+scale(.3)
+rotate(-10deg);
 
 }
 
-.active{
+100%{
 
-background:white;
+opacity:1;
 
-color:#ff416c;
+transform:
+scale(1)
+rotate(0deg);
+
+}
+
+}
+
+@keyframes pulse{
+
+0%{
+
+transform:scale(1);
+
+}
+
+50%{
 
 transform:scale(1.2);
 
 }
 
-.removed{
+100%{
 
-background:red;
-
-transform:scale(.5);
-
-opacity:.2;
+transform:scale(1);
 
 }
 
-#stepText{
-
-min-height:45px;
-
-line-height:25px;
-
 }
 
-.result{
+.burst{
 
-margin-top:20px;
+position:absolute;
+font-size:20px;
 
-padding:20px;
-
-display:none;
-
-border-radius:20px;
-
-background:rgba(255,255,255,.2);
-
-animation:zoom .6s;
-
+animation:burst 2s forwards;
 }
 
-@keyframes zoom{
+@keyframes burst{
 
-from{
-
-opacity:0;
-
-transform:scale(.5);
-
-}
-
-to{
+0%{
 
 opacity:1;
 
-transform:scale(1);
+transform:
+translate(0,0)
+scale(.5);
+
+}
+
+100%{
+
+opacity:0;
+
+transform:
+translate(
+var(--x),
+var(--y)
+)
+scale(2);
 
 }
 
@@ -241,7 +264,8 @@ animation:float linear infinite;
 
 0%{
 
-transform:translateY(100vh);
+transform:
+translateY(100vh);
 
 opacity:0;
 
@@ -255,7 +279,8 @@ opacity:1;
 
 100%{
 
-transform:translateY(-100px);
+transform:
+translateY(-100px);
 
 opacity:0;
 
@@ -275,20 +300,20 @@ opacity:0;
 <h1>❤️ FLAMES</h1>
 
 <p class="subtitle">
-
 Find your relationship destiny
-
 </p>
 
-
+<div class="inputBox">
 <input
 id="name1"
 placeholder="Enter First Name">
+</div>
 
+<div class="inputBox">
 <input
 id="name2"
 placeholder="Enter Second Name">
-
+</div>
 
 <button
 id="btn"
@@ -300,25 +325,16 @@ Calculate Love
 
 
 <div
-class="processBox"
-id="processBox">
-
-<h3>FLAMES Process</h3>
-
-<div
-class="flamesDisplay"
-id="flamesDisplay">
-
-</div>
-
-<div id="stepText"></div>
-
-</div>
-
-
-<div
 class="result"
 id="result">
+
+<div
+class="resultEmoji"
+id="emoji">
+
+❤️
+
+</div>
 
 <h2 id="relation"></h2>
 
@@ -333,62 +349,107 @@ id="result">
 
 const resultMap={
 
-F:"🤝 Friendship",
-L:"❤️ Love",
-A:"😊 Affection",
-M:"💍 Marriage",
-E:"😡 Enemy",
-S:"👭 Sister"
+F:{
+text:"Friendship",
+emoji:"🤝"
+},
+
+L:{
+text:"Love",
+emoji:"❤️"
+},
+
+A:{
+text:"Affection",
+emoji:"😊"
+},
+
+M:{
+text:"Marriage",
+emoji:"💍"
+},
+
+E:{
+text:"Enemy",
+emoji:"😡"
+},
+
+S:{
+text:"Sister",
+emoji:"👭"
+}
 
 };
 
 
-function sleep(ms){
+function createBurst(){
 
-return new Promise(
-r=>setTimeout(r,ms)
+const result=
+document.getElementById(
+"result"
 );
 
+for(let i=0;i<12;i++){
+
+let item=
+document.createElement(
+"div"
+);
+
+item.className=
+"burst";
+
+item.innerHTML="❤️";
+
+item.style.left="50%";
+item.style.top="50%";
+
+item.style.setProperty(
+"--x",
+(Math.random()*300-150)+"px"
+);
+
+item.style.setProperty(
+"--y",
+(Math.random()*300-150)+"px"
+);
+
+result.appendChild(item);
+
+setTimeout(()=>{
+
+item.remove();
+
+},2000);
+
+}
+
 }
 
 
-function draw(flames){
+function calculateFlames(){
 
-let html="";
-
-flames.forEach(letter=>{
-
-html+=`
-<div class="letter">
-${letter}
-</div>
-`;
-
-});
-
+let btn=
 document.getElementById(
-"flamesDisplay"
-).innerHTML=html;
-
-}
-
-
-
-async function calculateFlames(){
-
-const btn=
-document.getElementById("btn");
+"btn"
+);
 
 btn.disabled=true;
 
 let name1=
-document.getElementById("name1")
+document
+.getElementById(
+"name1"
+)
 .value
 .trim()
 .replace(/\s/g,'');
 
 let name2=
-document.getElementById("name2")
+document
+.getElementById(
+"name2"
+)
 .value
 .trim()
 .replace(/\s/g,'');
@@ -396,12 +457,13 @@ document.getElementById("name2")
 
 if(!name1||!name2){
 
-alert("Enter both names");
+alert(
+"Please enter both names"
+);
 
 btn.disabled=false;
 
 return;
-
 }
 
 
@@ -410,146 +472,86 @@ name1.length+
 name2.length;
 
 
-document.getElementById(
-"processBox"
-).style.display="block";
-
-document.getElementById(
-"result"
-).style.display="none";
+let flames=
+["F","L","A","M","E","S"];
 
 
-let flames=[
-"F",
-"L",
-"A",
-"M",
-"E",
-"S"
-];
-
-
-let step=
-document.getElementById(
-"stepText"
-);
-
-step.innerHTML=
-`Total letters = ${total}`;
-
+/* YOUR RULE */
 
 while(
 flames.length>1
 ){
 
-draw(flames);
-
-let removeIndex=0;
-
-
-/* Restart count from beginning */
-
-for(
-let count=1;
-count<=total;
-count++
-){
-
-let letters=
-document.querySelectorAll(
-".letter"
-);
-
-letters.forEach(x=>
-x.classList.remove(
-"active"
-)
-);
-
-removeIndex=
-(count-1)
+let removeIndex=
+(total-1)
 %
 flames.length;
-
-letters[
-removeIndex
-]
-.classList.add(
-"active"
-);
-
-step.innerHTML=
-`Counting ${count}/${total}`;
-
-await sleep(500);
-
-}
-
-
-/* Remove */
-
-let letters=
-document.querySelectorAll(
-".letter"
-);
-
-letters[
-removeIndex
-]
-.classList.add(
-"removed"
-);
-
-step.innerHTML=
-`❌ Removed : ${flames[removeIndex]}`;
-
-await sleep(1000);
-
 
 flames.splice(
 removeIndex,
 1
 );
 
-step.innerHTML=
-`Remaining : ${flames.join(" ")}`;
-
-await sleep(1000);
-
 }
 
 
-document.getElementById(
-"result"
-).style.display="block";
-
-document.getElementById(
-"relation"
-).innerHTML=
+let final=
 resultMap[
 flames[0]
 ];
 
+
+let result=
+document.getElementById(
+"result"
+);
+
+result.style.display=
+"block";
+
+result.style.animation=
+"none";
+
+result.offsetHeight;
+
+result.style.animation=
+"resultPop .8s";
+
+
+document.getElementById(
+"emoji"
+)
+.innerHTML=
+final.emoji;
+
+document.getElementById(
+"relation"
+)
+.innerHTML=
+final.text;
+
 document.getElementById(
 "details"
-).innerHTML=
+)
+.innerHTML=
 `
 ${name1} ❤️ ${name2}
 <br><br>
-Total Letters:
-${total}
+Total letters: ${total}
 `;
+
+createBurst();
 
 btn.disabled=false;
 
 }
 
 
-/* Floating hearts */
+/* floating hearts */
 
 for(
 let i=0;
-i<20;
+i<25;
 i++
 ){
 
@@ -568,10 +570,10 @@ heart.style.left=
 Math.random()*100+"%";
 
 heart.style.fontSize=
-(Math.random()*20+15)+"px";
+(Math.random()*20+10)+"px";
 
 heart.style.animationDuration=
-(Math.random()*6+4)+"s";
+(Math.random()*8+5)+"s";
 
 document.body.appendChild(
 heart
@@ -582,5 +584,4 @@ heart
 </script>
 
 </body>
-
 </html>
