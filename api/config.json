@@ -1,9 +1,9 @@
 {
   "version": "1.0.1",
-  "last_updated": "2026-06-05T00:44:38.768Z",
+  "last_updated": "2026-06-05T00:47:02.881Z",
   "features": {
     "show_premium_tab": {
-      "enabled": true,
+      "enabled": false,
       "description": "Show premium tab in bottom navigation"
     },
     "is_subscription_enabled": {
@@ -43,7 +43,7 @@
       "description": "Enable pull-to-refresh on server list"
     },
     "enable_server_search": {
-      "enabled": true,
+      "enabled": false,
       "description": "Enable server search functionality"
     },
     "enable_server_filters": {
@@ -79,7 +79,7 @@
       "description": "Enable dark/light mode toggle"
     },
     "enable_language_switch": {
-      "enabled": false,
+      "enabled": true,
       "description": "Enable language selection in settings"
     },
     "enable_notifications": {
