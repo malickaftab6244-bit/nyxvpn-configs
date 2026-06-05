@@ -1,0 +1,45 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2026-06-05T00:00:00Z",
+  "servers": [
+    {
+      "id": "1",
+      "name": "Germany WireGuard 1",
+      "country": "Germany",
+      "countryCode": "DE",
+      "config_url": "https://malickaftab6244-bit.github.io/nyxvpn-configs/wirguard/germany_server1.conf",
+      "endpoint": "51.75.145.20:443",
+      "ping": 5,
+      "isPremium": false,
+      "isActive": true,
+      "ipAddress": "51.75.145.20",
+      "protocol": "wireguard"
+    },
+    {
+      "id": "2",
+      "name": "Germany WireGuard 2",
+      "country": "Germany",
+      "countryCode": "DE",
+      "config_url": "https://malickaftab6244-bit.github.io/nyxvpn-configs/wirguard/germany_server2.conf",
+      "endpoint": "51.75.145.21:443",
+      "ping": 8,
+      "isPremium": false,
+      "isActive": true,
+      "ipAddress": "51.75.145.21",
+      "protocol": "wireguard"
+    },
+    {
+      "id": "3",
+      "name": "United States WireGuard 1",
+      "country": "United States",
+      "countryCode": "US",
+      "config_url": "https://malickaftab6244-bit.github.io/nyxvpn-configs/wirguard/us_server1.conf",
+      "endpoint": "104.18.10.10:51820",
+      "ping": 15,
+      "isPremium": true,
+      "isActive": true,
+      "ipAddress": "104.18.10.10",
+      "protocol": "wireguard"
+    }
+  ]
+}
