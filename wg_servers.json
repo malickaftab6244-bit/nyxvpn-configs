@@ -12,7 +12,7 @@
       "ping": 5,
       "isPremium": false,
       "isActive": true,
-      "ipAddress": "51.75.145.20",
+      "ipAddress": "10.104.4.12",
       "protocol": "wireguard"
     },
     {
@@ -33,7 +33,7 @@
       "name": "United States WireGuard 1",
       "country": "United States",
       "countryCode": "US",
-      "config_url": "https://malickaftab6244-bit.github.io/nyxvpn-configs/wirguard/us_server1.conf",
+      "config_url": "https://malickaftab6244-bit.github.io/nyxvpn-configs/wirguard/usa_server1.conf",
       "endpoint": "104.18.10.10:51820",
       "ping": 15,
       "isPremium": true,
