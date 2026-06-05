@@ -1,6 +1,6 @@
 {
   "version": "1.0.1",
-  "last_updated": "2026-05-25T14:50:28.720Z",
+  "last_updated": "2026-06-05T00:39:56.392Z",
   "features": {
     "show_premium_tab": {
       "enabled": false,
@@ -144,9 +144,9 @@
     "surface_dark": "#1E1E2E"
   },
   "server_cache_config": {
-    "enabled": true,
-    "max_age_hours": 24,
+    "enabled": false,
+    "max_age_hours": 1,
     "force_refresh_on_error": true,
-    "background_refresh": true
+    "background_refresh": false
   }
 }
