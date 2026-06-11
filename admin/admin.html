@@ -3,8 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Private Proxy VPN Admin Panel</title>
+    <title>Private Proxy VPN Admin Console</title>
+    <!-- Outfit Font & JetBrains Mono for a highly premium look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0b0f19 0%, #111827 100%);
+            --card-bg: rgba(17, 24, 39, 0.7);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --primary-glow: rgba(99, 102, 241, 0.15);
+            --success: #10b981;
+            --success-glow: rgba(16, 185, 129, 0.15);
+            --danger: #ef4444;
+            --danger-glow: rgba(239, 68, 68, 0.15);
+            --warning: #f59e0b;
+            --warning-glow: rgba(245, 158, 11, 0.15);
+            --info: #06b6d4;
+            --info-glow: rgba(6, 182, 212, 0.15);
+            --border-radius-lg: 16px;
+            --border-radius-md: 10px;
+            --transition-speed: 0.25s;
+            --input-bg: rgba(15, 23, 42, 0.4);
+            --header-glow: rgba(99, 102, 241, 0.15);
+            --overlay-bg: rgba(11, 15, 25, 0.85);
+            --toast-bg: rgba(17, 24, 39, 0.95);
+        }
+
+        [data-theme="light"] {
+            --bg-gradient: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            --card-bg: rgba(255, 255, 255, 0.75);
+            --card-border: rgba(15, 23, 42, 0.08);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --primary-glow: rgba(79, 70, 229, 0.12);
+            --success: #059669;
+            --success-glow: rgba(5, 150, 105, 0.12);
+            --danger: #dc2626;
+            --danger-glow: rgba(220, 38, 38, 0.12);
+            --warning: #d97706;
+            --warning-glow: rgba(217, 119, 6, 0.12);
+            --info: #0891b2;
+            --info-glow: rgba(8, 145, 178, 0.12);
+            --input-bg: rgba(255, 255, 255, 0.85);
+            --header-glow: rgba(79, 70, 229, 0.08);
+            --overlay-bg: rgba(241, 245, 249, 0.85);
+            --toast-bg: rgba(255, 255, 255, 0.95);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,432 +65,1176 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
             min-height: 100vh;
-            padding: 20px;
+            padding: 30px 20px;
+            line-height: 1.5;
+            overflow-x: hidden;
+            transition: background var(--transition-speed), color var(--transition-speed);
         }
         
+        /* Glassmorphism utility */
+        .glass {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: var(--border-radius-lg);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transition: background var(--transition-speed), border var(--transition-speed), box-shadow var(--transition-speed);
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
         }
         
+        /* Header styling */
         .header {
-            background: white;
-            border-radius: 20px;
             padding: 30px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -10%;
+            width: 300px;
+            height: 300px;
+            background: var(--primary);
+            filter: blur(120px);
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+        }
+
+        .title-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
         }
         
         h1 {
-            color: #333;
-            margin-bottom: 10px;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(to right, var(--text-primary), var(--text-secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, #818cf8 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
         .subtitle {
-            color: #666;
-            margin-bottom: 20px;
+            color: var(--text-secondary);
+            font-size: 15px;
+            margin-top: 6px;
+            font-weight: 400;
         }
-        
-        .github-section {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-            border: 1px solid #dee2e6;
+
+        /* Theme Toggle Button */
+        .theme-toggle-btn {
+            background: var(--card-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius-md);
+            padding: 8px 14px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all var(--transition-speed);
         }
-        
-        .github-section h3 {
-            margin-bottom: 10px;
-            color: #333;
+
+        .theme-toggle-btn:hover {
+            background: var(--primary-glow);
+            border-color: var(--primary);
         }
-        
+
+        /* GitHub Auth Box */
+        .auth-container {
+            width: 100%;
+            max-width: 450px;
+            padding: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .auth-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .auth-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .github-token-wrapper {
+            position: relative;
+            display: flex;
+            gap: 8px;
+        }
+
+        .github-token-input {
+            width: 100%;
+            padding: 10px 14px;
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius-md);
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            transition: all var(--transition-speed);
+        }
+
+        .github-token-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-glow);
+        }
+
+        ::placeholder {
+            color: var(--text-secondary);
+            opacity: 0.5;
+        }
+
+        .btn-auth {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-md);
+            padding: 0 16px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            white-space: nowrap;
+        }
+
+        .btn-auth:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
         .token-status {
             margin-top: 10px;
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 13px;
+            padding: 8px 12px;
+            border-radius: var(--border-radius-md);
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: fadeIn 0.3s ease;
         }
         
         .token-status.valid {
-            background: #d4edda;
-            color: #155724;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
         }
         
         .token-status.invalid {
-            background: #f8d7da;
-            color: #721c24;
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+
+        /* Stats Cards Dashboard */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .stat-card {
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            transition: transform var(--transition-speed);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .stat-info h4 {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-info .value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-top: 6px;
+            color: var(--text-primary);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--card-border);
+        }
+
+        .stat-card.primary .stat-icon {
+            color: var(--primary);
+            background: var(--primary-glow);
         }
         
-        .github-token-input {
+        .stat-card.success .stat-icon {
+            color: var(--success);
+            background: var(--success-glow);
+        }
+
+        .stat-card.warning .stat-icon {
+            color: var(--warning);
+            background: var(--warning-glow);
+        }
+
+        .stat-card.info .stat-icon {
+            color: var(--info);
+            background: var(--info-glow);
+        }
+
+        /* Toolbar Filter Area */
+        .toolbar {
+            padding: 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .search-input {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            margin-top: 10px;
-            font-family: monospace;
+            padding: 10px 14px 10px 40px;
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius-md);
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all var(--transition-speed);
         }
-        
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-glow);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            pointer-events: none;
+        }
+
+        .filter-select {
+            padding: 10px 14px;
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius-md);
+            color: var(--text-primary);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            min-width: 150px;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .btn-add-toggle {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius-md);
+            padding: 10px 20px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all var(--transition-speed);
+        }
+
+        .btn-add-toggle:hover {
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+            transform: translateY(-1px);
+        }
+
+        /* Server Grid layout */
         .servers-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(550px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(650px, 1fr));
+            gap: 24px;
         }
         
         .server-card {
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transition: all var(--transition-speed);
+            position: relative;
         }
         
         .server-card:hover {
-            transform: translateY(-5px);
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 12px 40px var(--shadow-color);
         }
         
         .server-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--card-border);
+        }
+        
+        .server-title-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .flag-icon {
+            width: 32px;
+            height: 24px;
+            border-radius: 4px;
+            object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .server-title {
             font-size: 18px;
-            font-weight: bold;
-            color: #333;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .badge-premium {
+            background: var(--warning-glow);
+            color: var(--warning);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-free {
+            background: var(--info-glow);
+            color: var(--info);
+            border: 1px solid rgba(6, 182, 212, 0.25);
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
         
         .server-status {
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 11px;
-            font-weight: bold;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
         
         .status-active {
-            background: #d4edda;
-            color: #155724;
+            background: var(--success-glow);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.25);
         }
         
         .status-inactive {
-            background: #f8d7da;
-            color: #721c24;
+            background: var(--danger-glow);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.25);
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+            display: inline-block;
         }
         
         .form-group {
-            margin-bottom: 12px;
+            margin-bottom: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
         
         label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 500;
-            color: #555;
-            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
-        input, select, textarea {
+        input, select {
             width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 13px;
+            padding: 10px 14px;
+            background: var(--input-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius-md);
+            font-size: 14px;
+            color: var(--text-primary);
+            transition: all var(--transition-speed);
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-glow);
         }
         
         input[type="checkbox"] {
-            width: auto;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--primary);
         }
         
         .checkbox-group {
             display: flex;
             align-items: center;
             gap: 10px;
+            user-select: none;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            text-transform: none;
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text-primary);
+            cursor: pointer;
+            letter-spacing: 0;
         }
         
         .button-group {
             display: flex;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 12px;
+            margin-top: 10px;
         }
         
         button {
             padding: 10px 20px;
             border: none;
-            border-radius: 8px;
-            font-weight: bold;
+            border-radius: var(--border-radius-md);
+            font-weight: 600;
+            font-size: 14px;
             cursor: pointer;
-            transition: opacity 0.2s;
-            font-size: 13px;
-        }
-        
-        button:hover {
-            opacity: 0.9;
+            transition: all var(--transition-speed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
         
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
             color: white;
             flex: 1;
         }
         
+        .btn-primary:hover {
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.25);
+            transform: translateY(-1px);
+        }
+        
         .btn-secondary {
-            background: #6c757d;
-            color: white;
+            background: var(--card-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--card-border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-glow);
         }
         
         .btn-danger {
-            background: #dc3545;
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
+        
+        .btn-danger:hover {
+            background: var(--danger);
             color: white;
+            transform: translateY(-1px);
         }
         
         .btn-success {
-            background: #28a745;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: white;
+        }
+
+        .btn-success:hover {
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+            transform: translateY(-1px);
         }
         
         .add-server, .upload-section {
-            background: white;
-            border-radius: 20px;
-            padding: 25px;
-            margin-top: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            padding: 30px;
+            position: relative;
         }
         
         .add-server h3, .upload-section h3 {
+            font-size: 20px;
+            font-weight: 700;
             margin-bottom: 20px;
-            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            gap: 20px;
+            margin-bottom: 16px;
+        }
+
+        .form-row-three {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 16px;
         }
         
         .loading {
             text-align: center;
-            padding: 40px;
-            color: white;
+            padding: 60px 40px;
+            font-size: 16px;
+            color: var(--text-secondary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(99, 102, 241, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
         }
         
-        .toast {
+        /* Fullscreen Overlay Loader */
+        .overlay-loader {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #333;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 10px;
-            animation: slideIn 0.3s ease;
-            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--overlay-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .overlay-loader.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .overlay-spinner {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            border-bottom-color: var(--primary);
+            animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+            position: relative;
+        }
+
+        .overlay-spinner::after {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border: 4px solid transparent;
+            border-radius: 50%;
+            border-left-color: var(--info);
+            border-right-color: var(--info);
+            animation: spin-reverse 0.6s linear infinite;
+        }
+
+        .overlay-message {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+            letter-spacing: 0.5px;
+            text-align: center;
+            max-width: 80%;
         }
         
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+        /* Toast notification */
+        .toast-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 9999;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: var(--toast-bg);
+            border: 1px solid var(--card-border);
+            color: var(--text-primary);
+            padding: 16px 20px;
+            border-radius: var(--border-radius-md);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 300px;
+            max-width: 450px;
+            pointer-events: auto;
+            transform: translateX(120%);
+            opacity: 0;
+            transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
         }
         
-        .success {
-            background: #28a745;
+        .toast.success {
+            border-left: 4px solid var(--success);
         }
         
-        .error {
-            background: #dc3545;
+        .toast.error {
+            border-left: 4px solid var(--danger);
         }
-        
-        .info-text {
-            font-size: 12px;
-            color: #666;
-            margin-top: 5px;
+
+        .toast.info {
+            border-left: 4px solid var(--info);
+        }
+
+        .toast-icon {
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .config-url-preview {
-            font-size: 11px;
-            color: #667eea;
+            font-size: 12px;
+            color: var(--text-secondary);
             word-break: break-all;
-            margin-top: 5px;
-            background: #f8f9fa;
-            padding: 5px;
+            margin-top: 6px;
+            background: var(--input-bg);
+            padding: 8px 12px;
+            border-radius: var(--border-radius-md);
+            font-family: 'JetBrains Mono', monospace;
+            border: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .config-url-preview span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .config-url-preview button {
+            padding: 4px 8px;
+            font-size: 11px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
             border-radius: 4px;
-            font-family: monospace;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        .config-url-preview button:hover {
+            background: var(--primary-glow);
         }
         
         .error-message {
-            background: #f8d7da;
-            color: #721c24;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 20px;
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            padding: 20px;
+            border-radius: var(--border-radius-lg);
             text-align: center;
+            max-width: 600px;
+            margin: 40px auto;
+        }
+
+        .error-message h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            font-weight: 700;
         }
         
+        /* Upload Area redesign */
         .upload-area {
-            border: 2px dashed #ddd;
-            border-radius: 10px;
-            padding: 20px;
+            border: 2px dashed var(--card-border);
+            border-radius: var(--border-radius-lg);
+            padding: 35px 20px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all var(--transition-speed);
+            background: var(--input-bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
         }
         
         .upload-area:hover {
-            border-color: #667eea;
-            background: #f8f9fa;
+            border-color: var(--primary);
+            background: var(--primary-glow);
         }
         
         .upload-area.dragover {
-            border-color: #28a745;
-            background: #d4edda;
+            border-color: var(--success);
+            background: var(--success-glow);
+            transform: scale(1.01);
+        }
+
+        .upload-icon {
+            font-size: 32px;
+            color: var(--text-secondary);
+        }
+
+        .upload-area:hover .upload-icon {
+            color: var(--primary);
         }
         
         .file-info {
-            margin-top: 10px;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 8px;
+            margin-top: 15px;
+            padding: 16px;
+            background: var(--success-glow);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: var(--border-radius-lg);
+            font-size: 13px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .file-info-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .file-info-body {
+            word-break: break-all;
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 8px 12px;
+            border-radius: var(--border-radius-md);
             font-size: 12px;
+            border: 1px solid var(--card-border);
+        }
+
+        /* Progress Bar wrapper */
+        .progress-bar-wrapper {
+            margin-top: 15px;
+            background: var(--input-bg);
+            padding: 16px;
+            border-radius: var(--border-radius-md);
+            border: 1px solid var(--card-border);
+        }
+
+        progress {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            border: none;
+            background: var(--card-border);
+        }
+
+        progress::-webkit-progress-bar {
+            background: var(--card-border);
+        }
+
+        progress::-webkit-progress-value {
+            background: linear-gradient(to right, var(--primary), var(--info));
+            border-radius: 4px;
+        }
+
+        progress::-moz-progress-bar {
+            background: linear-gradient(to right, var(--primary), var(--info));
+            border-radius: 4px;
         }
         
         .optional-badge {
             font-size: 10px;
-            color: #999;
+            color: var(--text-secondary);
+            background: var(--card-border);
+            padding: 1px 6px;
+            border-radius: 4px;
             font-weight: normal;
-            margin-left: 5px;
+            margin-left: 6px;
+            border: 1px solid var(--card-border);
+        }
+
+        /* Read-only stats layout */
+        .card-row-data {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .card-row-data:last-child {
+            border-bottom: none;
+        }
+
+        .card-row-data span {
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+
+        .card-row-data strong {
+            color: var(--text-primary);
+            font-size: 13px;
         }
         
-        @media (max-width: 768px) {
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes spin-reverse {
+            0% { transform: rotate(360deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
             .servers-grid {
                 grid-template-columns: 1fr;
             }
-            .form-row {
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px 10px;
+            }
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 20px;
+            }
+            .auth-container {
+                max-width: 100%;
+            }
+            .stats-grid {
                 grid-template-columns: 1fr;
+            }
+            .form-row, .form-row-three {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .btn-add-toggle {
+                margin-left: 0;
+                justify-content: center;
+            }
+            .title-row {
+                justify-content: space-between;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>🛡️ Private Proxy VPN Server Admin Panel</h1>
-            <p class="subtitle">Manage your VPN servers - Update, Add, or Remove servers instantly</p>
+        <!-- Dashboard Header & Credentials Box -->
+        <div class="header glass">
+            <div class="header-content">
+                <div class="title-row">
+                    <h1>🛡️ <span>Private Proxy VPN</span> Server Console</h1>
+                    <button id="themeToggle" class="theme-toggle-btn" onclick="toggleTheme()" title="Toggle Theme">
+                        ☀️ Light Mode
+                    </button>
+                </div>
+                <p class="subtitle">Secure, professional administrative interface to update and sync VPN configs</p>
+            </div>
             
-            <div class="github-section">
-                <h3>🔑 GitHub Authentication Required</h3>
-                <p>Enter your GitHub Personal Access Token to edit servers. This token needs <strong>'repo'</strong> scope.</p>
-                <input type="password" id="githubToken" class="github-token-input" placeholder="Enter your GitHub token (starts with ghp_)" autocomplete="off">
+            <div class="auth-container glass">
+                <div class="auth-header">
+                    <span>🔑</span>
+                    <h3>GitHub Personal Access Token</h3>
+                </div>
+                <div class="github-token-wrapper">
+                    <input type="password" id="githubToken" class="github-token-input" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+                    <button class="btn-auth" id="btnAuth" onclick="validateToken()">Connect</button>
+                </div>
                 <div id="tokenStatus" class="token-status" style="display: none;"></div>
-                <div class="info-text">
-                    💡 Don't have a token? 
-                    <a href="https://github.com/settings/tokens/new?scopes=repo&description=Private Proxy VPN%20Admin" target="_blank" style="color: #667eea;">
-                        Click here to create one
-                    </a>
+            </div>
+        </div>
+
+        <!-- Dashboard Analytics Stats Counters -->
+        <div class="stats-grid">
+            <div class="stat-card glass primary">
+                <div class="stat-info">
+                    <h4>Total Servers</h4>
+                    <div class="value" id="statTotal">0</div>
                 </div>
+                <div class="stat-icon">🌐</div>
+            </div>
+            <div class="stat-card glass success">
+                <div class="stat-info">
+                    <h4>Active Servers</h4>
+                    <div class="value" id="statActive">0</div>
+                </div>
+                <div class="stat-icon">🟢</div>
+            </div>
+            <div class="stat-card glass warning">
+                <div class="stat-info">
+                    <h4>Premium Servers</h4>
+                    <div class="value" id="statPremium">0</div>
+                </div>
+                <div class="stat-icon">⭐</div>
+            </div>
+            <div class="stat-card glass info">
+                <div class="stat-info">
+                    <h4>Free Servers</h4>
+                    <div class="value" id="statFree">0</div>
+                </div>
+                <div class="stat-icon">🎁</div>
             </div>
         </div>
         
-        <div id="loading" class="loading" style="display: none;">
-            <div>⏳ Loading servers...</div>
+        <!-- Filter and Search Toolbar -->
+        <div class="toolbar glass">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" class="search-input" placeholder="Search servers by name, country, or IP..." oninput="filterServers()">
+            </div>
+            <select id="statusFilter" class="filter-select" onchange="filterServers()">
+                <option value="all">All Statuses</option>
+                <option value="active">Active Only</option>
+                <option value="inactive">Inactive Only</option>
+            </select>
+            <select id="typeFilter" class="filter-select" onchange="filterServers()">
+                <option value="all">All Types</option>
+                <option value="free">Free Servers</option>
+                <option value="premium">Premium Servers</option>
+            </select>
+            <button class="btn-add-toggle" id="btnAddToggle" onclick="toggleAddServerSection()" style="display: none;">
+                <span id="addToggleIcon">➕</span> <span id="addToggleText">Add Server</span>
+            </button>
         </div>
-        
-        <div id="servers-container"></div>
-        
-        <div class="upload-section" id="uploadSection" style="display: none;">
-            <h3>📁 Upload OVPN File</h3>
+
+        <!-- File Upload Section (Visible when authenticated) -->
+        <div class="upload-section glass" id="uploadSection" style="display: none;">
+            <h3>📂 Upload OVPN File</h3>
             <div class="upload-area" id="uploadArea">
-                <p>📂 Drag & drop your .ovpn file here or click to select</p>
+                <div class="upload-icon">📤</div>
+                <p>Drag & drop your <strong>.ovpn</strong> file here or click to browse</p>
                 <input type="file" id="fileInput" accept=".ovpn" style="display: none;">
-                <button type="button" class="btn-secondary" onclick="document.getElementById('fileInput').click()">Choose File</button>
+                <button type="button" class="btn-secondary" onclick="document.getElementById('fileInput').click()">Select Config File</button>
             </div>
-            <div id="uploadProgress" style="display: none; margin-top: 10px;">
-                <progress id="progressBar" value="0" max="100" style="width: 100%; height: 20px;"></progress>
-                <p id="uploadStatus" style="margin-top: 5px; font-size: 12px;"></p>
+            
+            <div class="progress-bar-wrapper" id="uploadProgress" style="display: none;">
+                <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom: 6px;">
+                    <span id="uploadStatus">Uploading to repository...</span>
+                    <span id="uploadPercent">0%</span>
+                </div>
+                <progress id="progressBar" value="0" max="100"></progress>
             </div>
-            <div id="uploadResult" style="margin-top: 10px; display: none;">
+            
+            <div id="uploadResult" style="display: none;">
                 <div class="file-info">
-                    <strong>✅ File uploaded successfully!</strong><br>
-                    <span id="fileUrl"></span>
-                    <button class="btn-success" onclick="copyToClipboard()" style="margin-top: 10px; padding: 5px 10px;">📋 Copy URL</button>
+                    <div class="file-info-header">
+                        <span>✅</span> File uploaded and compiled to CDN!
+                    </div>
+                    <div class="file-info-body" id="fileUrl"></div>
+                    <button class="btn-success" onclick="copyToClipboard()" style="align-self: flex-start; padding: 6px 14px; font-size: 13px;">📋 Copy CDN URL</button>
                 </div>
             </div>
         </div>
-        
-        <div class="add-server" id="addServerSection" style="display: none;">
-            <h3>➕ Add New Server</h3>
+
+        <!-- Add Server Panel (Visible when authenticated) -->
+        <div class="add-server glass" id="addServerSection" style="display: none;">
+            <h3>➕ Register New VPN Server</h3>
             <form id="addServerForm">
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Server Name:</label>
-                        <input type="text" id="newName" required placeholder="e.g., USA - New York">
+                        <label>Server Name</label>
+                        <input type="text" id="newName" required placeholder="e.g., Germany - Munich 1">
                     </div>
                     <div class="form-group">
-                        <label>Country:</label>
-                        <input type="text" id="newCountry" required placeholder="e.g., United States">
+                        <label>Country</label>
+                        <input type="text" id="newCountry" required placeholder="e.g., Germany">
                     </div>
                 </div>
                 
-                <div class="form-row">
+                <div class="form-row-three">
                     <div class="form-group">
-                        <label>Country Code (2 letters):</label>
-                        <input type="text" id="newCountryCode" maxlength="2" required placeholder="e.g., US">
+                        <label>Country Code (2 Letters)</label>
+                        <input type="text" id="newCountryCode" maxlength="2" required placeholder="e.g., DE">
                     </div>
                     <div class="form-group">
-                        <label>IP Address <span class="optional-badge">(optional)</span>:</label>
-                        <input type="text" id="newIpAddress" placeholder="e.g., 45.33.84.111">
+                        <label>IP Address <span class="optional-badge">Optional</span></label>
+                        <input type="text" id="newIpAddress" placeholder="e.g., 51.75.145.220">
+                    </div>
+                    <div class="form-group">
+                        <label>Ping (ms)</label>
+                        <input type="number" id="newPing" value="0" min="0">
                     </div>
                 </div>
                 
-                <div class="form-row">
+                <div class="form-row-three">
                     <div class="form-group">
-                        <label>Ping (ms):</label>
-                        <input type="number" id="newPing" value="0" placeholder="0">
+                        <label>VPN Username <span class="optional-badge">Optional</span></label>
+                        <input type="text" id="newUsername" placeholder="e.g., vpnbook">
                     </div>
                     <div class="form-group">
-                        <label>Username <span class="optional-badge">(optional)</span>:</label>
-                        <input type="text" id="newUsername" placeholder="vpnbook">
+                        <label>VPN Password <span class="optional-badge">Optional</span></label>
+                        <input type="text" id="newPassword" placeholder="e.g., 8zw5j9h">
+                    </div>
+                    <div class="form-group" style="justify-content: flex-end; padding-bottom: 5px;">
+                        <div class="form-row" style="margin-bottom:0; width: 100%;">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="newIsPremium">
+                                <label for="newIsPremium">⭐ Premium</label>
+                            </div>
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="newIsActive" checked>
+                                <label for="newIsActive">🟢 Active</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Password <span class="optional-badge">(optional)</span>:</label>
-                        <input type="text" id="newPassword" placeholder="ke9zw74">
-                    </div>
-                    <div></div>
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label>OVPN Config URL</label>
+                    <input type="url" id="newConfig" required placeholder="https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/...">
+                    <div class="subtitle" style="font-size: 12px; margin-top: 4px;">💡 Tip: You can drag and drop a .ovpn file onto the uploader box above to automatically generate this link.</div>
                 </div>
                 
-                <div class="form-group">
-                    <label>Config URL (.ovpn file):</label>
-                    <input type="url" id="newConfig" required placeholder="https://cdn.jsdelivr.net/gh/.../server.ovpn">
-                    <div class="info-text">💡 Tip: Use the uploader above to get the CDN URL automatically!</div>
-                </div>
-                
-                <div class="form-row">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="newIsPremium">
-                        <label>⭐ Premium Server</label>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="newIsActive" checked>
-                        <label>✅ Active (visible to users)</label>
-                    </div>
-                </div>
-                
-                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px;">➕ Add Server</button>
+                <button type="submit" class="btn-primary" style="width: 100%;">🚀 Register and Deploy Server</button>
             </form>
         </div>
+
+        <!-- Servers Rendering Area -->
+        <div id="loading" class="loading glass">
+            <div class="spinner"></div>
+            <div>Retrieving remote server catalog...</div>
+        </div>
+        
+        <div id="servers-container"></div>
     </div>
+    
+    <!-- Full-screen Dynamic Operations Overlay -->
+    <div id="overlayLoader" class="overlay-loader">
+        <div class="overlay-spinner"></div>
+        <div class="overlay-message" id="overlayMessage">Performing database operation...</div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer"></div>
     
     <script>
         let currentServers = [];
@@ -457,17 +1254,83 @@
         const uploadProgress = document.getElementById('uploadProgress');
         const progressBar = document.getElementById('progressBar');
         const uploadStatus = document.getElementById('uploadStatus');
+        const uploadPercent = document.getElementById('uploadPercent');
         const uploadResult = document.getElementById('uploadResult');
         const fileUrlSpan = document.getElementById('fileUrl');
+
+        // Check for stored credentials and theme preferences on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            // Restore theme
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeButton(savedTheme);
+
+            const savedToken = localStorage.getItem('github_token') || sessionStorage.getItem('github_token');
+            if (savedToken) {
+                document.getElementById('githubToken').value = savedToken;
+                validateToken(true); // silent validation on load
+            } else {
+                fetchServers(); // load read-only server list
+            }
+        });
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton(newTheme);
+        }
+
+        function updateThemeButton(theme) {
+            const btn = document.getElementById('themeToggle');
+            if (btn) {
+                btn.textContent = theme === 'dark' ? '☀️ Light Mode' : '🌙 Dark Mode';
+            }
+        }
         
-        async function validateToken() {
-            const token = document.getElementById('githubToken').value;
+        function toggleAddServerSection() {
+            const section = document.getElementById('addServerSection');
+            const icon = document.getElementById('addToggleIcon');
+            const text = document.getElementById('addToggleText');
+            
+            if (section.style.display === 'none') {
+                section.style.display = 'block';
+                icon.textContent = '➖';
+                text.textContent = 'Hide Form';
+                section.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                section.style.display = 'none';
+                icon.textContent = '➕';
+                text.textContent = 'Add Server';
+            }
+        }
+
+        function showOverlayLoader(message) {
+            document.getElementById('overlayMessage').textContent = message;
+            document.getElementById('overlayLoader').classList.add('show');
+        }
+
+        function hideOverlayLoader() {
+            document.getElementById('overlayLoader').classList.remove('show');
+        }
+        
+        async function validateToken(isInitial = false) {
+            const token = document.getElementById('githubToken').value.trim();
             if (!token) {
                 document.getElementById('tokenStatus').style.display = 'none';
                 isAuthenticated = false;
                 document.getElementById('addServerSection').style.display = 'none';
                 document.getElementById('uploadSection').style.display = 'none';
+                document.getElementById('btnAddToggle').style.display = 'none';
+                document.getElementById('btnAuth').textContent = 'Connect';
+                localStorage.removeItem('github_token');
+                displayServers(); // Re-render in read-only mode
                 return false;
+            }
+            
+            if (!isInitial) {
+                showOverlayLoader('Verifying Personal Access Token...');
             }
             
             try {
@@ -481,106 +1344,557 @@
                 if (response.ok) {
                     const user = await response.json();
                     const statusDiv = document.getElementById('tokenStatus');
-                    statusDiv.style.display = 'block';
+                    statusDiv.style.display = 'flex';
                     statusDiv.className = 'token-status valid';
-                    statusDiv.innerHTML = `✅ Authenticated as ${user.login}. You can now edit servers and upload files.`;
+                    statusDiv.innerHTML = `<span>🟢</span> Authenticated as <strong>${user.login}</strong> (Read/Write session active)`;
+                    
                     isAuthenticated = true;
-                    document.getElementById('addServerSection').style.display = 'block';
                     document.getElementById('uploadSection').style.display = 'block';
+                    document.getElementById('btnAddToggle').style.display = 'flex';
+                    document.getElementById('btnAuth').textContent = 'Disconnect';
+                    
+                    // Secure save in localStorage for persistence
+                    localStorage.setItem('github_token', token);
+                    
+                    // Fetch using GitHub API to get SHA and fresh content in one go
                     await fetchServers();
-                    return true;
+                    showToast(`Successfully connected as ${user.login}`, 'success');
                 } else {
-                    throw new Error('Invalid token');
+                    throw new Error('Verification failed (HTTP ' + response.status + ')');
                 }
             } catch (error) {
+                console.error('Auth error:', error);
                 const statusDiv = document.getElementById('tokenStatus');
-                statusDiv.style.display = 'block';
+                statusDiv.style.display = 'flex';
                 statusDiv.className = 'token-status invalid';
-                statusDiv.innerHTML = '❌ Invalid token. Please check your GitHub token.';
+                statusDiv.innerHTML = `<span>🔴</span> Invalid token. Make sure it has 'repo' scope.`;
                 isAuthenticated = false;
                 document.getElementById('addServerSection').style.display = 'none';
                 document.getElementById('uploadSection').style.display = 'none';
-                return false;
+                document.getElementById('btnAddToggle').style.display = 'none';
+                document.getElementById('btnAuth').textContent = 'Connect';
+                localStorage.removeItem('github_token');
+                displayServers(); // Re-render in read-only mode
+                if (!isInitial) {
+                    showToast('Authentication failed. Please check your token.', 'error');
+                }
+            } finally {
+                hideOverlayLoader();
             }
         }
         
         async function fetchServers() {
-            showLoading(true);
+            document.getElementById('loading').style.display = 'flex';
+            document.getElementById('servers-container').style.opacity = '0.5';
+            
+            const token = document.getElementById('githubToken').value.trim();
+            const cacheBuster = `t=${Date.now()}`;
+            
             try {
-                let response;
-                try {
-                    response = await fetch(RAW_URL);
-                    if (!response.ok) throw new Error('Direct fetch failed');
-                } catch (e) {
-                    response = await fetch(CORS_PROXY + encodeURIComponent(RAW_URL));
+                let data = null;
+                
+                // If authenticated, query the GitHub Content API (Real-time consistent data)
+                if (isAuthenticated && token) {
+                    const response = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/servers.json?${cacheBuster}`, {
+                        headers: {
+                            'Authorization': `token ${token}`,
+                            'Accept': 'application/vnd.github.v3+json'
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        const contentsData = await response.json();
+                        repoFileSha = contentsData.sha; // Save SHA directly
+                        
+                        // Parse base64 content safely handles UTF-8 chars
+                        const rawContent = contentsData.content.replace(/\s/g, '');
+                        const decodedContent = decodeURIComponent(escape(window.atob(rawContent)));
+                        data = JSON.parse(decodedContent);
+                    } else {
+                        console.warn('API fetch failed, falling back to direct URL fetch');
+                    }
                 }
                 
-                const data = await response.json();
-                console.log('Loaded servers:', data);
+                // Fallback / Read-only fetch (use cache buster to prevent stale raw.github CDN caches)
+                if (!data) {
+                    let response;
+                    try {
+                        response = await fetch(`${RAW_URL}?${cacheBuster}`);
+                        if (!response.ok) throw new Error('Primary server link returned ' + response.status);
+                    } catch (e) {
+                        // Fallback through proxy
+                        response = await fetch(CORS_PROXY + encodeURIComponent(`${RAW_URL}?${cacheBuster}`));
+                    }
+                    data = await response.json();
+                }
+                
+                console.log('Successfully fetched catalog:', data);
                 
                 if (data && data.servers && Array.isArray(data.servers)) {
                     currentServers = data.servers.map(server => ({
-                        id: server.id,
-                        name: server.name,
-                        country: server.country,
-                        countryCode: server.countryCode,
+                        id: String(server.id),
+                        name: server.name || '',
+                        country: server.country || '',
+                        countryCode: server.countryCode || '',
                         username: server.username || '',
                         password: server.password || '',
                         config: server.config_url || server.config || '',
-                        ping: server.ping || 0,
-                        isPremium: server.isPremium || false,
-                        isActive: server.isActive !== false,
+                        ping: parseInt(server.ping) || 0,
+                        isPremium: server.isPremium === true || server.isPremium === 'true',
+                        isActive: server.isActive !== false && server.isActive !== 'false',
                         ipAddress: server.ipAddress || server.ip_address || ''
                     }));
+                    
+                    updateStats();
                     displayServers();
-                    if (isAuthenticated) {
-                        await getFileSha();
+                    
+                    // Fetch SHA separately if we retrieved raw contents (unauthenticated fallback)
+                    if (isAuthenticated && token && !repoFileSha) {
+                        await getLatestFileSha();
                     }
                 } else {
-                    throw new Error('Invalid data format: servers array not found');
+                    throw new Error('Malformed catalog syntax: servers object array was missing');
                 }
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Fetch error:', error);
                 document.getElementById('servers-container').innerHTML = `
                     <div class="error-message">
-                        ❌ Failed to load servers: ${error.message}<br>
-                        <small>Please check your internet connection and try again.</small>
+                        <h3>❌ Catalog Load Failed</h3>
+                        <p>${error.message}</p>
+                        <button class="btn-secondary" onclick="fetchServers()" style="margin: 15px auto 0;">🔄 Retry Loading</button>
                     </div>
                 `;
-                showToast('Error loading servers: ' + error.message, 'error');
+                showToast('Failed to load server catalog: ' + error.message, 'error');
             } finally {
-                showLoading(false);
+                document.getElementById('loading').style.none = 'none';
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('servers-container').style.opacity = '1';
             }
         }
         
-        async function getFileSha() {
-            const token = document.getElementById('githubToken').value;
-            if (!token) return;
+        async function getLatestFileSha() {
+            const token = document.getElementById('githubToken').value.trim();
+            if (!token) return null;
             
             try {
-                const response = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/servers.json`, {
+                const response = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/servers.json?t=${Date.now()}`, {
                     headers: {
                         'Authorization': `token ${token}`,
                         'Accept': 'application/vnd.github.v3+json'
                     }
                 });
-                const data = await response.json();
-                repoFileSha = data.sha;
-                console.log('Got file SHA:', repoFileSha);
+                if (response.ok) {
+                    const data = await response.json();
+                    repoFileSha = data.sha;
+                    console.log('Acquired file SHA reference:', repoFileSha);
+                    return repoFileSha;
+                }
             } catch (error) {
-                console.error('Error getting file SHA:', error);
+                console.error('Error fetching file SHA reference:', error);
+            }
+            return null;
+        }
+        
+        function updateStats() {
+            document.getElementById('statTotal').textContent = currentServers.length;
+            document.getElementById('statActive').textContent = currentServers.filter(s => s.isActive).length;
+            document.getElementById('statPremium').textContent = currentServers.filter(s => s.isPremium).length;
+            document.getElementById('statFree').textContent = currentServers.filter(s => !s.isPremium).length;
+        }
+
+        function filterServers() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            const status = document.getElementById('statusFilter').value;
+            const type = document.getElementById('typeFilter').value;
+            
+            const cards = document.querySelectorAll('.server-card-container');
+            
+            cards.forEach(card => {
+                const name = card.dataset.name.toLowerCase();
+                const country = card.dataset.country.toLowerCase();
+                const ip = card.dataset.ip.toLowerCase();
+                const isActive = card.dataset.active === 'true';
+                const isPremium = card.dataset.premium === 'true';
+                
+                const matchesSearch = name.includes(query) || country.includes(query) || ip.includes(query);
+                const matchesStatus = (status === 'all') || (status === 'active' && isActive) || (status === 'inactive' && !isActive);
+                const matchesType = (type === 'all') || (type === 'premium' && isPremium) || (type === 'free' && !isPremium);
+                
+                if (matchesSearch && matchesStatus && matchesType) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+        
+        function displayServers() {
+            const container = document.getElementById('servers-container');
+            if (!currentServers || currentServers.length === 0) {
+                container.innerHTML = '<div style="text-align: center; padding: 60px 20px;" class="glass">📭 Server list is empty. Connect your token to add one!</div>';
+                return;
+            }
+            
+            container.innerHTML = '<div class="servers-grid"></div>';
+            const grid = container.querySelector('.servers-grid');
+            
+            currentServers.forEach((server, index) => {
+                const serverName = server.name || 'Unnamed Server';
+                const serverCountry = server.country || '';
+                const serverCountryCode = (server.countryCode || 'XX').toUpperCase();
+                const serverUsername = server.username || '';
+                const serverPassword = server.password || '';
+                const serverConfig = server.config || '';
+                const serverPing = server.ping || 0;
+                const serverIsPremium = server.isPremium;
+                const serverIsActive = server.isActive;
+                const serverIpAddress = server.ipAddress || '';
+                
+                const cardWrapper = document.createElement('div');
+                cardWrapper.className = 'server-card-container';
+                cardWrapper.dataset.name = serverName;
+                cardWrapper.dataset.country = serverCountry;
+                cardWrapper.dataset.ip = serverIpAddress;
+                cardWrapper.dataset.active = serverIsActive;
+                cardWrapper.dataset.premium = serverIsPremium;
+                
+                const flagUrl = `https://flagcdn.com/w40/${serverCountryCode.toLowerCase()}.png`;
+                
+                let cardHtml = '';
+                
+                if (isAuthenticated) {
+                    cardHtml = `
+                    <div class="server-card glass">
+                        <div class="server-header">
+                            <div class="server-title-area">
+                                <img src="${flagUrl}" class="flag-icon" alt="${serverCountryCode}" onerror="this.src='https://placehold.co/40x30/1e293b/f8fafc?text=${serverCountryCode}'">
+                                <span class="server-title">${escapeHtml(serverName)}</span>
+                                <span class="${serverIsPremium ? 'badge-premium' : 'badge-free'}">${serverIsPremium ? '⭐ PREMIUM' : '🎁 FREE'}</span>
+                            </div>
+                            <span class="server-status ${serverIsActive ? 'status-active' : 'status-inactive'}">
+                                <span class="status-dot"></span>
+                                ${serverIsActive ? 'ACTIVE' : 'INACTIVE'}
+                            </span>
+                        </div>
+                        
+                        <form onsubmit="return handleFormSubmit(event, ${index}, this)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Server Display Name</label>
+                                    <input type="text" name="name" value="${escapeHtml(serverName)}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Country Location</label>
+                                    <input type="text" name="country" value="${escapeHtml(serverCountry)}" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row-three">
+                                <div class="form-group">
+                                    <label>Country ISO Code</label>
+                                    <input type="text" name="countryCode" value="${escapeHtml(serverCountryCode)}" maxlength="2" required style="text-transform: uppercase;">
+                                </div>
+                                <div class="form-group">
+                                    <label>IP Address</label>
+                                    <input type="text" name="ipAddress" value="${escapeHtml(serverIpAddress)}" placeholder="e.g., 45.33.84.111">
+                                </div>
+                                <div class="form-group">
+                                    <label>Ping Latency (ms)</label>
+                                    <input type="number" name="ping" value="${serverPing}">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>VPN Username</label>
+                                    <input type="text" name="username" value="${escapeHtml(serverUsername)}" placeholder="Optional">
+                                </div>
+                                <div class="form-group">
+                                    <label>VPN Password</label>
+                                    <input type="text" name="password" value="${escapeHtml(serverPassword)}" placeholder="Optional">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group" style="margin-bottom: 15px;">
+                                <label>OVPN Config Link</label>
+                                <input type="url" name="config" value="${escapeHtml(serverConfig)}" required>
+                                <div class="config-url-preview">
+                                    <span>📄 ${escapeHtml(serverConfig || 'No configuration URL assigned')}</span>
+                                    ${serverConfig ? `<button type="button" onclick="copyConfigLink('${escapeHtml(serverConfig)}')">Copy</button>` : ''}
+                                </div>
+                            </div>
+                            
+                            <div class="form-row" style="align-items: center; margin-bottom: 20px;">
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="premium_${index}" name="isPremium" ${serverIsPremium ? 'checked' : ''}>
+                                    <label for="premium_${index}">⭐ Premium Class Server</label>
+                                </div>
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="active_${index}" name="isActive" ${serverIsActive ? 'checked' : ''}>
+                                    <label for="active_${index}">🟢 Active & Visible to Apps</label>
+                                </div>
+                            </div>
+                            
+                            <div class="button-group">
+                                <button type="submit" class="btn-primary">💾 Save Settings</button>
+                                <button type="button" class="btn-danger" onclick="deleteServer(${index})">🗑️ Terminate</button>
+                            </div>
+                        </form>
+                    </div>
+                    `;
+                } else {
+                    cardHtml = `
+                    <div class="server-card glass">
+                        <div class="server-header">
+                            <div class="server-title-area">
+                                <img src="${flagUrl}" class="flag-icon" alt="${serverCountryCode}" onerror="this.src='https://placehold.co/40x30/1e293b/f8fafc?text=${serverCountryCode}'">
+                                <span class="server-title">${escapeHtml(serverName)}</span>
+                                <span class="${serverIsPremium ? 'badge-premium' : 'badge-free'}">${serverIsPremium ? '⭐ PREMIUM' : '🎁 FREE'}</span>
+                            </div>
+                            <span class="server-status ${serverIsActive ? 'status-active' : 'status-inactive'}">
+                                <span class="status-dot"></span>
+                                ${serverIsActive ? 'ACTIVE' : 'INACTIVE'}
+                            </span>
+                        </div>
+                        
+                        <div style="display: flex; flex-direction: column; gap: 4px; padding-top: 10px;">
+                            <div class="card-row-data">
+                                <span>Country</span>
+                                <strong>${escapeHtml(serverCountry)} (${serverCountryCode})</strong>
+                            </div>
+                            <div class="card-row-data">
+                                <span>IP Address</span>
+                                <strong>${escapeHtml(serverIpAddress) || 'Not Provided'}</strong>
+                            </div>
+                            <div class="card-row-data">
+                                <span>Ping Latency</span>
+                                <strong>${serverPing} ms</strong>
+                            </div>
+                            <div class="card-row-data">
+                                <span>VPN Credentials</span>
+                                <strong>${serverUsername ? `User: ${escapeHtml(serverUsername)} / Pass: ${escapeHtml(serverPassword)}` : 'No Auth Credentials Required'}</strong>
+                            </div>
+                        </div>
+                        
+                        ${serverConfig ? `
+                        <div style="margin-top: 15px;">
+                            <span style="color: var(--text-secondary); display: block; font-size: 11px; text-transform: uppercase; margin-bottom: 6px; font-weight: 600;">Configuration Link</span>
+                            <div class="config-url-preview">
+                                <span>📄 ${escapeHtml(serverConfig)}</span>
+                                <button type="button" onclick="copyConfigLink('${escapeHtml(serverConfig)}')">Copy</button>
+                            </div>
+                        </div>
+                        ` : ''}
+                    </div>
+                    `;
+                }
+                
+                cardWrapper.innerHTML = cardHtml;
+                grid.appendChild(cardWrapper);
+            });
+        }
+
+        function copyConfigLink(url) {
+            navigator.clipboard.writeText(url);
+            showToast('Config link copied to clipboard', 'info');
+        }
+        
+        async function handleFormSubmit(e, index, form) {
+            e.preventDefault();
+            await updateServer(index, form);
+            return false;
+        }
+
+        async function updateServer(index, form) {
+            if (!isAuthenticated) {
+                showToast('Authentication token required', 'error');
+                return;
+            }
+            
+            showOverlayLoader('Compiling database changes...');
+            
+            const formData = new FormData(form);
+            const updatedServers = [...currentServers];
+            
+            updatedServers[index] = {
+                id: currentServers[index].id,
+                name: formData.get('name').trim(),
+                country: formData.get('country').trim(),
+                countryCode: formData.get('countryCode').toUpperCase().trim(),
+                username: formData.get('username').trim(),
+                password: formData.get('password').trim(),
+                config: formData.get('config').trim(),
+                ping: parseInt(formData.get('ping')) || 0,
+                isPremium: form.elements['isPremium'].checked,
+                isActive: form.elements['isActive'].checked,
+                ipAddress: formData.get('ipAddress').trim()
+            };
+            
+            const success = await updateGitHubFile(updatedServers);
+            if (success) {
+                // Instantly update our local cache list and stats without firing another HTTP fetch request
+                currentServers = updatedServers;
+                updateStats();
+                displayServers();
+                showToast('Server config saved successfully!', 'success');
+            }
+            hideOverlayLoader();
+        }
+        
+        async function deleteServer(index) {
+            if (!isAuthenticated) {
+                showToast('Authentication token required', 'error');
+                return;
+            }
+            
+            const serverName = currentServers[index].name || 'this server';
+            if (!confirm(`Are you absolutely sure you want to delete "${serverName}"?`)) {
+                return;
+            }
+            
+            showOverlayLoader(`Removing ${serverName}...`);
+            
+            const updatedServers = currentServers.filter((_, idx) => idx !== index);
+            // Re-index remaining server IDs dynamically
+            const finalizedServers = updatedServers.map((server, idx) => ({
+                ...server,
+                id: String(idx + 1)
+            }));
+            
+            const success = await updateGitHubFile(finalizedServers);
+            if (success) {
+                // Instantly update our local cache list and stats
+                currentServers = finalizedServers;
+                updateStats();
+                displayServers();
+                showToast('Server deleted successfully!', 'success');
+            }
+            hideOverlayLoader();
+        }
+        
+        document.getElementById('addServerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            if (!isAuthenticated) {
+                showToast('Authentication token required', 'error');
+                return;
+            }
+            
+            showOverlayLoader('Registering new server item...');
+            
+            const newServer = {
+                id: String(currentServers.length + 1),
+                name: document.getElementById('newName').value.trim(),
+                country: document.getElementById('newCountry').value.trim(),
+                countryCode: document.getElementById('newCountryCode').value.toUpperCase().trim(),
+                username: document.getElementById('newUsername').value.trim(),
+                password: document.getElementById('newPassword').value.trim(),
+                config: document.getElementById('newConfig').value.trim(),
+                ping: parseInt(document.getElementById('newPing').value) || 0,
+                isPremium: document.getElementById('newIsPremium').checked,
+                isActive: document.getElementById('newIsActive').checked,
+                ipAddress: document.getElementById('newIpAddress').value.trim()
+            };
+            
+            const updatedServers = [...currentServers, newServer];
+            const success = await updateGitHubFile(updatedServers);
+            
+            if (success) {
+                currentServers = updatedServers;
+                updateStats();
+                displayServers();
+                
+                // Reset form fields
+                document.getElementById('addServerForm').reset();
+                document.getElementById('newIsActive').checked = true;
+                document.getElementById('uploadResult').style.display = 'none';
+                
+                // Auto-collapse form
+                toggleAddServerSection();
+                
+                showToast('New server deployed successfully!', 'success');
+            }
+            hideOverlayLoader();
+        });
+        
+        async function updateGitHubFile(updatedServersList) {
+            const token = document.getElementById('githubToken').value.trim();
+            if (!token) {
+                showToast('Missing GitHub security credentials', 'error');
+                return false;
+            }
+            
+            // Format object keys matching servers.json schema
+            const formattedServers = updatedServersList.map(server => {
+                const schemaObj = {
+                    id: String(server.id),
+                    name: server.name,
+                    country: server.country,
+                    countryCode: server.countryCode,
+                    config_url: server.config,
+                    ping: server.ping,
+                    isPremium: server.isPremium,
+                    isActive: server.isActive
+                };
+                
+                if (server.username) schemaObj.username = server.username;
+                if (server.password) schemaObj.password = server.password;
+                if (server.ipAddress) schemaObj.ipAddress = server.ipAddress;
+                
+                return schemaObj;
+            });
+            
+            const payload = {
+                version: "1.1.0",
+                last_updated: new Date().toISOString(),
+                servers: formattedServers
+            };
+            
+            try {
+                // Fetch the absolute latest SHA before committing to prevent 409 Conflict Errors
+                document.getElementById('overlayMessage').textContent = 'Acquiring git sync locks...';
+                const freshSha = await getLatestFileSha();
+                
+                document.getElementById('overlayMessage').textContent = 'Pushing commits to GitHub...';
+                const response = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/servers.json`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/vnd.github.v3+json'
+                    },
+                    body: JSON.stringify({
+                        message: ` Private Proxy VPN Console: Catalog update - ${new Date().toLocaleString()}`,
+                        content: btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2)))),
+                        sha: freshSha || repoFileSha,
+                        branch: BRANCH
+                    })
+                });
+                
+                if (response.ok) {
+                    const resData = await response.json();
+                    repoFileSha = resData.content.sha; // Instantly save new SHA reference from response
+                    return true;
+                } else {
+                    const error = await response.json();
+                    showToast('Commit failed: ' + error.message, 'error');
+                    return false;
+                }
+            } catch (error) {
+                showToast('Sync pipeline error: ' + error.message, 'error');
+                return false;
             }
         }
         
         async function uploadFileToGitHub(file) {
-            const token = document.getElementById('githubToken').value;
+            const token = document.getElementById('githubToken').value.trim();
             if (!token) {
-                showToast('Please enter GitHub token', 'error');
+                showToast('Please enter your GitHub token first', 'error');
                 return null;
             }
             
             const timestamp = Date.now();
-            const fileName = file.name;
+            const fileName = file.name.replace(/\s+/g, '_');
             const filePath = `ovpn/${timestamp}_${fileName}`;
             
             return new Promise((resolve, reject) => {
@@ -590,11 +1904,13 @@
                         const content = e.target.result.split(',')[1];
                         
                         uploadProgress.style.display = 'block';
-                        progressBar.value = 30;
-                        uploadStatus.textContent = 'Uploading to GitHub...';
+                        progressBar.value = 25;
+                        uploadPercent.textContent = '25%';
+                        uploadStatus.textContent = 'Compressing stream...';
                         
-                        let sha = null;
-                        let getResponse = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${filePath}`, {
+                        // Check if file somehow exists
+                        let fileSha = null;
+                        const getResponse = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${filePath}`, {
                             headers: {
                                 'Authorization': `token ${token}`,
                                 'Accept': 'application/vnd.github.v3+json'
@@ -603,11 +1919,12 @@
                         
                         if (getResponse.ok) {
                             const data = await getResponse.json();
-                            sha = data.sha;
+                            fileSha = data.sha;
                         }
                         
                         progressBar.value = 60;
-                        uploadStatus.textContent = 'Committing to repository...';
+                        uploadPercent.textContent = '60%';
+                        uploadStatus.textContent = 'Writing config to GitHub...';
                         
                         const response = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${filePath}`, {
                             method: 'PUT',
@@ -617,25 +1934,26 @@
                                 'Accept': 'application/vnd.github.v3+json'
                             },
                             body: JSON.stringify({
-                                message: `Upload ${fileName}`,
+                                message: `Upload VPN config file: ${fileName}`,
                                 content: content,
-                                sha: sha || undefined,
+                                sha: fileSha || undefined,
                                 branch: BRANCH
                             })
                         });
                         
                         if (response.ok) {
                             progressBar.value = 100;
-                            uploadStatus.textContent = 'Upload complete!';
+                            uploadPercent.textContent = '100%';
+                            uploadStatus.textContent = 'Deploy complete!';
                             
                             const cdnUrl = `https://cdn.jsdelivr.net/gh/${GITHUB_USER}/${GITHUB_REPO}/${filePath}`;
                             
                             setTimeout(() => {
                                 uploadProgress.style.display = 'none';
                                 uploadResult.style.display = 'block';
-                                fileUrlSpan.innerHTML = `<a href="${cdnUrl}" target="_blank">${cdnUrl}</a>`;
+                                fileUrlSpan.textContent = cdnUrl;
                                 uploadedFileUrl = cdnUrl;
-                            }, 1000);
+                            }, 800);
                             
                             resolve(cdnUrl);
                         } else {
@@ -646,16 +1964,12 @@
                         reject(error);
                     }
                 };
-                reader.onerror = () => reject(new Error('Failed to read file'));
+                reader.onerror = () => reject(new Error('Failed reading client file buffer'));
                 reader.readAsDataURL(file);
             });
         }
         
         function setupFileUpload() {
-            uploadArea.addEventListener('click', () => {
-                fileInput.click();
-            });
-            
             uploadArea.addEventListener('dragover', (e) => {
                 e.preventDefault();
                 uploadArea.classList.add('dragover');
@@ -683,289 +1997,34 @@
         
         async function handleFileUpload(file) {
             if (!file.name.endsWith('.ovpn')) {
-                showToast('Please upload a .ovpn file', 'error');
+                showToast('Invalid format. Select a .ovpn file', 'error');
                 return;
             }
             
             uploadResult.style.display = 'none';
             uploadedFileUrl = '';
             
-            showToast('Uploading file...', 'success');
+            showToast(`Uploading ${file.name}...`, 'info');
             
             try {
                 const url = await uploadFileToGitHub(file);
                 if (url) {
-                    showToast('File uploaded successfully!', 'success');
+                    showToast('Configuration uploaded to GitHub CDN!', 'success');
                     const configInput = document.getElementById('newConfig');
                     if (configInput) {
                         configInput.value = url;
                     }
                 }
             } catch (error) {
-                showToast('Upload failed: ' + error.message, 'error');
+                showToast('Configuration upload failed: ' + error.message, 'error');
                 uploadProgress.style.display = 'none';
             }
         }
         
         function copyToClipboard() {
             navigator.clipboard.writeText(uploadedFileUrl);
-            showToast('URL copied to clipboard!', 'success');
+            showToast('CDN link copied to clipboard!', 'success');
         }
-        
-        async function updateGitHubFile(updatedServers) {
-            const token = document.getElementById('githubToken').value;
-            if (!token) {
-                showToast('Please enter your GitHub token', 'error');
-                return false;
-            }
-            
-            const serversForSave = updatedServers.map(server => {
-                const serverObj = {
-                    id: server.id,
-                    name: server.name,
-                    country: server.country,
-                    countryCode: server.countryCode,
-                    config_url: server.config,
-                    ping: server.ping,
-                    isPremium: server.isPremium,
-                    isActive: server.isActive
-                };
-                
-                // Only add optional fields if they have values
-                if (server.username && server.username.trim() !== '') {
-                    serverObj.username = server.username;
-                }
-                
-                if (server.password && server.password.trim() !== '') {
-                    serverObj.password = server.password;
-                }
-                
-                if (server.ipAddress && server.ipAddress.trim() !== '') {
-                    serverObj.ipAddress = server.ipAddress;
-                }
-                
-                return serverObj;
-            });
-            
-            const content = {
-                version: "1.1.0",
-                last_updated: new Date().toISOString(),
-                servers: serversForSave
-            };
-            
-            try {
-                const response = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/servers.json`, {
-                    method: 'PUT',
-                    headers: {
-                        'Authorization': `token ${token}`,
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/vnd.github.v3+json'
-                    },
-                    body: JSON.stringify({
-                        message: `Update servers.json - ${new Date().toLocaleString()}`,
-                        content: btoa(unescape(encodeURIComponent(JSON.stringify(content, null, 2)))),
-                        sha: repoFileSha
-                    })
-                });
-                
-                if (response.ok) {
-                    showToast('✅ Servers updated successfully!', 'success');
-                    await getFileSha();
-                    return true;
-                } else {
-                    const error = await response.json();
-                    showToast('❌ Update failed: ' + error.message, 'error');
-                    return false;
-                }
-            } catch (error) {
-                showToast('❌ Error: ' + error.message, 'error');
-                return false;
-            }
-        }
-        
-        function displayServers() {
-            const container = document.getElementById('servers-container');
-            if (!currentServers || currentServers.length === 0) {
-                container.innerHTML = '<div style="text-align: center; padding: 40px; background: white; border-radius: 20px;">📭 No servers found. Add your first server using the form below!</div>';
-                return;
-            }
-            
-            container.innerHTML = '<div class="servers-grid"></div>';
-            const grid = container.querySelector('.servers-grid');
-            
-            currentServers.forEach((server, index) => {
-                const serverName = server.name || 'Unnamed Server';
-                const serverCountry = server.country || 'Unknown';
-                const serverCountryCode = server.countryCode || 'XX';
-                const serverUsername = server.username || '';
-                const serverPassword = server.password || '';
-                const serverConfig = server.config || '';
-                const serverPing = server.ping || 0;
-                const serverIsPremium = server.isPremium || false;
-                const serverIsActive = server.isActive !== false;
-                const serverIpAddress = server.ipAddress || '';
-                
-                const card = document.createElement('div');
-                card.className = 'server-card';
-                card.innerHTML = `
-                    <div class="server-header">
-                        <div>
-                            <span class="server-title">${escapeHtml(serverName)}</span>
-                            ${serverIsPremium ? ' <span style="background:gold;padding:2px 8px;border-radius:10px;font-size:11px;">⭐ PREMIUM</span>' : ''}
-                        </div>
-                        <span class="server-status ${serverIsActive ? 'status-active' : 'status-inactive'}">
-                            ${serverIsActive ? '🟢 ACTIVE' : '🔴 INACTIVE'}
-                        </span>
-                    </div>
-                    
-                    <form onsubmit="return updateServer(${index}, this)">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Server Name:</label>
-                                <input type="text" name="name" value="${escapeHtml(serverName)}" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Country:</label>
-                                <input type="text" name="country" value="${escapeHtml(serverCountry)}" required>
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Country Code:</label>
-                                <input type="text" name="countryCode" value="${escapeHtml(serverCountryCode)}" maxlength="2" required>
-                            </div>
-                            <div class="form-group">
-                                <label>IP Address:</label>
-                                <input type="text" name="ipAddress" value="${escapeHtml(serverIpAddress)}" placeholder="e.g., 45.33.84.111">
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Ping:</label>
-                                <input type="number" name="ping" value="${serverPing}">
-                            </div>
-                            <div class="form-group">
-                                <label>Username:</label>
-                                <input type="text" name="username" value="${escapeHtml(serverUsername)}">
-                            </div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Password:</label>
-                                <input type="text" name="password" value="${escapeHtml(serverPassword)}">
-                            </div>
-                            <div></div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Config URL:</label>
-                            <input type="url" name="config" value="${escapeHtml(serverConfig)}" required>
-                            <div class="config-url-preview">📄 ${escapeHtml(serverConfig || 'No config URL set')}</div>
-                        </div>
-                        
-                        <div class="form-row">
-                            <div class="checkbox-group">
-                                <input type="checkbox" name="isPremium" ${serverIsPremium ? 'checked' : ''}>
-                                <label>⭐ Premium Server</label>
-                            </div>
-                            <div class="checkbox-group">
-                                <input type="checkbox" name="isActive" ${serverIsActive ? 'checked' : ''}>
-                                <label>✅ Active</label>
-                            </div>
-                        </div>
-                        
-                        <div class="button-group">
-                            <button type="submit" class="btn-primary">💾 Save Changes</button>
-                            <button type="button" class="btn-danger" onclick="deleteServer(${index})">🗑️ Delete</button>
-                        </div>
-                    </form>
-                `;
-                grid.appendChild(card);
-            });
-        }
-        
-        async function updateServer(index, form) {
-            if (!isAuthenticated) {
-                showToast('Please authenticate with GitHub token first', 'error');
-                return false;
-            }
-            
-            const formData = new FormData(form);
-            
-            currentServers[index] = {
-                id: currentServers[index].id || String(index + 1),
-                name: formData.get('name'),
-                country: formData.get('country'),
-                countryCode: formData.get('countryCode').toUpperCase(),
-                username: formData.get('username') || '',
-                password: formData.get('password') || '',
-                config: formData.get('config'),
-                ping: parseInt(formData.get('ping')) || 0,
-                isPremium: formData.get('isPremium') === 'on',
-                isActive: formData.get('isActive') === 'on',
-                ipAddress: formData.get('ipAddress') || ''
-            };
-            
-            const success = await updateGitHubFile(currentServers);
-            if (success) {
-                await fetchServers();
-                showToast('✅ Server updated successfully!', 'success');
-            }
-            return false;
-        }
-        
-        async function deleteServer(index) {
-            if (!isAuthenticated) {
-                showToast('Please authenticate with GitHub token first', 'error');
-                return;
-            }
-            
-            if (confirm(`Are you sure you want to delete "${currentServers[index].name || 'this server'}"?`)) {
-                currentServers.splice(index, 1);
-                currentServers = currentServers.map((server, idx) => ({ ...server, id: String(idx + 1) }));
-                const success = await updateGitHubFile(currentServers);
-                if (success) {
-                    await fetchServers();
-                    showToast('✅ Server deleted successfully!', 'success');
-                }
-            }
-        }
-        
-        document.getElementById('addServerForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            if (!isAuthenticated) {
-                showToast('Please authenticate with GitHub token first', 'error');
-                return;
-            }
-            
-            const newServer = {
-                id: String(currentServers.length + 1),
-                name: document.getElementById('newName').value,
-                country: document.getElementById('newCountry').value,
-                countryCode: document.getElementById('newCountryCode').value.toUpperCase(),
-                username: document.getElementById('newUsername').value || '',
-                password: document.getElementById('newPassword').value || '',
-                config: document.getElementById('newConfig').value,
-                ping: parseInt(document.getElementById('newPing').value) || 0,
-                isPremium: document.getElementById('newIsPremium').checked,
-                isActive: document.getElementById('newIsActive').checked,
-                ipAddress: document.getElementById('newIpAddress').value || ''
-            };
-            
-            currentServers.push(newServer);
-            const success = await updateGitHubFile(currentServers);
-            if (success) {
-                await fetchServers();
-                document.getElementById('addServerForm').reset();
-                document.getElementById('newIsActive').checked = true;
-                document.getElementById('uploadResult').style.display = 'none';
-                showToast('✅ Server added successfully!', 'success');
-            }
-        });
         
         function escapeHtml(text) {
             if (!text) return '';
@@ -974,27 +2033,38 @@
             return div.innerHTML;
         }
         
-        function showLoading(show) {
-            document.getElementById('loading').style.display = show ? 'flex' : 'none';
-        }
-        
         function showToast(message, type) {
+            const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
-            toast.textContent = message;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
+            
+            let icon = '🔔';
+            if (type === 'success') icon = '✅';
+            if (type === 'error') icon = '❌';
+            if (type === 'info') icon = 'ℹ️';
+            
+            toast.innerHTML = `
+                <span class="toast-icon">${icon}</span>
+                <span style="font-size: 13px; font-weight: 500;">${escapeHtml(message)}</span>
+            `;
+            
+            container.appendChild(toast);
+            
+            // Trigger animation frame
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 10);
+            
+            // Auto dismiss toast
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    toast.remove();
+                }, 350);
+            }, 4000);
         }
         
         setupFileUpload();
-        
-        let tokenTimeout;
-        document.getElementById('githubToken').addEventListener('input', () => {
-            clearTimeout(tokenTimeout);
-            tokenTimeout = setTimeout(validateToken, 500);
-        });
-        
-        fetchServers();
     </script>
 </body>
 </html>
