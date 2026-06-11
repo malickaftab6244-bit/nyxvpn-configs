@@ -1,10 +1,10 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-05-31T04:20:13.456Z",
+  "last_updated": "2026-06-11T05:24:23.936Z",
   "servers": [
     {
       "id": "1",
-      "name": "Germany Server 1",
+      "name": "Germany Server 3",
       "country": "Germany",
       "countryCode": "DE",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/germany_1.ovpn",
