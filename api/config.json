@@ -1,6 +1,6 @@
 {
   "version": "1.0.1",
-  "last_updated": "2026-06-05T00:47:02.881Z",
+  "last_updated": "2026-06-11T01:28:43.138Z",
   "features": {
     "show_premium_tab": {
       "enabled": false,
@@ -31,7 +31,7 @@
       "description": "Show rating prompt after connection"
     },
     "show_connection_success_sheet": {
-      "enabled": false,
+      "enabled": true,
       "description": "Show success sheet after VPN connection"
     },
     "show_app_shortcuts": {
