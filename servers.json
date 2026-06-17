@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-06-17T11:56:07.143Z",
+  "last_updated": "2026-06-17T11:59:38.602Z",
   "servers": [
     {
       "id": "1",
@@ -108,16 +108,16 @@
     },
     {
       "id": "9",
-      "name": "Canada Server 1",
+      "name": "Canada",
       "country": "Canada",
-      "countryCode": "ca",
-      "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/canada_1.ovpn",
-      "ping": 45,
-      "isPremium": true,
-      "isActive": false,
-      "username": "vpnbook",
-      "password": "8zw5j9h",
-      "ipAddress": "144.217.253.149"
+      "countryCode": "CA",
+      "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/ovpn/canada.ovpn",
+      "ping": 15,
+      "isPremium": false,
+      "isActive": true,
+      "username": "canvpn",
+      "password": "@Openvpn25",
+      "ipAddress": "51.161.11.67"
     },
     {
       "id": "10",
