@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-06-17T11:55:39.215Z",
+  "last_updated": "2026-06-17T11:55:57.062Z",
   "servers": [
     {
       "id": "1",
@@ -177,7 +177,7 @@
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/ovpn/1780201078810_vpnbook-fr200-tcp443.ovpn",
       "ping": 15,
       "isPremium": false,
-      "isActive": true,
+      "isActive": false,
       "username": "vpnbook",
       "password": "8zw5j9h",
       "ipAddress": "5.196.64.200"
