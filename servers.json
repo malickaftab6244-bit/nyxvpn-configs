@@ -1,19 +1,19 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-06-17T11:59:38.602Z",
+  "last_updated": "2026-06-17T12:02:56.125Z",
   "servers": [
     {
       "id": "1",
-      "name": "Germany Server 3",
+      "name": "Germany",
       "country": "Germany",
       "countryCode": "DE",
-      "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/germany_1.ovpn",
-      "ping": 5,
+      "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/germany.ovpn",
+      "ping": 25,
       "isPremium": false,
-      "isActive": false,
-      "username": "vpnbook",
-      "password": "8zw5j9h",
-      "ipAddress": "51.75.145.220"
+      "isActive": true,
+      "username": "gervpn",
+      "password": "@Openvpn25",
+      "ipAddress": "51.75.69.211"
     },
     {
       "id": "2",
