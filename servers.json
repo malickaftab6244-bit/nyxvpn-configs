@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-06-17T11:49:46.605Z",
+  "last_updated": "2026-06-17T11:55:01.271Z",
   "servers": [
     {
       "id": "1",
@@ -59,7 +59,7 @@
       "name": "United Kingdom",
       "country": "United Kingdom",
       "countryCode": "GB",
-      "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/uk_1.ovpn",
+      "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/ovpn/uk.ovpn",
       "ping": 5,
       "isPremium": false,
       "isActive": true,
