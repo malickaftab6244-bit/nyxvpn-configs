@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-06-17T11:55:01.271Z",
+  "last_updated": "2026-06-17T11:55:21.504Z",
   "servers": [
     {
       "id": "1",
@@ -10,7 +10,7 @@
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/germany_1.ovpn",
       "ping": 5,
       "isPremium": false,
-      "isActive": true,
+      "isActive": false,
       "username": "vpnbook",
       "password": "8zw5j9h",
       "ipAddress": "51.75.145.220"
