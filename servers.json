@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-06-17T11:56:02.292Z",
+  "last_updated": "2026-06-17T11:56:07.143Z",
   "servers": [
     {
       "id": "1",
@@ -186,11 +186,11 @@
       "id": "15",
       "name": "UK SERVER 3",
       "country": "United Kingdom",
-      "countryCode": "gb",
+      "countryCode": "GB",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/ovpn/1780619857639_vpnbook-uk205-tcp443.ovpn",
       "ping": 15,
       "isPremium": false,
-      "isActive": true,
+      "isActive": false,
       "username": "vpnbook",
       "password": "8zw5j9h",
       "ipAddress": "145.239.252.205"
