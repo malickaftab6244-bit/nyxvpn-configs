@@ -1,13 +1,13 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-06-17T12:05:13.598Z",
+  "last_updated": "2026-06-17T12:05:27.215Z",
   "servers": [
     {
       "id": "1",
       "name": "Germany",
       "country": "Germany",
       "countryCode": "DE",
-      "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/germany.ovpn",
+      "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/ovpn/germany.ovpn",
       "ping": 25,
       "isPremium": false,
       "isActive": true,
