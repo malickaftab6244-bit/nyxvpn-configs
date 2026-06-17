@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-06-17T11:55:57.062Z",
+  "last_updated": "2026-06-17T11:56:02.292Z",
   "servers": [
     {
       "id": "1",
@@ -164,7 +164,7 @@
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/ovpn/1779595548385_us16-tcp443.ovpn",
       "ping": 10,
       "isPremium": false,
-      "isActive": true,
+      "isActive": false,
       "username": "vpnbook",
       "password": "8zw5j9h",
       "ipAddress": "147.135.15.16"
