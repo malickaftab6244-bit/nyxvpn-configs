@@ -1,6 +1,6 @@
 {
   "version": "1.0.1",
-  "last_updated": "2026-06-12T04:25:49.415Z",
+  "last_updated": "2026-06-21T12:00:00.000Z",
   "features": {
     "show_premium_tab": {
       "enabled": false,
@@ -93,6 +93,10 @@
     "enable_legal_section": {
       "enabled": true,
       "description": "Enable legal section in Settings"
+    },
+    "force_update": {
+      "enabled": false,
+      "description": "Force user to update the app to continue using the service"
     }
   },
   "ui_config": {
@@ -101,7 +105,9 @@
     "server_list_sort": "free_first",
     "connection_timeout_seconds": 30,
     "max_retry_attempts": 3,
-    "refresh_interval_minutes": 5
+    "refresh_interval_minutes": 5,
+    "version_code": 7,
+    "update_message": "A new version of Private Proxy VPN is available with improved performance and connection stability. Please update now for the best experience!"
   },
   "content": {
     "home_screen_welcome_message": "Welcome to Private Proxy VPN",
