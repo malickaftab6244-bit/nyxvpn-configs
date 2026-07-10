@@ -14,7 +14,6 @@
         }
         .container { max-width: 1400px; margin: 0 auto; }
         
-        /* Header */
         .header {
             background: white;
             border-radius: 20px;
@@ -32,7 +31,31 @@
         }
         .subtitle { color: #666; }
         
-        /* Stats */
+        /* GitHub Auth Section */
+        .auth-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            border: 1px solid #dee2e6;
+        }
+        .auth-section input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-family: monospace;
+        }
+        .auth-status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+        .auth-status.valid { background: #d4edda; color: #155724; }
+        .auth-status.invalid { background: #f8d7da; color: #721c24; }
+        
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -51,13 +74,8 @@
             font-weight: 800;
             color: #667eea;
         }
-        .stat-label {
-            font-size: 14px;
-            color: #666;
-            margin-top: 5px;
-        }
+        .stat-label { font-size: 14px; color: #666; margin-top: 5px; }
         
-        /* Feedback List */
         .feedback-card {
             background: white;
             border-radius: 20px;
@@ -75,12 +93,11 @@
             margin-bottom: 15px;
             padding-bottom: 15px;
             border-bottom: 2px solid #f0f0f0;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         
-        .rating {
-            font-size: 20px;
-            letter-spacing: 2px;
-        }
+        .rating { font-size: 20px; letter-spacing: 2px; }
         .badge {
             padding: 4px 12px;
             border-radius: 20px;
@@ -110,18 +127,9 @@
             padding-top: 15px;
             border-top: 1px solid #f0f0f0;
         }
+        .feedback-meta span { display: flex; align-items: center; gap: 5px; }
         
-        .feedback-meta span {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
+        .actions { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
         .btn {
             padding: 8px 16px;
             border: none;
@@ -136,8 +144,9 @@
         .btn-success:hover { background: #43a047; }
         .btn-danger { background: #f44336; color: white; }
         .btn-danger:hover { background: #d32f2f; }
+        .btn-warning { background: #ff9800; color: white; }
+        .btn-warning:hover { background: #f57c00; }
         
-        /* Reply Section */
         .reply-section {
             margin-top: 15px;
             padding: 15px;
@@ -157,11 +166,7 @@
             font-family: inherit;
         }
         
-        .no-feedback {
-            text-align: center;
-            padding: 60px 20px;
-            color: #999;
-        }
+        .no-feedback { text-align: center; padding: 60px 20px; color: #999; }
         .no-feedback h3 { font-size: 24px; margin-bottom: 10px; }
         
         .filter-tabs {
@@ -179,12 +184,20 @@
             background: #f0f0f0;
             transition: all 0.3s;
         }
-        .filter-tab.active {
-            background: #667eea;
-            color: white;
-        }
+        .filter-tab.active { background: #667eea; color: white; }
         
         .timestamp { font-size: 12px; color: #999; }
+        .loading { text-align: center; padding: 40px; }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
         @media (max-width: 768px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
@@ -197,6 +210,21 @@
         <div class="header">
             <h1>📊 Feedback Dashboard</h1>
             <p class="subtitle">Manage and respond to user feedback</p>
+            
+            <!-- GitHub Authentication -->
+            <div class="auth-section">
+                <label>🔑 GitHub Personal Access Token:</label>
+                <input type="password" id="githubToken" placeholder="Enter your GitHub token (needs repo scope)" autocomplete="off">
+                <div id="tokenStatus" class="auth-status" style="display: none;"></div>
+                <div style="margin-top: 10px; font-size: 12px; color: #666;">
+                    💡 <a href="https://github.com/settings/tokens/new?scopes=repo&description=Feedback%20Dashboard" target="_blank">Create a token</a> (select 'repo' scope)
+                </div>
+            </div>
+        </div>
+        
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Loading feedback...</p>
         </div>
         
         <!-- Stats -->
@@ -236,40 +264,184 @@
     <script>
         let allFeedback = [];
         let currentFilter = 'all';
+        let repoFileSha = null;
+        let isAuthenticated = false;
         let feedbackToReply = null;
         
-        // Load feedback from localStorage
-        function loadFeedback() {
-            const saved = localStorage.getItem('vpn_feedback');
-            if (saved) {
-                try {
-                    allFeedback = JSON.parse(saved);
-                } catch(e) {
+        const GITHUB_USER = 'malickaftab6244-bit';
+        const GITHUB_REPO = 'nyxvpn-configs';
+        const FEEDBACK_PATH = 'api/feedback.json';
+        
+        // Validate GitHub token
+        async function validateToken() {
+            const token = document.getElementById('githubToken').value;
+            if (!token) {
+                isAuthenticated = false;
+                document.getElementById('tokenStatus').style.display = 'none';
+                return false;
+            }
+            
+            try {
+                const response = await fetch('https://api.github.com/user', {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const user = await response.json();
+                    const statusDiv = document.getElementById('tokenStatus');
+                    statusDiv.style.display = 'block';
+                    statusDiv.className = 'auth-status valid';
+                    statusDiv.innerHTML = `✅ Authenticated as ${user.login}`;
+                    isAuthenticated = true;
+                    await getFileSha();
+                    return true;
+                } else {
+                    throw new Error('Invalid token');
+                }
+            } catch (error) {
+                const statusDiv = document.getElementById('tokenStatus');
+                statusDiv.style.display = 'block';
+                statusDiv.className = 'auth-status invalid';
+                statusDiv.innerHTML = `❌ Invalid token: ${error.message}`;
+                isAuthenticated = false;
+                return false;
+            }
+        }
+        
+        // Get file SHA for updates
+        async function getFileSha() {
+            const token = document.getElementById('githubToken').value;
+            if (!token) return;
+            
+            try {
+                const response = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FEEDBACK_PATH}`, {
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Accept': 'application/vnd.github.v3+json'
+                    }
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    repoFileSha = data.sha;
+                    console.log('File SHA:', repoFileSha);
+                } else {
+                    // File might not exist yet
+                    repoFileSha = null;
+                }
+            } catch (error) {
+                console.error('Error getting file SHA:', error);
+                repoFileSha = null;
+            }
+        }
+        
+        // Load feedback from GitHub
+        async function loadFeedback() {
+            showLoading(true);
+            try {
+                // Try to fetch from GitHub Pages
+                const response = await fetch(`https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/${FEEDBACK_PATH}`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    allFeedback = data.feedback || [];
+                    console.log(`✅ Loaded ${allFeedback.length} feedback entries`);
+                } else {
+                    console.log('No feedback file found, using defaults');
                     allFeedback = [];
                 }
+            } catch (error) {
+                console.error('Error loading feedback:', error);
+                allFeedback = [];
             }
+            
             renderStats();
             renderFeedback();
+            showLoading(false);
         }
         
-        // Save feedback
-        function saveFeedback() {
-            localStorage.setItem('vpn_feedback', JSON.stringify(allFeedback));
-            renderStats();
-            renderFeedback();
+        // Save feedback to GitHub
+        async function saveFeedbackToGitHub() {
+            if (!isAuthenticated) {
+                alert('Please authenticate with GitHub token first');
+                return false;
+            }
+            
+            const token = document.getElementById('githubToken').value;
+            const data = {
+                version: '1.0.0',
+                last_updated: new Date().toISOString(),
+                total_feedback: allFeedback.length,
+                feedback: allFeedback
+            };
+            
+            try {
+                showLoading(true);
+                
+                // If no SHA, create new file
+                const body = {
+                    message: `Update feedback - ${new Date().toLocaleString()}`,
+                    content: btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2)))),
+                    branch: 'main'
+                };
+                
+                if (repoFileSha) {
+                    body.sha = repoFileSha;
+                }
+                
+                const response = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${GITHUB_REPO}/contents/${FEEDBACK_PATH}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/vnd.github.v3+json'
+                    },
+                    body: JSON.stringify(body)
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    repoFileSha = result.content.sha;
+                    console.log('✅ Feedback saved to GitHub');
+                    showToast('Feedback saved to GitHub successfully!', 'success');
+                    return true;
+                } else {
+                    const error = await response.json();
+                    console.error('Error saving:', error);
+                    showToast('Error saving: ' + error.message, 'error');
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error saving feedback:', error);
+                showToast('Error saving feedback', 'error');
+                return false;
+            } finally {
+                showLoading(false);
+            }
         }
         
-        // Add new feedback
+        // Add new feedback (from app or manually)
         function addFeedback(data) {
             const newFeedback = {
-                id: Date.now().toString(),
+                id: Date.now().toString() + '_' + Math.random().toString(36).substr(2, 6),
                 ...data,
-                status: 'new',
+                status: data.status || 'new',
                 timestamp: new Date().toISOString(),
-                replies: []
+                replies: data.replies || []
             };
             allFeedback.unshift(newFeedback);
-            saveFeedback();
+            renderStats();
+            renderFeedback();
+            
+            // Auto-save to GitHub if authenticated
+            if (isAuthenticated) {
+                saveFeedbackToGitHub();
+            } else {
+                // Save to localStorage as backup
+                localStorage.setItem('vpn_feedback_backup', JSON.stringify(allFeedback));
+            }
         }
         
         // Update feedback status
@@ -277,7 +449,8 @@
             const item = allFeedback.find(f => f.id === id);
             if (item) {
                 item.status = status;
-                saveFeedback();
+                renderFeedback();
+                if (isAuthenticated) saveFeedbackToGitHub();
             }
         }
         
@@ -290,8 +463,22 @@
                     timestamp: new Date().toISOString(),
                 });
                 item.status = 'replied';
-                saveFeedback();
+                renderFeedback();
+                if (isAuthenticated) saveFeedbackToGitHub();
                 closeReply(id);
+            }
+        }
+        
+        // Delete feedback
+        async function deleteFeedback(id) {
+            if (!confirm('Are you sure you want to delete this feedback?')) return;
+            
+            allFeedback = allFeedback.filter(f => f.id !== id);
+            renderStats();
+            renderFeedback();
+            
+            if (isAuthenticated) {
+                await saveFeedbackToGitHub();
             }
         }
         
@@ -367,15 +554,14 @@
                     
                     <div class="feedback-meta">
                         <span>📱 ${f.device || 'Unknown'}</span>
-                        <span>📱 ${f.model || 'Unknown'}</span>
                         <span>🤖 ${f.android_version || 'Unknown'}</span>
                         <span>📦 v${f.app_version || 'Unknown'}</span>
-                        <span>🌍 ${f.country || 'Unknown'}</span>
-                        <span>🌐 ${f.language || 'Unknown'}</span>
+                        <span>🌐 ${f.language || 'en'}</span>
                         <span>🖥️ ${f.platform || 'Unknown'}</span>
                         <span>🔗 ${f.server_name || 'Unknown'}</span>
                         <span>🕐 ${f.duration || '00:00'}</span>
                         ${f.user_email ? `<span>📧 ${f.user_email}</span>` : ''}
+                        ${f.id ? `<span>🆔 ${f.id.substring(0, 8)}</span>` : ''}
                     </div>
                     
                     ${f.replies && f.replies.length > 0 ? `
@@ -420,16 +606,12 @@
         }
         
         // Mark as read
-        function markRead(id) {
-            updateStatus(id, 'read');
-        }
+        function markRead(id) { updateStatus(id, 'read'); }
         
         // Mark as replied
-        function markReplied(id) {
-            updateStatus(id, 'replied');
-        }
+        function markReplied(id) { updateStatus(id, 'replied'); }
         
-        // Toggle reply section
+        // Toggle reply
         function toggleReply(id) {
             const section = document.getElementById(`reply-${id}`);
             section.classList.toggle('active');
@@ -438,7 +620,6 @@
             }
         }
         
-        // Close reply section
         function closeReply(id) {
             document.getElementById(`reply-${id}`).classList.remove('active');
         }
@@ -455,14 +636,6 @@
             textarea.value = '';
         }
         
-        // Delete feedback
-        function deleteFeedback(id) {
-            if (confirm('Are you sure you want to delete this feedback?')) {
-                allFeedback = allFeedback.filter(f => f.id !== id);
-                saveFeedback();
-            }
-        }
-        
         // Escape HTML
         function escapeHtml(text) {
             if (!text) return '';
@@ -471,62 +644,40 @@
             return div.innerHTML;
         }
         
-        // Demo data for testing
-        function loadDemoData() {
-            if (allFeedback.length === 0) {
-                allFeedback = [{
-                    id: '1',
-                    rating: 5,
-                    feedback: 'This is an amazing VPN app! Works perfectly on all my devices. Highly recommended! 🚀',
-                    device: 'Samsung Galaxy S23 Ultra',
-                    model: 'SM-S918B',
-                    android_version: '14',
-                    app_version: '1.1.0',
-                    country: 'United States',
-                    language: 'en',
-                    platform: 'android',
-                    server_name: 'US Server 1',
-                    duration: '00:12:34',
-                    user_email: '',
-                    status: 'new',
-                    timestamp: new Date().toISOString(),
-                    replies: []
-                }, {
-                    id: '2',
-                    rating: 3,
-                    feedback: 'App works well but sometimes disconnects. Hope this gets fixed soon.',
-                    device: 'Google Pixel 7 Pro',
-                    model: 'Pixel 7 Pro',
-                    android_version: '14',
-                    app_version: '1.1.0',
-                    country: 'United Kingdom',
-                    language: 'en',
-                    platform: 'android',
-                    server_name: 'UK Server 1',
-                    duration: '00:05:23',
-                    user_email: 'user@example.com',
-                    status: 'read',
-                    timestamp: new Date(Date.now() - 3600000).toISOString(),
-                    replies: []
-                }];
-                saveFeedback();
-            }
+        // Show loading
+        function showLoading(show) {
+            document.getElementById('loading').style.display = show ? 'flex' : 'none';
         }
+        
+        // Show toast notification
+        function showToast(message, type) {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                padding: 12px 24px;
+                border-radius: 10px;
+                color: white;
+                background: ${type === 'success' ? '#28a745' : '#dc3545'};
+                z-index: 9999;
+                animation: slideIn 0.3s ease;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+        
+        // Auto-validate token
+        let tokenTimeout;
+        document.getElementById('githubToken').addEventListener('input', () => {
+            clearTimeout(tokenTimeout);
+            tokenTimeout = setTimeout(validateToken, 500);
+        });
         
         // Load on page load
         loadFeedback();
-        loadDemoData();
-        
-        // Add event listener for new feedback via URL (for future integration)
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.has('feedback')) {
-            try {
-                const data = JSON.parse(decodeURIComponent(urlParams.get('feedback')));
-                addFeedback(data);
-                // Remove params from URL
-                window.history.replaceState({}, document.title, window.location.pathname);
-            } catch(e) {}
-        }
     </script>
 </body>
 </html>
