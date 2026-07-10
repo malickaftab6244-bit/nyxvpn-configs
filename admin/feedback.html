@@ -199,9 +199,32 @@
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            border-radius: 10px;
+            color: white;
+            z-index: 9999;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            max-width: 400px;
+        }
+        .toast-success { background: #28a745; }
+        .toast-error { background: #dc3545; }
+        .toast-info { background: #17a2b8; }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
         @media (max-width: 768px) {
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
             .feedback-meta { grid-template-columns: 1fr; }
+            .toast { max-width: 90%; }
         }
     </style>
 </head>
@@ -266,7 +289,6 @@
         let currentFilter = 'all';
         let repoFileSha = null;
         let isAuthenticated = false;
-        let feedbackToReply = null;
         
         const GITHUB_USER = 'malickaftab6244-bit';
         const GITHUB_REPO = 'nyxvpn-configs';
@@ -328,7 +350,6 @@
                     repoFileSha = data.sha;
                     console.log('File SHA:', repoFileSha);
                 } else {
-                    // File might not exist yet
                     repoFileSha = null;
                 }
             } catch (error) {
@@ -341,31 +362,35 @@
         async function loadFeedback() {
             showLoading(true);
             try {
-                // Try to fetch from GitHub Pages
+                // ✅ CORRECT: Use raw.githubusercontent.com for CORS-free loading
                 const response = await fetch(`https://raw.githubusercontent.com/${GITHUB_USER}/${GITHUB_REPO}/main/${FEEDBACK_PATH}`);
                 
                 if (response.ok) {
                     const data = await response.json();
                     allFeedback = data.feedback || [];
                     console.log(`✅ Loaded ${allFeedback.length} feedback entries`);
+                    renderStats();
+                    renderFeedback();
                 } else {
-                    console.log('No feedback file found, using defaults');
+                    console.log('⚠️ Feedback file not found, showing empty state');
                     allFeedback = [];
+                    renderStats();
+                    renderFeedback();
                 }
             } catch (error) {
                 console.error('Error loading feedback:', error);
                 allFeedback = [];
+                renderStats();
+                renderFeedback();
+                showToast('Error loading feedback: ' + error.message, 'error');
             }
-            
-            renderStats();
-            renderFeedback();
             showLoading(false);
         }
         
         // Save feedback to GitHub
         async function saveFeedbackToGitHub() {
             if (!isAuthenticated) {
-                alert('Please authenticate with GitHub token first');
+                showToast('Please authenticate with GitHub token first', 'error');
                 return false;
             }
             
@@ -380,7 +405,6 @@
             try {
                 showLoading(true);
                 
-                // If no SHA, create new file
                 const body = {
                     message: `Update feedback - ${new Date().toLocaleString()}`,
                     content: btoa(unescape(encodeURIComponent(JSON.stringify(data, null, 2)))),
@@ -419,66 +443,6 @@
                 return false;
             } finally {
                 showLoading(false);
-            }
-        }
-        
-        // Add new feedback (from app or manually)
-        function addFeedback(data) {
-            const newFeedback = {
-                id: Date.now().toString() + '_' + Math.random().toString(36).substr(2, 6),
-                ...data,
-                status: data.status || 'new',
-                timestamp: new Date().toISOString(),
-                replies: data.replies || []
-            };
-            allFeedback.unshift(newFeedback);
-            renderStats();
-            renderFeedback();
-            
-            // Auto-save to GitHub if authenticated
-            if (isAuthenticated) {
-                saveFeedbackToGitHub();
-            } else {
-                // Save to localStorage as backup
-                localStorage.setItem('vpn_feedback_backup', JSON.stringify(allFeedback));
-            }
-        }
-        
-        // Update feedback status
-        function updateStatus(id, status) {
-            const item = allFeedback.find(f => f.id === id);
-            if (item) {
-                item.status = status;
-                renderFeedback();
-                if (isAuthenticated) saveFeedbackToGitHub();
-            }
-        }
-        
-        // Add reply
-        function addReply(id, replyText) {
-            const item = allFeedback.find(f => f.id === id);
-            if (item) {
-                item.replies.push({
-                    text: replyText,
-                    timestamp: new Date().toISOString(),
-                });
-                item.status = 'replied';
-                renderFeedback();
-                if (isAuthenticated) saveFeedbackToGitHub();
-                closeReply(id);
-            }
-        }
-        
-        // Delete feedback
-        async function deleteFeedback(id) {
-            if (!confirm('Are you sure you want to delete this feedback?')) return;
-            
-            allFeedback = allFeedback.filter(f => f.id !== id);
-            renderStats();
-            renderFeedback();
-            
-            if (isAuthenticated) {
-                await saveFeedbackToGitHub();
             }
         }
         
@@ -606,10 +570,24 @@
         }
         
         // Mark as read
-        function markRead(id) { updateStatus(id, 'read'); }
+        function markRead(id) { 
+            const item = allFeedback.find(f => f.id === id);
+            if (item) {
+                item.status = 'read';
+                renderFeedback();
+                if (isAuthenticated) saveFeedbackToGitHub();
+            }
+        }
         
         // Mark as replied
-        function markReplied(id) { updateStatus(id, 'replied'); }
+        function markReplied(id) { 
+            const item = allFeedback.find(f => f.id === id);
+            if (item) {
+                item.status = 'replied';
+                renderFeedback();
+                if (isAuthenticated) saveFeedbackToGitHub();
+            }
+        }
         
         // Toggle reply
         function toggleReply(id) {
@@ -629,11 +607,36 @@
             const textarea = document.getElementById(`reply-text-${id}`);
             const replyText = textarea.value.trim();
             if (!replyText) {
-                alert('Please enter a reply message.');
+                showToast('Please enter a reply message.', 'error');
                 return;
             }
-            addReply(id, replyText);
-            textarea.value = '';
+            
+            const item = allFeedback.find(f => f.id === id);
+            if (item) {
+                if (!item.replies) item.replies = [];
+                item.replies.push({
+                    text: replyText,
+                    timestamp: new Date().toISOString(),
+                });
+                item.status = 'replied';
+                renderFeedback();
+                if (isAuthenticated) saveFeedbackToGitHub();
+                closeReply(id);
+                showToast('Reply sent successfully!', 'success');
+            }
+        }
+        
+        // Delete feedback
+        async function deleteFeedback(id) {
+            if (!confirm('Are you sure you want to delete this feedback?')) return;
+            
+            allFeedback = allFeedback.filter(f => f.id !== id);
+            renderStats();
+            renderFeedback();
+            
+            if (isAuthenticated) {
+                await saveFeedbackToGitHub();
+            }
         }
         
         // Escape HTML
@@ -651,19 +654,11 @@
         
         // Show toast notification
         function showToast(message, type) {
+            const existingToasts = document.querySelectorAll('.toast');
+            existingToasts.forEach(t => t.remove());
+            
             const toast = document.createElement('div');
-            toast.style.cssText = `
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                padding: 12px 24px;
-                border-radius: 10px;
-                color: white;
-                background: ${type === 'success' ? '#28a745' : '#dc3545'};
-                z-index: 9999;
-                animation: slideIn 0.3s ease;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            `;
+            toast.className = `toast toast-${type}`;
             toast.textContent = message;
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
