@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Dashboard - Private Proxy VPN</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        
+        /* Header */
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        h1 { 
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .subtitle { color: #666; }
+        
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        .stat-number {
+            font-size: 32px;
+            font-weight: 800;
+            color: #667eea;
+        }
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        /* Feedback List */
+        .feedback-card {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .feedback-card:hover { transform: translateY(-3px); }
+        
+        .feedback-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .rating {
+            font-size: 20px;
+            letter-spacing: 2px;
+        }
+        .badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .badge-new { background: #ff9800; color: white; }
+        .badge-read { background: #4caf50; color: white; }
+        .badge-replied { background: #2196f3; color: white; }
+        
+        .feedback-body {
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .feedback-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            font-size: 13px;
+            color: #666;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .feedback-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-primary { background: #667eea; color: white; }
+        .btn-primary:hover { background: #5a6fd6; }
+        .btn-success { background: #4caf50; color: white; }
+        .btn-success:hover { background: #43a047; }
+        .btn-danger { background: #f44336; color: white; }
+        .btn-danger:hover { background: #d32f2f; }
+        
+        /* Reply Section */
+        .reply-section {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f0f7ff;
+            border-radius: 12px;
+            display: none;
+        }
+        .reply-section.active { display: block; }
+        
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            resize: vertical;
+            min-height: 80px;
+            font-family: inherit;
+        }
+        
+        .no-feedback {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+        .no-feedback h3 { font-size: 24px; margin-bottom: 10px; }
+        
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .filter-tab {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            background: #f0f0f0;
+            transition: all 0.3s;
+        }
+        .filter-tab.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .timestamp { font-size: 12px; color: #999; }
+        
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .feedback-meta { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Feedback Dashboard</h1>
+            <p class="subtitle">Manage and respond to user feedback</p>
+        </div>
+        
+        <!-- Stats -->
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-number" id="totalCount">0</div>
+                <div class="stat-label">Total Feedback</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="newCount">0</div>
+                <div class="stat-label">New</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="avgRating">0</div>
+                <div class="stat-label">Average Rating</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="todayCount">0</div>
+                <div class="stat-label">Today</div>
+            </div>
+        </div>
+        
+        <!-- Filter Tabs -->
+        <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all" onclick="filterFeedback('all')">📋 All</button>
+            <button class="filter-tab" data-filter="new" onclick="filterFeedback('new')">🆕 New</button>
+            <button class="filter-tab" data-filter="read" onclick="filterFeedback('read')">📖 Read</button>
+            <button class="filter-tab" data-filter="replied" onclick="filterFeedback('replied')">💬 Replied</button>
+            <button class="filter-tab" data-filter="high-rating" onclick="filterFeedback('high-rating')">⭐ 4-5 Stars</button>
+            <button class="filter-tab" data-filter="low-rating" onclick="filterFeedback('low-rating')">⚠️ 1-3 Stars</button>
+        </div>
+        
+        <!-- Feedback List -->
+        <div id="feedbackList"></div>
+    </div>
+    
+    <script>
+        let allFeedback = [];
+        let currentFilter = 'all';
+        let feedbackToReply = null;
+        
+        // Load feedback from localStorage
+        function loadFeedback() {
+            const saved = localStorage.getItem('vpn_feedback');
+            if (saved) {
+                try {
+                    allFeedback = JSON.parse(saved);
+                } catch(e) {
+                    allFeedback = [];
+                }
+            }
+            renderStats();
+            renderFeedback();
+        }
+        
+        // Save feedback
+        function saveFeedback() {
+            localStorage.setItem('vpn_feedback', JSON.stringify(allFeedback));
+            renderStats();
+            renderFeedback();
+        }
+        
+        // Add new feedback
+        function addFeedback(data) {
+            const newFeedback = {
+                id: Date.now().toString(),
+                ...data,
+                status: 'new',
+                timestamp: new Date().toISOString(),
+                replies: []
+            };
+            allFeedback.unshift(newFeedback);
+            saveFeedback();
+        }
+        
+        // Update feedback status
+        function updateStatus(id, status) {
+            const item = allFeedback.find(f => f.id === id);
+            if (item) {
+                item.status = status;
+                saveFeedback();
+            }
+        }
+        
+        // Add reply
+        function addReply(id, replyText) {
+            const item = allFeedback.find(f => f.id === id);
+            if (item) {
+                item.replies.push({
+                    text: replyText,
+                    timestamp: new Date().toISOString(),
+                });
+                item.status = 'replied';
+                saveFeedback();
+                closeReply(id);
+            }
+        }
+        
+        // Render stats
+        function renderStats() {
+            const total = allFeedback.length;
+            const newItems = allFeedback.filter(f => f.status === 'new').length;
+            const ratings = allFeedback.map(f => f.rating).filter(r => r > 0);
+            const avg = ratings.length > 0 
+                ? (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1)
+                : 0;
+            
+            const today = new Date().toDateString();
+            const todayItems = allFeedback.filter(f => 
+                new Date(f.timestamp).toDateString() === today
+            ).length;
+            
+            document.getElementById('totalCount').textContent = total;
+            document.getElementById('newCount').textContent = newItems;
+            document.getElementById('avgRating').textContent = avg;
+            document.getElementById('todayCount').textContent = todayItems;
+        }
+        
+        // Render feedback list
+        function renderFeedback() {
+            const container = document.getElementById('feedbackList');
+            
+            let filtered = allFeedback;
+            if (currentFilter === 'new') {
+                filtered = filtered.filter(f => f.status === 'new');
+            } else if (currentFilter === 'read') {
+                filtered = filtered.filter(f => f.status === 'read');
+            } else if (currentFilter === 'replied') {
+                filtered = filtered.filter(f => f.status === 'replied');
+            } else if (currentFilter === 'high-rating') {
+                filtered = filtered.filter(f => f.rating >= 4);
+            } else if (currentFilter === 'low-rating') {
+                filtered = filtered.filter(f => f.rating >= 1 && f.rating <= 3);
+            }
+            
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="no-feedback">
+                        <h3>📭 No feedback yet</h3>
+                        <p>Check back later for user feedback</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = filtered.map(f => `
+                <div class="feedback-card" id="feedback-${f.id}">
+                    <div class="feedback-header">
+                        <div>
+                            <span class="rating">${'⭐'.repeat(Math.floor(f.rating || 0))}</span>
+                            <span style="margin-left: 10px; font-weight: 600;">${f.rating || 0}/5</span>
+                        </div>
+                        <div>
+                            <span class="badge badge-${f.status || 'new'}">${(f.status || 'new').toUpperCase()}</span>
+                            <span class="timestamp" style="margin-left: 10px;">
+                                ${new Date(f.timestamp).toLocaleDateString()} ${new Date(f.timestamp).toLocaleTimeString()}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    ${f.feedback ? `
+                        <div class="feedback-body">${escapeHtml(f.feedback)}</div>
+                    ` : `
+                        <div class="feedback-body" style="color: #999; font-style: italic;">
+                            No feedback provided
+                        </div>
+                    `}
+                    
+                    <div class="feedback-meta">
+                        <span>📱 ${f.device || 'Unknown'}</span>
+                        <span>📱 ${f.model || 'Unknown'}</span>
+                        <span>🤖 ${f.android_version || 'Unknown'}</span>
+                        <span>📦 v${f.app_version || 'Unknown'}</span>
+                        <span>🌍 ${f.country || 'Unknown'}</span>
+                        <span>🌐 ${f.language || 'Unknown'}</span>
+                        <span>🖥️ ${f.platform || 'Unknown'}</span>
+                        <span>🔗 ${f.server_name || 'Unknown'}</span>
+                        <span>🕐 ${f.duration || '00:00'}</span>
+                        ${f.user_email ? `<span>📧 ${f.user_email}</span>` : ''}
+                    </div>
+                    
+                    ${f.replies && f.replies.length > 0 ? `
+                        <div style="margin-top: 15px; padding: 10px 15px; background: #e8f5e9; border-radius: 8px; border-left: 3px solid #4caf50;">
+                            <strong style="color: #2e7d32;">💬 Support Team Reply</strong>
+                            <p style="margin-top: 5px; color: #333;">${escapeHtml(f.replies[f.replies.length - 1].text)}</p>
+                            <span class="timestamp">${new Date(f.replies[f.replies.length - 1].timestamp).toLocaleString()}</span>
+                        </div>
+                    ` : ''}
+                    
+                    <div class="actions">
+                        ${f.status === 'new' ? `
+                            <button class="btn btn-primary" onclick="markRead('${f.id}')">📖 Mark as Read</button>
+                            <button class="btn btn-success" onclick="toggleReply('${f.id}')">💬 Reply</button>
+                        ` : `
+                            <button class="btn btn-primary" onclick="toggleReply('${f.id}')">💬 Reply</button>
+                        `}
+                        ${f.status !== 'replied' ? `
+                            <button class="btn btn-success" onclick="markReplied('${f.id}')">✅ Mark Replied</button>
+                        ` : ''}
+                        <button class="btn btn-danger" onclick="deleteFeedback('${f.id}')">🗑️ Delete</button>
+                    </div>
+                    
+                    <div class="reply-section" id="reply-${f.id}">
+                        <textarea id="reply-text-${f.id}" placeholder="Type your reply here..."></textarea>
+                        <div style="margin-top: 10px;">
+                            <button class="btn btn-success" onclick="submitReply('${f.id}')">📤 Send Reply</button>
+                            <button class="btn" style="background: #ddd;" onclick="closeReply('${f.id}')">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Filter feedback
+        function filterFeedback(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.filter === filter);
+            });
+            renderFeedback();
+        }
+        
+        // Mark as read
+        function markRead(id) {
+            updateStatus(id, 'read');
+        }
+        
+        // Mark as replied
+        function markReplied(id) {
+            updateStatus(id, 'replied');
+        }
+        
+        // Toggle reply section
+        function toggleReply(id) {
+            const section = document.getElementById(`reply-${id}`);
+            section.classList.toggle('active');
+            if (section.classList.contains('active')) {
+                document.getElementById(`reply-text-${id}`).focus();
+            }
+        }
+        
+        // Close reply section
+        function closeReply(id) {
+            document.getElementById(`reply-${id}`).classList.remove('active');
+        }
+        
+        // Submit reply
+        function submitReply(id) {
+            const textarea = document.getElementById(`reply-text-${id}`);
+            const replyText = textarea.value.trim();
+            if (!replyText) {
+                alert('Please enter a reply message.');
+                return;
+            }
+            addReply(id, replyText);
+            textarea.value = '';
+        }
+        
+        // Delete feedback
+        function deleteFeedback(id) {
+            if (confirm('Are you sure you want to delete this feedback?')) {
+                allFeedback = allFeedback.filter(f => f.id !== id);
+                saveFeedback();
+            }
+        }
+        
+        // Escape HTML
+        function escapeHtml(text) {
+            if (!text) return '';
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+        
+        // Demo data for testing
+        function loadDemoData() {
+            if (allFeedback.length === 0) {
+                allFeedback = [{
+                    id: '1',
+                    rating: 5,
+                    feedback: 'This is an amazing VPN app! Works perfectly on all my devices. Highly recommended! 🚀',
+                    device: 'Samsung Galaxy S23 Ultra',
+                    model: 'SM-S918B',
+                    android_version: '14',
+                    app_version: '1.1.0',
+                    country: 'United States',
+                    language: 'en',
+                    platform: 'android',
+                    server_name: 'US Server 1',
+                    duration: '00:12:34',
+                    user_email: '',
+                    status: 'new',
+                    timestamp: new Date().toISOString(),
+                    replies: []
+                }, {
+                    id: '2',
+                    rating: 3,
+                    feedback: 'App works well but sometimes disconnects. Hope this gets fixed soon.',
+                    device: 'Google Pixel 7 Pro',
+                    model: 'Pixel 7 Pro',
+                    android_version: '14',
+                    app_version: '1.1.0',
+                    country: 'United Kingdom',
+                    language: 'en',
+                    platform: 'android',
+                    server_name: 'UK Server 1',
+                    duration: '00:05:23',
+                    user_email: 'user@example.com',
+                    status: 'read',
+                    timestamp: new Date(Date.now() - 3600000).toISOString(),
+                    replies: []
+                }];
+                saveFeedback();
+            }
+        }
+        
+        // Load on page load
+        loadFeedback();
+        loadDemoData();
+        
+        // Add event listener for new feedback via URL (for future integration)
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('feedback')) {
+            try {
+                const data = JSON.parse(decodeURIComponent(urlParams.get('feedback')));
+                addFeedback(data);
+                // Remove params from URL
+                window.history.replaceState({}, document.title, window.location.pathname);
+            } catch(e) {}
+        }
+    </script>
+</body>
+</html>
