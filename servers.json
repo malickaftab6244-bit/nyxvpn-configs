@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-08-11T07:00:22.299Z",
+  "last_updated": "2026-08-11T07:00:29.173Z",
   "servers": [
     {
       "id": "1",
@@ -56,17 +56,6 @@
     },
     {
       "id": "5",
-      "name": "Japan Server 1",
-      "country": "Japan",
-      "countryCode": "JP",
-      "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/ovpn/1778557822864_japan.ovpn",
-      "ping": 100,
-      "isPremium": false,
-      "isActive": false,
-      "ipAddress": "219.100.37.180"
-    },
-    {
-      "id": "6",
       "name": "FRANCE SERVER 3",
       "country": "France",
       "countryCode": "FR",
@@ -79,7 +68,7 @@
       "ipAddress": "5.196.64.200"
     },
     {
-      "id": "7",
+      "id": "6",
       "name": "UK SERVER 3",
       "country": "United Kingdom",
       "countryCode": "GB",
@@ -92,7 +81,7 @@
       "ipAddress": "145.239.252.205"
     },
     {
-      "id": "8",
+      "id": "7",
       "name": "Canada Server 1",
       "country": "Canada",
       "countryCode": "CA",
