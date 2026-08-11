@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-08-11T06:58:54.645Z",
+  "last_updated": "2026-08-11T06:59:02.640Z",
   "servers": [
     {
       "id": "1",
@@ -43,19 +43,6 @@
     },
     {
       "id": "4",
-      "name": "UK Server 2",
-      "country": "United Kingdom",
-      "countryCode": "gb",
-      "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/uk_2.ovpn",
-      "ping": 30,
-      "isPremium": true,
-      "isActive": false,
-      "username": "vpnbook",
-      "password": "8zw5j9h",
-      "ipAddress": "145.239.252.68"
-    },
-    {
-      "id": "5",
       "name": "France Server 1",
       "country": "France",
       "countryCode": "fr",
@@ -68,7 +55,7 @@
       "ipAddress": "5.196.64.200"
     },
     {
-      "id": "6",
+      "id": "5",
       "name": "France Server 2",
       "country": "France",
       "countryCode": "fr",
@@ -81,7 +68,7 @@
       "ipAddress": "5.196.64.231"
     },
     {
-      "id": "7",
+      "id": "6",
       "name": "Canada",
       "country": "Canada",
       "countryCode": "CA",
@@ -94,7 +81,7 @@
       "ipAddress": "51.161.11.67"
     },
     {
-      "id": "8",
+      "id": "7",
       "name": "Canada Server 2",
       "country": "Canada",
       "countryCode": "ca",
@@ -107,7 +94,7 @@
       "ipAddress": "142.4.216.196"
     },
     {
-      "id": "9",
+      "id": "8",
       "name": "Pakistan Server 1",
       "country": "Pakistan",
       "countryCode": "PK",
@@ -120,7 +107,7 @@
       "ipAddress": "145.239.252.205"
     },
     {
-      "id": "10",
+      "id": "9",
       "name": "Japan Server 1",
       "country": "Japan",
       "countryCode": "JP",
@@ -131,7 +118,7 @@
       "ipAddress": "219.100.37.180"
     },
     {
-      "id": "11",
+      "id": "10",
       "name": "USA 3",
       "country": "United States",
       "countryCode": "US",
@@ -144,7 +131,7 @@
       "ipAddress": "147.135.15.16"
     },
     {
-      "id": "12",
+      "id": "11",
       "name": "FRANCE SERVER 3",
       "country": "France",
       "countryCode": "FR",
@@ -157,7 +144,7 @@
       "ipAddress": "5.196.64.200"
     },
     {
-      "id": "13",
+      "id": "12",
       "name": "UK SERVER 3",
       "country": "United Kingdom",
       "countryCode": "GB",
@@ -170,7 +157,7 @@
       "ipAddress": "145.239.252.205"
     },
     {
-      "id": "14",
+      "id": "13",
       "name": "Canada Server 1",
       "country": "Canada",
       "countryCode": "CA",
