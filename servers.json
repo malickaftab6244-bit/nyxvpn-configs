@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-06-17T12:05:27.215Z",
+  "last_updated": "2026-08-11T06:31:04.797Z",
   "servers": [
     {
       "id": "1",
@@ -194,6 +194,19 @@
       "username": "vpnbook",
       "password": "8zw5j9h",
       "ipAddress": "145.239.252.205"
+    },
+    {
+      "id": "16",
+      "name": "Canada Server 1",
+      "country": "Canada",
+      "countryCode": "CA",
+      "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/ovpn/1786429824774_ca-tcp80.ovpn",
+      "ping": 15,
+      "isPremium": false,
+      "isActive": true,
+      "username": "vpnbook",
+      "password": "ueedn87",
+      "ipAddress": "142.4.216.196"
     }
   ]
 }
