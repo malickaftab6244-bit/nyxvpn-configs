@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-08-11T06:59:20.167Z",
+  "last_updated": "2026-08-11T06:59:37.345Z",
   "servers": [
     {
       "id": "1",
@@ -56,19 +56,6 @@
     },
     {
       "id": "5",
-      "name": "Canada Server 2",
-      "country": "Canada",
-      "countryCode": "ca",
-      "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/canada_2.ovpn",
-      "ping": 50,
-      "isPremium": true,
-      "isActive": false,
-      "username": "vpnbook",
-      "password": "8zw5j9h",
-      "ipAddress": "142.4.216.196"
-    },
-    {
-      "id": "6",
       "name": "Pakistan Server 1",
       "country": "Pakistan",
       "countryCode": "PK",
@@ -81,7 +68,7 @@
       "ipAddress": "145.239.252.205"
     },
     {
-      "id": "7",
+      "id": "6",
       "name": "Japan Server 1",
       "country": "Japan",
       "countryCode": "JP",
@@ -92,7 +79,7 @@
       "ipAddress": "219.100.37.180"
     },
     {
-      "id": "8",
+      "id": "7",
       "name": "USA 3",
       "country": "United States",
       "countryCode": "US",
@@ -105,7 +92,7 @@
       "ipAddress": "147.135.15.16"
     },
     {
-      "id": "9",
+      "id": "8",
       "name": "FRANCE SERVER 3",
       "country": "France",
       "countryCode": "FR",
@@ -118,7 +105,7 @@
       "ipAddress": "5.196.64.200"
     },
     {
-      "id": "10",
+      "id": "9",
       "name": "UK SERVER 3",
       "country": "United Kingdom",
       "countryCode": "GB",
@@ -131,7 +118,7 @@
       "ipAddress": "145.239.252.205"
     },
     {
-      "id": "11",
+      "id": "10",
       "name": "Canada Server 1",
       "country": "Canada",
       "countryCode": "CA",
