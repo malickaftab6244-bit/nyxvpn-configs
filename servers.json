@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-08-11T06:35:07.737Z",
+  "last_updated": "2026-08-11T06:49:06.193Z",
   "servers": [
     {
       "id": "1",
@@ -36,7 +36,7 @@
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/ovpn/usa.ovpn",
       "ping": 15,
       "isPremium": false,
-      "isActive": true,
+      "isActive": false,
       "username": "usavpn",
       "password": "@Openvpn25",
       "ipAddress": "209.126.12.231"
