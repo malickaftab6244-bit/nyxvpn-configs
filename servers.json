@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-08-11T07:06:08.627Z",
+  "last_updated": "2026-08-11T07:06:30.899Z",
   "servers": [
     {
       "id": "1",
@@ -56,7 +56,7 @@
     },
     {
       "id": "5",
-      "name": "Canada Server 1",
+      "name": "Canada",
       "country": "Canada",
       "countryCode": "CA",
       "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/ovpn/1786429824774_ca-tcp80.ovpn",
