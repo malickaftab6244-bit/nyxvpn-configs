@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-09-11T01:36:23.669Z",
+  "last_updated": "2026-09-11T01:38:55.022Z",
   "servers": [
     {
       "id": "1",
@@ -85,12 +85,12 @@
       "name": "USA",
       "country": "United States",
       "countryCode": "US",
-      "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/ovpn/1786432071286_us16-tcp80.ovpn",
+      "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/ovpn/1789090714882_vpnbook-us16-tcp80.ovpn",
       "ping": 20,
       "isPremium": false,
       "isActive": true,
       "username": "vpnbook",
-      "password": "ytw2awn",
+      "password": "3ssumf2",
       "ipAddress": "147.135.15.16"
     },
     {
