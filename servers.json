@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-09-11T01:43:40.463Z",
+  "last_updated": "2026-09-11T01:46:05.213Z",
   "servers": [
     {
       "id": "1",
@@ -65,7 +65,7 @@
       "isActive": true,
       "username": "vpnbook",
       "password": "3ssumf2",
-      "ipAddress": "142.4.216.196"
+      "ipAddress": "144.217.253.149"
     },
     {
       "id": "6",
