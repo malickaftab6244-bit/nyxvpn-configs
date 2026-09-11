@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-08-16T05:37:48.333Z",
+  "last_updated": "2026-09-11T01:34:53.146Z",
   "servers": [
     {
       "id": "1",
@@ -72,12 +72,12 @@
       "name": "Germany",
       "country": "Germany",
       "countryCode": "DE",
-      "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/ovpn/1786431960219_de20-tcp80.ovpn",
+      "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/ovpn/1789090471018_vpnbook-de20-tcp80.ovpn",
       "ping": 10,
       "isPremium": false,
       "isActive": true,
       "username": "vpnbook",
-      "password": "ytw2awn",
+      "password": "3ssumf2",
       "ipAddress": "51.75.145.20"
     },
     {
