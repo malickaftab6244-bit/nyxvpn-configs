@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-10-13T02:41:40.753Z",
+  "last_updated": "2026-10-13T02:42:17.389Z",
   "servers": [
     {
       "id": "1",
@@ -33,12 +33,12 @@
       "name": "United Kingdom",
       "country": "United Kingdom",
       "countryCode": "GB",
-      "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/ovpn/1790346487626_vpnbook-uk205-tcp80.ovpn",
+      "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/ovpn/1791859326476_vpnbook-uk205-tcp80.ovpn",
       "ping": 0,
       "isPremium": false,
       "isActive": true,
       "username": "vpnbook",
-      "password": "mrs2e9a",
+      "password": "e5c65ph",
       "ipAddress": "145.239.252.205"
     },
     {
