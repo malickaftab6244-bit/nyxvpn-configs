@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-10-13T02:39:29.910Z",
+  "last_updated": "2026-10-13T02:39:44.833Z",
   "servers": [
     {
       "id": "1",
@@ -30,19 +30,6 @@
     },
     {
       "id": "3",
-      "name": "United Kingdom",
-      "country": "United Kingdom",
-      "countryCode": "GB",
-      "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/ovpn/uk.ovpn",
-      "ping": 5,
-      "isPremium": false,
-      "isActive": false,
-      "username": "ukvpn",
-      "password": "bJXiMzFM",
-      "ipAddress": "57.129.134.202"
-    },
-    {
-      "id": "4",
       "name": "Canada",
       "country": "Canada",
       "countryCode": "CA",
@@ -55,7 +42,7 @@
       "ipAddress": "51.161.11.67"
     },
     {
-      "id": "5",
+      "id": "4",
       "name": "Canada",
       "country": "Canada",
       "countryCode": "CA",
@@ -68,7 +55,7 @@
       "ipAddress": "144.217.253.149"
     },
     {
-      "id": "6",
+      "id": "5",
       "name": "Germany",
       "country": "Germany",
       "countryCode": "DE",
@@ -81,7 +68,7 @@
       "ipAddress": "51.75.145.20"
     },
     {
-      "id": "7",
+      "id": "6",
       "name": "USA",
       "country": "United States",
       "countryCode": "US",
@@ -94,7 +81,7 @@
       "ipAddress": "147.135.15.16"
     },
     {
-      "id": "8",
+      "id": "7",
       "name": "United Kingdom",
       "country": "United Kingdom",
       "countryCode": "GB",
@@ -107,7 +94,7 @@
       "ipAddress": "145.239.252.205"
     },
     {
-      "id": "9",
+      "id": "8",
       "name": "France",
       "country": "France",
       "countryCode": "FR",
