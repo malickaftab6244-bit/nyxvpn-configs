@@ -1,6 +1,6 @@
 {
   "version": "1.1.0",
-  "last_updated": "2026-10-13T02:42:17.389Z",
+  "last_updated": "2026-10-13T02:42:56.091Z",
   "servers": [
     {
       "id": "1",
@@ -46,12 +46,12 @@
       "name": "France",
       "country": "France",
       "countryCode": "FR",
-      "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/ovpn/1790346575987_vpnbook-fr200-tcp80.ovpn",
+      "config_url": "https://cdn.jsdelivr.net/gh/malickaftab6244-bit/nyxvpn-configs/ovpn/1791859361753_vpnbook-fr200-tcp80_(1).ovpn",
       "ping": 0,
       "isPremium": false,
       "isActive": true,
       "username": "vpnbook",
-      "password": "mrs2e9a",
+      "password": "e5c65ph",
       "ipAddress": "5.196.64.231"
     }
   ]
